@@ -1,14 +1,21 @@
 import React from 'react';
 import workoutsData from '../data/workouts';
 import {useState} from 'react';
-import {Link} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 
 function Workout({title, id}){
+    const navigate = useNavigate();
+
+    function onStart(){
+        navigate('../session', {state: { title, id }})
+    }
+
     return (
         <div>
             <span>{title}</span>
-            <button>
-                
+            <button onClick={onStart}>
+                {/* <Link to="../session">Start</Link> */}
+                Start
             </button>
             <button>
                 <Link to={`./edit-workout/${id}`}>Edit</Link>

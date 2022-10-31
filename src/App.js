@@ -5,7 +5,7 @@ import WorkoutsView from './views/workouts';
 import EditWorkoutView from './views/edit-workout';
 import CreateWorkoutView from './views/create-workout';
 import Nav from './Nav';
-import {Routes, Route, Link} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 
 
 export default function App(){

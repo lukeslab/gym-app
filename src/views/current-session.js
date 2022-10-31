@@ -1,8 +1,8 @@
 import React from 'react';
-import WorkoutsData from '../data/workouts';
-import ExerciseData from '../data/exercises';
+import workoutsData from '../data/workouts';
+import exerciseData from '../data/exercises';
 import { useState, useEffect } from 'react';
-
+import { useLocation } from 'react-router-dom';
 
 function Timer(){
     const [ timer, setTimer ] = useState('00:58:55');
@@ -37,23 +37,50 @@ function Timer(){
     }
 
     return( 
-        <div>
+        <section>
             {timer}
             <button onClick={handleOnClick}>{timerIsPaused ? 'Start' : 'Pause'}</button>
-        </div>
+        </section>
     )
 }
 
 function SetList(){
+    const {state : {title, id}} = useLocation();
+    console.log(title, id);
 
+    const workout = workoutsData.filter(workout => workout.title === title)[0];
+    const exerciseList = workout.exercises.map(exerciseFromWorkout => {
+       return exerciseData.filter(exerciseFromModel => {
+            return exerciseFromWorkout === exerciseFromModel.name 
+        })[0];
+    }) 
+
+    let setList = [];
+    exerciseList.forEach(exercise => {
+        for (let set = 1; set <= exercise.sets; set++){
+            setList.push(
+                <li key={exercise.name+set}>
+                    {`${exercise.name} Set ${set}: ${exercise.reps} reps @ ${exercise.weight} lbs`} 
+                </li>
+            )
+        }
+    })
+
+    console.log(workout, exerciseList, setList);
+
+    return (
+        <ul>
+            {setList}
+        </ul>
+    )
 }
 
 export default function CurrentSession() {
     return (
-        <>
+        <section>
             <h1>Current session view</h1>
             <Timer />
             <SetList />
-        </>
+        </section>
     )
 }
