@@ -34,9 +34,14 @@ export default function EditWorkout () {
     const { id } = useParams();
     const [ title, setTitle ] = useState(workoutsData[id].title);
     const [ exercises, setExercises ] = useState(workoutsData[id].exercises);
+    const [ isAddingExercise, setIsAddingExercise ] = useState(false);
     
     function handleOnChange(e){
         setTitle(e.target.value);
+    }
+
+    function addExercise(){
+        setIsAddingExercise(!isAddingExercise)
     }
 
     return (
@@ -48,14 +53,16 @@ export default function EditWorkout () {
             </label>
             <ul>
                 {exercises.map( (exercise, index) => {
-                
                     return (
                         <li key={index}>
                             <Exercise name={exercise}/>
                         </li>
                     )
                 })}
-                <li>Add exercise <span>+</span></li>
+
+                <li>
+                    {isAddingExercise ? <><input></input><button onClick={addExercise}>Done</button></> : <>Add exercise <span onClick={addExercise}>+</span></>}
+                </li>
             </ul>
             <Link to="../workouts">Done</Link>
         </>

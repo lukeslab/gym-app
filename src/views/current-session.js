@@ -45,29 +45,37 @@ function Timer(){
 }
 
 function SetList(){
-    const {state : {title, id}} = useLocation();
-    console.log(title, id);
+    const location = useLocation();
+    const title = location.state?.title || JSON.parse(localStorage.getItem('current-session'));
 
+    useEffect(()=> {
+        localStorage.setItem('current-session', JSON.stringify(title))
+    }, [title])
+
+    // console.log(title, id);
+    
     const workout = workoutsData.filter(workout => workout.title === title)[0];
     const exerciseList = workout.exercises.map(exerciseFromWorkout => {
-       return exerciseData.filter(exerciseFromModel => {
+        return exerciseData.filter(exerciseFromModel => {
             return exerciseFromWorkout === exerciseFromModel.name 
         })[0];
     }) 
-
+    
     let setList = [];
     exerciseList.forEach(exercise => {
         for (let set = 1; set <= exercise.sets; set++){
             setList.push(
                 <li key={exercise.name+set}>
-                    {`${exercise.name} Set ${set}: ${exercise.reps} reps @ ${exercise.weight} lbs`} 
+                    <span>
+                        {`${exercise.name} Set ${set}: ${exercise.reps} reps @ ${exercise.weight} lbs`} 
+                    </span>
+                    <button>Done</button>
                 </li>
             )
         }
     })
-
-    console.log(workout, exerciseList, setList);
-
+    console.log(setList)
+    
     return (
         <ul>
             {setList}
