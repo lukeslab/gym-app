@@ -3,15 +3,27 @@ import {Link} from 'react-router-dom';
 
 export default function Nav(){
     return (
-        <ul>
+        <ul style={{
+            position: 'absolute',
+            bottom: '0',
+            left: '0',
+            right: '0',
+            display: 'flex',
+            padding: '20px',
+            backgroundColor: 'lightblue',
+            color: 'white',
+            textDecoration: 'none',
+            justifyContent: 'space-around',
+            fontSize: '20px',
+        }}>
             <li>
-                <Link to="/session">Current Session</Link>
+                <Link style={{textDecoration: 'none', color: 'black'}} to="/session">Current Session</Link>
             </li>
             <li>
-                <Link to="/workouts">Workouts</Link>
+                <Link style={{textDecoration: 'none', color: 'black'}} to="/workouts">Workouts</Link>
             </li>
             <li>
-                <Link to="/exercises">Exercises</Link>
+                <Link style={{textDecoration: 'none', color: 'black'}} to="/exercises">Exercises</Link>
             </li>
         </ul>
       )

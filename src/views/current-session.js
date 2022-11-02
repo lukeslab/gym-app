@@ -37,9 +37,20 @@ function Timer(){
     }
 
     return( 
-        <section>
-            {timer}
-            <button onClick={handleOnClick}>{timerIsPaused ? 'Start' : 'Pause'}</button>
+        <section style={{
+            display: 'flex',
+            flexDirection: 'column',
+        }}>
+            <div style={{fontSize:'40px', marginTop: '50px'}}>{timer}</div>
+            <button style={{
+                backgroundColor: 'white',
+                alignSelf: 'center',
+                border: '1px solid black',
+                padding: '20px 50px',
+                marginTop: '25px',
+                fontSize: '20px',
+                cursor: 'pointer'
+            }} onClick={handleOnClick}>{timerIsPaused ? 'Start' : 'Pause'}</button>
         </section>
     )
 }
@@ -51,8 +62,6 @@ function SetList(){
     useEffect(()=> {
         localStorage.setItem('current-session', JSON.stringify(title))
     }, [title])
-
-    // console.log(title, id);
     
     const workout = workoutsData.filter(workout => workout.title === title)[0];
     const exerciseList = workout.exercises.map(exerciseFromWorkout => {
@@ -65,19 +74,43 @@ function SetList(){
     exerciseList.forEach(exercise => {
         for (let set = 1; set <= exercise.sets; set++){
             setList.push(
-                <li key={exercise.name+set}>
-                    <span>
+                <li style={{
+                    border: '1px solid black',
+                    padding: '10px',
+                    marginTop: '10px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }} key={exercise.name+set}>
+                    <span style={{
+                        flex: '1'
+                    }}>
                         {`${exercise.name} Set ${set}: ${exercise.reps} reps @ ${exercise.weight} lbs`} 
                     </span>
-                    <button>Done</button>
+                    <div>
+                        <button style={{
+                            backgroundColor: 'limegreen',
+                            border: 'none',
+                            padding: '5px 10px',
+                        }}>Pass</button>
+                        <button style={{
+                            backgroundColor: 'red',
+                            border: 'none',
+                            padding: '5px 10px',
+                           
+                        }}>Fail</button>
+                    </div>
                 </li>
             )
         }
     })
-    console.log(setList)
     
     return (
-        <ul>
+        <ul style={{
+            margin: '60px auto 0 auto',
+            width: '90%',
+            maxWidth: '500px',            
+        }}>
             {setList}
         </ul>
     )
@@ -85,8 +118,9 @@ function SetList(){
 
 export default function CurrentSession() {
     return (
-        <section>
-            <h1>Current session view</h1>
+        <section style={{
+            textAlign: 'center',
+        }}>
             <Timer />
             <SetList />
         </section>

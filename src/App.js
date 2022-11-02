@@ -1,4 +1,5 @@
-import './App.css';
+import './App.css'
+
 import React from 'react';
 import CurrentSession from './views/current-session';
 import WorkoutsView from './views/workouts';
