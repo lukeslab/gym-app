@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 export default function Nav(){
     return (
         <ul style={{
-            position: 'absolute',
+            position: 'fixed',
             bottom: '0',
             left: '0',
             right: '0',

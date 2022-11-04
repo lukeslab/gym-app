@@ -11,33 +11,73 @@ function Workout({title, id}){
     }
 
     return (
-        <div>
+        <>
             <span>{title}</span>
-            <button onClick={onStart}>
-                {/* <Link to="../session">Start</Link> */}
-                Start
-            </button>
-            <button>
-                <Link to={`./edit-workout/${id}`}>Edit</Link>
-            </button>
-        </div>
+            <div style={{marginLeft: '20px'}}>
+                <button style={{
+                    marginLeft: '20px',
+                    backgroundColor: 'white',
+                    border: 'none',
+                    cursor: 'pointer'
+                }} onClick={onStart}>
+                    Start
+                </button>
+                <button style={{
+                    marginLeft: '20px',
+                    backgroundColor: 'white',
+                    border: 'none',
+                    cursor: 'pointer',
+                }}>
+                    <Link style={{textDecoration: 'none'}}to={`./edit-workout/${id}`}>Edit</Link>
+                </button>
+            </div>
+        </>
     )
 }
 
 export default function Workouts() {
     return (
-        <>
-            <h1>My Workouts</h1>
-            <ul>
+        <section style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            marginTop: '50px'
+        }}>
+            <h1 style={{
+                fontSize: '30px', 
+                textTransform: 'uppercase', 
+                fontFamily:'sans-serif'
+            }}>
+                My Workouts
+            </h1>
+            <ul style={{ marginTop: '50px'}}>
                 {workoutsData.map((workout, index) => {
                     return(
-                        <li key={index}>
+                        <li style={{
+                            border: '1px solid black',
+                            padding: '10px 30px',
+                            marginTop: '10px',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                        }} key={index}>
                             <Workout id={index} title={workout.title}/>
                         </li>
                     )
                 })}
-                <li><Link to="./create">new workout <span>+</span></Link></li>
+                <li style={{
+                    border: '1px solid black',
+                    padding: '10px 30px',
+                    marginTop: '10px',
+                    backgroundColor: 'limegreen',
+                    textAlign: 'center'
+                }}>
+                    <Link style={{textDecoration:'none', color: 'black'}}to="./create">
+                        new workout 
+                        <span style={{marginLeft: '10px', padding: '5px 10px', borderRadius: '50px', border: '1px solid black'}}>+</span>
+                    </Link>
+                </li>
             </ul>
-        </>
+        </section>
     )
 }

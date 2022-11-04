@@ -9,7 +9,7 @@ function Timer(){
     let [ hours, minutes, seconds ] = timer.split(':');
     const [ timerIsPaused, setTimerIsPaused ] = useState(true);
 
-    useEffect(() => {
+    useEffect( async () => {
         let intervalId;
         if(!timerIsPaused){
             intervalId = setInterval(() => {
@@ -107,9 +107,10 @@ function SetList(){
     
     return (
         <ul style={{
-            margin: '60px auto 0 auto',
+            margin: '60px auto 100px auto',
             width: '90%',
-            maxWidth: '500px',            
+            maxWidth: '500px',    
+            minWidth: '400px',
         }}>
             {setList}
         </ul>

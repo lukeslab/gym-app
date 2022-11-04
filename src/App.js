@@ -14,6 +14,7 @@ export default function App(){
     <>
       <Routes>
         <Route exact path="/session" element={<CurrentSession />} />
+        <Route exact path="/" element={<WorkoutsView />} />
         <Route exact path="/workouts" element={<WorkoutsView />} />
         <Route exact path="/workouts/edit-workout/:id" element={<EditWorkoutView />} />        
         <Route exact path="/workouts/create" element={<CreateWorkoutView />} />
