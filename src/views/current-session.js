@@ -4,14 +4,12 @@ import exerciseData from '../data/exercises';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-function Timer(){
-    const [ timer, setTimer ] = useState('00:58:55');
-    let [ hours, minutes, seconds ] = timer.split(':');
-    const [ timerIsPaused, setTimerIsPaused ] = useState(true);
-
-    useEffect( async () => {
+function Timer({timer, setTimer}){
+    let {hours, minutes, seconds, isPaused} = timer;
+    
+    useEffect(() => {
         let intervalId;
-        if(!timerIsPaused){
+        if(!isPaused){
             intervalId = setInterval(() => {
                 +seconds < 9 ? seconds = `0${+seconds+1}` : seconds++
                 if (seconds === 60) {
@@ -24,16 +22,25 @@ function Timer(){
                     minutes = '00';
                 }
                 
-                setTimer(`${hours}:${minutes}:${seconds}`)
+                // setTimer(`${hours}:${minutes}:${seconds}`)
+                setTimer({
+                    ...timer,
+                    hours: hours,
+                    minutes: minutes,
+                    seconds: seconds
+                })
             }, 1000)
         }
     
         return () => clearInterval(intervalId);
-    }, [timerIsPaused])
+    }, [isPaused])
 
     function handleOnClick(){
-        setTimerIsPaused(!timerIsPaused);
-        console.log(timerIsPaused)
+        setTimer({
+            ...timer,
+            isPaused: !isPaused
+        });
+        console.log(isPaused)
     }
 
     return( 
@@ -41,7 +48,7 @@ function Timer(){
             display: 'flex',
             flexDirection: 'column',
         }}>
-            <div style={{fontSize:'40px', marginTop: '50px'}}>{timer}</div>
+            <div style={{fontSize:'40px', marginTop: '50px'}}>{`${hours}:${minutes}:${seconds}`}</div>
             <button style={{
                 backgroundColor: 'white',
                 alignSelf: 'center',
@@ -50,7 +57,7 @@ function Timer(){
                 marginTop: '25px',
                 fontSize: '20px',
                 cursor: 'pointer'
-            }} onClick={handleOnClick}>{timerIsPaused ? 'Start' : 'Pause'}</button>
+            }} onClick={handleOnClick}>{isPaused ? 'Start' : 'Pause'}</button>
         </section>
     )
 }
@@ -117,12 +124,12 @@ function SetList(){
     )
 }
 
-export default function CurrentSession() {
+export default function CurrentSession({timer, setTimer}) {
     return (
         <section style={{
             textAlign: 'center',
         }}>
-            <Timer />
+            <Timer timer={timer} setTimer={setTimer}/>
             <SetList />
         </section>
     )
