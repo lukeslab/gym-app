@@ -1,6 +1,7 @@
 import React from 'react';
+import Timer from './components/Timer';
 import workoutsData from '../data/workouts';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {useNavigate, Link} from 'react-router-dom';
 
 function Workout({title, id}){
@@ -35,7 +36,20 @@ function Workout({title, id}){
     )
 }
 
-export default function Workouts() {
+export default function Workouts({timer, setTimer}) {
+    
+    // useEffect(()=>{
+    //     setTimer({
+    //         ...timer,
+    //         display: 'none'
+    //     })
+    // }, [timer.display])
+
+    const toDisplay = document.querySelector('.timer')
+    console.log(toDisplay) // for some reason its rendering after itp asses over this
+
+    if (toDisplay) toDisplay.style.display = 'none';
+    
     return (
         <section style={{
             display: 'flex',
