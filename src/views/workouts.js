@@ -8,6 +8,7 @@ function Workout({title, id}){
     const navigate = useNavigate();
 
     function onStart(){
+        
         navigate('../session', {state: { title, id }})
     }
 
@@ -37,17 +38,9 @@ function Workout({title, id}){
 }
 
 export default function Workouts({timer, setTimer}) {
-    
-    // useEffect(()=>{
-    //     setTimer({
-    //         ...timer,
-    //         display: 'none'
-    //     })
-    // }, [timer.display])
 
+    // stop timer from displaying on this view, but continue the count.
     const toDisplay = document.querySelector('.timer')
-    console.log(toDisplay) // for some reason its rendering after itp asses over this
-
     if (toDisplay) toDisplay.style.display = 'none';
     
     return (
