@@ -95,9 +95,10 @@ function OverwriteAlert({setCurrentSession, setAttemptedOverwrite, attemptedOver
     const navigate = useNavigate()
 
     function overwriteCurrentSession(){
-        setCurrentSession(attemptedOverwrite) // how do I get the selected workout here?
-        navigate('../session', {state: attemptedOverwrite})
-        // reset and pause the timer???.
+        setCurrentSession(attemptedOverwrite)
+        navigate('../session')
+        // reset the clock to 00:00:00 and pause it. Do this on this file or in current-session??
+        
     }
 
     function returnToWorkouts(){
@@ -125,12 +126,14 @@ function OverwriteAlert({setCurrentSession, setAttemptedOverwrite, attemptedOver
                     backgroundColor: 'limegreen', 
                     border: 'none', 
                     padding: '10px 20px',
+                    cursor: "pointer"
                 }} onClick={overwriteCurrentSession}>Yes</button>
                 <button style={{
                     fontSize: '20px', 
                     backgroundColor: 'red', 
                     border: 'none', 
-                    padding: '10px 20px'
+                    padding: '10px 20px',
+                    cursor: 'pointer'
                 }} onClick={returnToWorkouts}>No</button> 
             </div>
         </section> 

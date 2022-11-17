@@ -1,6 +1,6 @@
 import './App.css'
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 import Timer from './views/components/Timer';
@@ -12,18 +12,26 @@ import Nav from './Nav';
 
 export default function App(){
   let location = useLocation();
-  // console.log(location.pathname)
   
   const [ currentSession, setCurrentSession ] = useState(null)
   const [ timer, setTimer ] = useState({
     hours: "00",
     minutes: "00",
     seconds: "00",
-    isPaused: "true",
-    display: location.pathname === '/session' ? 'flex':'none'
+    isPaused: true,
+    display: location.pathname === '/session' ? 'flex' : 'none'
   });
 
-  // console.log('firing from app', timer)
+  // Resets the timer on session change.
+  useEffect( ()=> {
+    if (currentSession) setTimer({
+      ...timer,
+      hours: "00",
+      minutes: "00",
+      seconds: "00",
+      isPaused: true,
+    })
+  }, [currentSession])
 
   return (
     <>

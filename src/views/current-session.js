@@ -1,9 +1,7 @@
-import React from 'react';
-import Timer from './components/Timer';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import workoutsData from '../data/workouts';
 import exerciseData from '../data/exercises';
-import { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 
 function SetList({title}){
     
@@ -26,9 +24,7 @@ function SetList({title}){
                     justifyContent: 'space-between',
                     alignItems: 'center'
                 }} key={exercise.name+set}>
-                    <span style={{
-                        flex: '1'
-                    }}>
+                    <span style={{flex: '1'}}>
                         {`${exercise.name} Set ${set}: ${exercise.reps} reps @ ${exercise.weight} lbs`} 
                     </span>
                     <div>
@@ -61,8 +57,6 @@ function SetList({title}){
 }
 
 export default function CurrentSession({currentSession}) {    
-    const location = useLocation();
-    // const { title, id }  = location.state || JSON.parse(localStorage.getItem('current-session'));
     const { title, id } = currentSession
     
     const toDisplay = document.querySelector('.timer')
