@@ -2,16 +2,10 @@ import React from 'react';
 import Timer from './components/Timer';
 import workoutsData from '../data/workouts';
 import exerciseData from '../data/exercises';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
-function SetList(){
-    const location = useLocation();
-    const title = location.state?.title || JSON.parse(localStorage.getItem('current-session'));
-
-    useEffect(()=> {
-        localStorage.setItem('current-session', JSON.stringify(title))
-    }, [title])
+function SetList({title}){
     
     const workout = workoutsData.filter(workout => workout.title === title)[0];
     const exerciseList = workout.exercises.map(exerciseFromWorkout => {
@@ -47,7 +41,6 @@ function SetList(){
                             backgroundColor: 'red',
                             border: 'none',
                             padding: '5px 10px',
-                           
                         }}>Fail</button>
                     </div>
                 </li>
@@ -67,15 +60,11 @@ function SetList(){
     )
 }
 
-export default function CurrentSession({timer, setTimer}) {
-
-    // useEffect(()=>{
-    //     setTimer({
-    //         ...timer,
-    //         display: 'flex'
-    //     })
-    // }, [timer.display])
-
+export default function CurrentSession({currentSession}) {    
+    const location = useLocation();
+    // const { title, id }  = location.state || JSON.parse(localStorage.getItem('current-session'));
+    const { title, id } = currentSession
+    
     const toDisplay = document.querySelector('.timer')
     if (toDisplay) toDisplay.style.display = 'flex';
 
@@ -87,7 +76,7 @@ export default function CurrentSession({timer, setTimer}) {
             left: '0',
             right: '0'
         }}>
-            <SetList />
+            <SetList title={title} />
         </section>
     )
 }

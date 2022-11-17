@@ -1,6 +1,6 @@
 import './App.css'
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 import Timer from './views/components/Timer';
@@ -12,8 +12,9 @@ import Nav from './Nav';
 
 export default function App(){
   let location = useLocation();
-  console.log(location.pathname)
-
+  // console.log(location.pathname)
+  
+  const [ currentSession, setCurrentSession ] = useState(null)
   const [ timer, setTimer ] = useState({
     hours: "00",
     minutes: "00",
@@ -28,9 +29,9 @@ export default function App(){
     <>
       <Timer timer={timer} setTimer={setTimer} />
       <Routes>
-        <Route exact path="/session" element={<CurrentSession timer={timer} setTimer={setTimer} />} />
-        <Route exact path="/" element={<WorkoutsView timer={timer} setTimer={setTimer} />} />
-        <Route exact path="/workouts" element={<WorkoutsView timer={timer} setTimer={setTimer} />} />
+        <Route exact path="/session" element={<CurrentSession currentSession={currentSession}/>} />
+        <Route exact path="/" element={<WorkoutsView currentSession={currentSession} setCurrentSession={setCurrentSession}/>} />
+        <Route exact path="/workouts" element={<WorkoutsView currentSession={currentSession} setCurrentSession={setCurrentSession}/>} />
         <Route exact path="/workouts/edit-workout/:id" element={<EditWorkoutView />} />        
         <Route exact path="/workouts/create" element={<CreateWorkoutView />} />
       </Routes>

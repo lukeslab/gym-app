@@ -1,15 +1,16 @@
-import React from 'react';
-import Timer from './components/Timer';
-import workoutsData from '../data/workouts';
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {useNavigate, Link} from 'react-router-dom';
+import workoutsData from '../data/workouts';
 
-function Workout({title, id}){
+function Workout({id, title, setCurrentSession, currentSession, setAttemptedOverwrite}){
     const navigate = useNavigate();
 
     function onStart(){
-        
-        navigate('../session', {state: { title, id }})
+        if (currentSession) setAttemptedOverwrite({id, title})
+        else {
+            setCurrentSession({title, id})
+            navigate('../session', {state: { title, id }})
+        }
     }
 
     return (
@@ -37,14 +38,9 @@ function Workout({title, id}){
     )
 }
 
-export default function Workouts({timer, setTimer}) {
-
-    // stop timer from displaying on this view, but continue the count.
-    const toDisplay = document.querySelector('.timer')
-    if (toDisplay) toDisplay.style.display = 'none';
-    
+function WorkoutList({currentSession, setCurrentSession, setAttemptedOverwrite}){
     return (
-        <section style={{
+        <section className="" style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -68,7 +64,13 @@ export default function Workouts({timer, setTimer}) {
                             justifyContent: 'space-between',
                             alignItems: 'center'
                         }} key={index}>
-                            <Workout id={index} title={workout.title}/>
+                            <Workout 
+                                id={index} 
+                                title={workout.title} 
+                                currentSession={currentSession} 
+                                setCurrentSession={setCurrentSession} 
+                                setAttemptedOverwrite={setAttemptedOverwrite}
+                             />
                         </li>
                     )
                 })}
@@ -86,5 +88,74 @@ export default function Workouts({timer, setTimer}) {
                 </li>
             </ul>
         </section>
+    )
+}
+
+function OverwriteAlert({setCurrentSession, setAttemptedOverwrite, attemptedOverwrite}){
+    const navigate = useNavigate()
+
+    function overwriteCurrentSession(){
+        setCurrentSession(attemptedOverwrite) // how do I get the selected workout here?
+        navigate('../session', {state: attemptedOverwrite})
+        // reset and pause the timer???.
+    }
+
+    function returnToWorkouts(){
+        setAttemptedOverwrite(null)
+    }
+
+    return (
+        <section className="overwrite-alert" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh'
+        }}>
+            <h2 style={{fontSize: '30px', width: '90%', textAlign: 'center'}}>Session is already active.</h2> 
+            <p style={{fontSize: '25px', marginTop: '20px'}}>Would you like to start a new one?</p>
+            <div style={{
+                marginTop: '40px',
+                width: '300px',
+                display: 'flex',
+                justifyContent: 'space-around'
+            }}>
+                <button style={{
+                    fontSize: '20px', 
+                    backgroundColor: 'limegreen', 
+                    border: 'none', 
+                    padding: '10px 20px',
+                }} onClick={overwriteCurrentSession}>Yes</button>
+                <button style={{
+                    fontSize: '20px', 
+                    backgroundColor: 'red', 
+                    border: 'none', 
+                    padding: '10px 20px'
+                }} onClick={returnToWorkouts}>No</button> 
+            </div>
+        </section> 
+    )
+}
+
+
+
+export default function Workouts({currentSession, setCurrentSession}) {
+    const [ attemptedOverwrite, setAttemptedOverwrite ] = useState(null)
+    // stop timer from displaying on this view, but continue the count.
+    const toDisplay = document.querySelector('.timer')
+    if (toDisplay) toDisplay.style.display = 'none';
+    
+    const commonProps = {
+        setCurrentSession,
+        setAttemptedOverwrite,
+    }
+
+    return (
+        <>
+            {attemptedOverwrite ?
+                <OverwriteAlert {...commonProps} attemptedOverwrite={attemptedOverwrite}/> :
+                <WorkoutList {...commonProps} currentSession={currentSession} />
+            }
+        </>    
     )
 }
