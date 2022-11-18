@@ -6,7 +6,7 @@ function Workout({id, title, setCurrentSession, currentSession, setAttemptedOver
     const navigate = useNavigate();
 
     function onStart(){
-        if (currentSession) setAttemptedOverwrite({id, title})
+        if (currentSession?.title) setAttemptedOverwrite({id, title})
         else {
             setCurrentSession({title, id})
             navigate('../session', {state: { title, id }})

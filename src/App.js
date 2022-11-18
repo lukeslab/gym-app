@@ -13,7 +13,7 @@ import Nav from './Nav';
 export default function App(){
   let location = useLocation();
   
-  const [ currentSession, setCurrentSession ] = useState(null)
+  const [ currentSession, setCurrentSession ] = useState({title: null, id: null})
   const [ timer, setTimer ] = useState({
     hours: "00",
     minutes: "00",
