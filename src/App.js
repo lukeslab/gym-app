@@ -3,12 +3,12 @@ import './App.css'
 import React, { useState,useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import Timer from './views/components/Timer';
+import Timer from './components/Timer';
 import CurrentSession from './views/current-session';
-import WorkoutsView from './views/workouts';
+import WorkoutsView from './routes/workouts';
 import EditWorkoutView from './views/edit-workout';
-import CreateWorkoutView from './views/create-workout';
-import Nav from './Nav';
+import CreateWorkoutView from './routes/create-workout';
+import Nav from './components/Nav';
 
 export default function App(){
   let location = useLocation();
