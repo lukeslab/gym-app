@@ -33,7 +33,7 @@ function Workout({id, title, setCurrentSession, currentSession, setAttemptedOver
                     <input 
                         type="hidden"
                         name="title"
-                        defaultValue={title}
+                        defaultValue={encodeURIComponent(title)}
                     />
                     <input 
                         type="hidden"
@@ -117,69 +117,24 @@ function WorkoutList({currentSession, setCurrentSession, setAttemptedOverwrite})
     )
 }
 
-function OverwriteAlert({setCurrentSession, setAttemptedOverwrite, attemptedOverwrite}){
-    const navigate = useNavigate()
-
-    function overwriteCurrentSession(){
-        setCurrentSession(attemptedOverwrite)
-        navigate('../session')
-        // reset the clock to 00:00:00 and pause it. Do this on this file or in current-session??
-        
-    }
-
-    function returnToWorkouts(){
-        setAttemptedOverwrite(null)
-    }
-
-    return (
-        <section className="overwrite-alert" style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh'
-        }}>
-            <h2 style={{fontSize: '30px', width: '90%', textAlign: 'center'}}>Session is already active.</h2> 
-            <p style={{fontSize: '25px', marginTop: '20px'}}>Would you like to start a new one?</p>
-            <div style={{
-                marginTop: '40px',
-                width: '300px',
-                display: 'flex',
-                justifyContent: 'space-around'
-            }}>
-                <button style={{
-                    fontSize: '20px', 
-                    backgroundColor: 'limegreen', 
-                    border: 'none', 
-                    padding: '10px 20px',
-                    cursor: "pointer"
-                }} onClick={overwriteCurrentSession}>Yes</button>
-                <button style={{
-                    fontSize: '20px', 
-                    backgroundColor: 'red', 
-                    border: 'none', 
-                    padding: '10px 20px',
-                    cursor: 'pointer'
-                }} onClick={returnToWorkouts}>No</button> 
-            </div>
-        </section> 
-    )
-}
-
 export async function action({request}){
     const formData = await request.formData();
-    const currentSession = getCurrentSession();
+    const {title, id} = getCurrentSession();
+
+    const newSession = Object.fromEntries(formData)
+    const {title:newTitle, id:newId} = newSession
     
-    if (currentSession.title) {
+    console.log('fired from workouts action:', newSession.title)
+    if (title) {
         // prompt overwrite confirmation screen.
+        console.log('overwrite')
+        return redirect(`/overwrite-session?title=${newTitle}&id=${newId}`)
     } else {
         // set current session to selected workout
         setCurrentSession(Object.fromEntries(formData))
         return redirect('/session')
     }
-    
-    console.log('from workouts action: ', currentSession, formData)
-    
+
 }
 
 export async function loader(){
@@ -188,9 +143,9 @@ export async function loader(){
     return currentSession;
 }
 
-export default function Workouts({setCurrentSession}) {
+export default function Workouts() {
     const currentSession = useLoaderData();
-    const [ attemptedOverwrite, setAttemptedOverwrite ] = useState(null)
+
     // stop timer from displaying on this view, but continue the count.
     
     useEffect(() => {
@@ -198,17 +153,8 @@ export default function Workouts({setCurrentSession}) {
         if (toDisplay) toDisplay.style.display = 'none';
     }, [])
     
-    const commonProps = {
-        setCurrentSession,
-        setAttemptedOverwrite,
-    }
+   
 
-    return (
-        <>
-            {attemptedOverwrite ?
-                <OverwriteAlert {...commonProps} attemptedOverwrite={attemptedOverwrite}/> :
-                <WorkoutList {...commonProps} currentSession={currentSession} />
-            }
-        </>    
-    )
+    return <WorkoutList currentSession={currentSession} />
+    
 }

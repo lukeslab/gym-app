@@ -4,5 +4,5 @@ export function setCurrentSession(workout){
 }
 
 export function getCurrentSession(){
-    return localStorage.getItem('currentSession');
+    return JSON.parse(localStorage.getItem('currentSession'));
 }

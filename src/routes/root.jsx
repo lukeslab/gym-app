@@ -4,9 +4,13 @@ import Timer from "../components/Timer";
 import Nav from "../components/Nav";
 import { useEffect } from "react";
 
+const initialSession = {
+    title: null, 
+    id: null
+}
 
 export default function Root(){
-    if (!localStorage.getItem('currentSession')) localStorage.setItem('currentSession', JSON.stringify({title: null, id: null}))
+    if (!localStorage.getItem('currentSession')) localStorage.setItem('currentSession', JSON.stringify(initialSession))
 
     const [ timer, setTimer ] = useState({
         hours: "00",

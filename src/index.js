@@ -1,3 +1,4 @@
+import './App.css'
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Root from "./routes/root"
@@ -12,6 +13,10 @@ import Workouts, {
   loader as workoutsLoader,
   action as workoutsAction
 } from './routes/workouts';
+import OverwriteAlert, {
+  loader as overwriteSessionLoader,
+  action as overwriteSessionAction
+} from './routes/overwrite-session'
 
 const router = createBrowserRouter([
   {
@@ -30,12 +35,12 @@ const router = createBrowserRouter([
         element: <CurrentSession />,
         loader: sessionLoader,
       },
-      // {
-      //   path: "/workouts",
-      //   element: <Workouts />,
-      //   action: workoutsAction,
-      //   loader: workoutsLoader
-      // }
+      {
+        path: "/overwrite-session",
+        element: <OverwriteAlert />,
+        loader: overwriteSessionLoader,
+        action: overwriteSessionAction
+      }
     ]
   }
 ])
