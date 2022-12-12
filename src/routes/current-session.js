@@ -19,7 +19,7 @@ function NoSessionMessage(){
                 marginTop: '25px',
                 fontSize: '20px',
                 cursor: 'pointer'
-            }}><Link style={{textDecoration: "none", color: 'black'}} to="../workouts">Go to workouts</Link></button>
+            }}><Link style={{textDecoration: "none", color: 'black'}} to="/">Go to workouts</Link></button>
         </section>
     )
 }
@@ -87,7 +87,7 @@ export default function CurrentSession() {
     useEffect( () =>{
         const timerElement = document.querySelector('.timer')
         if (title && timerElement) timerElement.style.display = 'flex';
-    }, [])
+    })
 
     return (
         <section style={{

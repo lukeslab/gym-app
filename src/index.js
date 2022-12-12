@@ -15,7 +15,6 @@ import Workouts, {
 } from './routes/workouts';
 import OverwriteAlert, {
   loader as overwriteSessionLoader,
-  action as overwriteSessionAction
 } from './routes/overwrite-session'
 
 const router = createBrowserRouter([
@@ -31,7 +30,7 @@ const router = createBrowserRouter([
         element: <Workouts />,
       },
       {
-        path: "/session",
+        path: "/current_session",
         element: <CurrentSession />,
         loader: sessionLoader,
       },
@@ -39,7 +38,6 @@ const router = createBrowserRouter([
         path: "/overwrite-session",
         element: <OverwriteAlert />,
         loader: overwriteSessionLoader,
-        action: overwriteSessionAction
       }
     ]
   }

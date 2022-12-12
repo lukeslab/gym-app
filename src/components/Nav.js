@@ -19,7 +19,7 @@ export default function Nav(){
             margin: 0
         }}>
             <li>
-                <Link style={{textDecoration: 'none', color: 'black'}} to="/session">Current Session</Link>
+                <Link style={{textDecoration: 'none', color: 'black'}} to="/current_session">Current Session</Link>
             </li>
             <li>
                 <Link style={{textDecoration: 'none', color: 'black'}} to="/">Workouts</Link>

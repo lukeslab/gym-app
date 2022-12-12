@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {
-    useNavigate, 
     Link,
     useLoaderData,
     Form,
@@ -9,17 +8,7 @@ import {
 import workoutsData from '../data/workouts';
 import { getCurrentSession, setCurrentSession } from '../functions'
 
-function Workout({id, title, setCurrentSession, currentSession, setAttemptedOverwrite}){
-    const navigate = useNavigate();
-
-    function onStart(){
-        console.log(currentSession)
-        if (currentSession?.title) setAttemptedOverwrite({id, title})
-        else {
-            localStorage.setItem('currentSession', JSON.stringify({title, id}))
-            navigate('../session')
-        }
-    }
+function Workout({id, title}){
 
     return (
         <>
@@ -64,7 +53,7 @@ function Workout({id, title, setCurrentSession, currentSession, setAttemptedOver
     )
 }
 
-function WorkoutList({currentSession, setCurrentSession, setAttemptedOverwrite}){
+function WorkoutList({currentSession}){
     return (
         <section className="" style={{
             display: 'flex',
@@ -94,8 +83,6 @@ function WorkoutList({currentSession, setCurrentSession, setAttemptedOverwrite})
                                 id={index} 
                                 title={workout.title} 
                                 currentSession={currentSession} 
-                                setCurrentSession={setCurrentSession} 
-                                setAttemptedOverwrite={setAttemptedOverwrite}
                              />
                         </li>
                     )
@@ -124,7 +111,7 @@ export async function action({request}){
     const newSession = Object.fromEntries(formData)
     const {title:newTitle, id:newId} = newSession
     
-    console.log('fired from workouts action:', newSession.title)
+    console.log('fired from workouts action:', newSession)
     if (title) {
         // prompt overwrite confirmation screen.
         console.log('overwrite')
@@ -132,7 +119,7 @@ export async function action({request}){
     } else {
         // set current session to selected workout
         setCurrentSession(Object.fromEntries(formData))
-        return redirect('/session')
+        return redirect('/current_session')
     }
 
 }

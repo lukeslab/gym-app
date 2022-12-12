@@ -1,17 +1,9 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React from 'react';
 import {
     useNavigate, 
-    Link,
     useLoaderData,
-    Form,
-    redirect,
 } from 'react-router-dom';
-import workoutsData from '../data/workouts';
-import { getCurrentSession, setCurrentSession } from '../functions'
-
-export function action() {
-
-}
+import { setCurrentSession } from '../functions'
 
 export function loader({request}) {
     const url = new URL(request.url);
@@ -23,13 +15,11 @@ export function loader({request}) {
 export default function OverwriteAlert(){
     const navigate = useNavigate()
     const params = useLoaderData()
+    
     function overwriteCurrentSession(){
-        
-        
         setCurrentSession(params)
-        navigate('../session')
-        // reset the clock to 00:00:00 and pause it. Do this on this file or in current-session??
-        
+        navigate('../current_session')
+        // reset the clock to 00:00:00 and pause it. Do this on this file or in current-session??    
     }
 
     function returnToWorkouts(){
