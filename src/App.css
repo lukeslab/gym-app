@@ -45,3 +45,22 @@ table {
 form {
 	display: inline;
 }
+
+
+/* edit workout */
+
+.edit-workout {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+.edit-workout > * {
+	margin-top: 10px;
+}
+
+.edit-workout li {
+	margin-top: 20px;
+}
