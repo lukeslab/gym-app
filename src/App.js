@@ -19,7 +19,7 @@ export default function App(){
     minutes: "00",
     seconds: "00",
     isPaused: true,
-    display: location.pathname === '/session' ? 'flex' : 'none'
+    display: document.location.pathname === 'session' ? 'flex' : 'none'
   });
 
   // Resets the timer on session change.

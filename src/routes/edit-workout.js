@@ -45,7 +45,7 @@ export default function EditWorkout () {
     }
 
     return (
-        <>
+        <div className="edit-workout">
             <h1>Edit Workout</h1>
             <label>
                 Title:
@@ -65,6 +65,6 @@ export default function EditWorkout () {
                 </li>
             </ul>
             <Link to="../workouts">Done</Link>
-        </>
+        </div>
     )
 }
