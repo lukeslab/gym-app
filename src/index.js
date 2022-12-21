@@ -40,8 +40,7 @@ const router = createBrowserRouter([
       {
         path: "/overwrite-session",
         element: <OverwriteAlert />,
-        loader: overwriteSessionLoader,
-        action: overwriteSessionAction
+        loader: overwriteSessionLoader
       },
       {
         path: "/edit-workout/:id",
