@@ -9,24 +9,24 @@ function Exercise({name}){
     const exercise = exercisesData.find( exercise => exercise.name === name )
 
     return(
-        <div>
-            <div>
+        <section>
+            <div className="exercise-name">
                 <span>Exercise </span>
                 <span>{exercise.name}</span>
             </div>
-            <div>
+            <div className="exercise-sets">
                 <span>Sets</span>
                 <input type="text" value={exercise.sets}/>
             </div>
-            <div>
+            <div className="exercise-reps">
                 <span>Reps</span>
                 <input type="text" value={exercise.reps}/>
             </div>
-            <div>
+            <div className="exercise-weight">
                 <span>Weight</span>
                 <input type="text" value={exercise.weight}/>
             </div>
-        </div>
+        </section>
     )
 }
 
@@ -64,7 +64,7 @@ export default function EditWorkout () {
                     {isAddingExercise ? <><input></input><button onClick={addExercise}>Done</button></> : <>Add exercise <span onClick={addExercise}>+</span></>}
                 </li>
             </ul>
-            <Link to="../workouts">Done</Link>
+            <Link to="../">Done</Link>
         </div>
     )
 }
