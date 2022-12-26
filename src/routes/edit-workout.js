@@ -11,7 +11,6 @@ function Exercise({name}){
     return(
         <section>
             <div className="exercise-name">
-                <span>Exercise </span>
                 <span>{exercise.name}</span>
             </div>
             <div className="exercise-sets">
@@ -30,27 +29,17 @@ function Exercise({name}){
     )
 }
 
-export default function EditWorkout () {
-    const { id } = useParams();
-    const [ title, setTitle ] = useState(workoutsData[id].title);
+function ExerciseList({ id }){
     const [ exercises, setExercises ] = useState(workoutsData[id].exercises);
     const [ isAddingExercise, setIsAddingExercise ] = useState(false);
-    
-    function handleOnChange(e){
-        setTitle(e.target.value);
-    }
 
     function addExercise(){
         setIsAddingExercise(!isAddingExercise)
     }
 
     return (
-        <div className="edit-workout">
-            <h1>Edit Workout</h1>
-            <label>
-                Title:
-                <input type="text" value={title} onChange={handleOnChange}></input>
-            </label>
+        <section className="exercise-list">
+            <h2>Exercises</h2>
             <ul>
                 {exercises.map( (exercise, index) => {
                     return (
@@ -59,12 +48,35 @@ export default function EditWorkout () {
                         </li>
                     )
                 })}
-
-                <li>
-                    {isAddingExercise ? <><input></input><button onClick={addExercise}>Done</button></> : <>Add exercise <span onClick={addExercise}>+</span></>}
+                <li className="add-exercise">
+                    {isAddingExercise ? <><input></input><button onClick={addExercise}>Add</button></> : <><a onClick={addExercise}>Add Exercise <span>+</span></a></>}
                 </li>
             </ul>
-            <Link to="../">Done</Link>
+        </section>
+    )
+}
+
+export default function EditWorkout () {
+    const { id } = useParams();
+    const [ title, setTitle ] = useState(workoutsData[id].title);
+    
+    
+    function handleOnChange(e){
+        setTitle(e.target.value);
+    }
+
+  
+
+    return (
+        <div className="edit-workout">
+            <h1>Edit Workout</h1>
+            <label>
+                Title:
+                <input type="text" value={title} onChange={handleOnChange}></input>
+            </label>
+            <ExerciseList id={id}/>
+            <Link to="../">Cancel</Link>
+            <Link to="../">Save</Link>
         </div>
     )
 }

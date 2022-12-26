@@ -26,6 +26,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	font-family: sans-serif;
+	box-sizing: border-box;
 }
 ol, ul {
 	list-style: none;
@@ -69,25 +70,54 @@ form {
 	margin-bottom: 20px;
 }
 
-.edit-workout li {
+.edit-workout label{
+	font-size: 24px;
+}
+
+.exercise-list {
+	width: 70%;
+}
+
+.exercise-list h2 {
+	margin-top: 20px;
+	align-self: flex-start;
+}
+
+.exercise-list li {
 	margin-top: 20px;
 	border: 1px solid black;
 	padding: 10px;
 }
 
-.edit-workout li * {
+.exercise-list li * {
 	margin-top: 5px;
 }
 
-.edit-workout ul {
-	width: 70%;
-}
-
-.edit-workout ul section div{
+.exercise-list ul section div{
 	display: flex;
 	justify-content: space-between;
 }
 
-.edit-workout ul section div:first-child {
+.exercise-list ul section div:first-child {
 	font-weight: bold;
+}
+
+.exercise-list .add-exercise {
+	text-align: center;
+	padding: 0;
+}
+
+.add-exercise a {
+	cursor: pointer;
+	display: block;
+	margin:0;
+	padding: 10px;
+	background-color: limegreen;
+}
+
+.add-exercise a span {
+	padding: 2px 5px;
+	border: 1px solid black;
+	border-radius: 50px;
+	margin-left: 10px;
 }

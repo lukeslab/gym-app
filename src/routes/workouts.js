@@ -96,7 +96,7 @@ function WorkoutList({currentSession}){
                 }}>
                     <Link style={{textDecoration:'none', color: 'black'}}to="./create">
                         new workout 
-                        <span style={{marginLeft: '10px', padding: '5px 10px', borderRadius: '50px', border: '1px solid black'}}>+</span>
+                        <span style={{marginLeft: '10px', padding: '2px 5px', borderRadius: '50px', border: '1px solid black'}}>+</span>
                     </Link>
                 </li>
             </ul>
