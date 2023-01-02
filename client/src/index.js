@@ -24,13 +24,13 @@ const router = createBrowserRouter([
   {
     path: "/",
     element : <Root />,
-    errorElement: <section><p>Houston, we have a problem.</p><img src="../public/img/this-is-fine-its-fine.gif"></img></section>,
-    loader: workoutsLoader,
-    action: workoutsAction,
+    // errorElement: <section><p>Houston, we have a problem.</p><img src="../public/img/this-is-fine-its-fine.gif"></img></section>,
     children: [
       {
         index: true,
         element: <Workouts />,
+        loader: workoutsLoader,
+        action: workoutsAction,
       },
       {
         path: "/current_session",

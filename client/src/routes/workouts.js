@@ -1,12 +1,12 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {
     Link,
     useLoaderData,
     Form,
     redirect,
 } from 'react-router-dom';
-import workoutsData from '../data/workouts';
-import { getCurrentSession, setCurrentSession } from '../functions'
+// import workoutsData from '../data/workouts';
+import { getCurrentSession, setCurrentSession, getWorkoutsData } from '../functions'
 
 function Workout({id, title}){
 
@@ -53,7 +53,8 @@ function Workout({id, title}){
     )
 }
 
-function WorkoutList({currentSession}){
+function WorkoutList({currentSession, workoutsData}){
+    // console.log("from workoutlist: ",workoutsData)
     return (
         <section className="" style={{
             display: 'flex',
@@ -123,25 +124,25 @@ export async function action({request}){
     }
 
 }
-
 export async function loader(){
-    const currentSession = getCurrentSession();
-    console.log('From workouts loader: ', currentSession)
-    return currentSession;
+    const currentSession = getCurrentSession()
+    const workouts = await getWorkoutsData();
+    
+    // why is workouts a promise if a.) it is put into an array, and b.) workouts is not awaited?
+    const loaderData = [workouts, currentSession]
+    console.log(loaderData)
+
+    return loaderData;
 }
 
 export default function Workouts() {
-    const currentSession = useLoaderData();
+    const [workouts, currentSession] = useLoaderData();
 
     // stop timer from displaying on this view, but continue the count.
-    
     useEffect(() => {
         const toDisplay = document.querySelector('.timer')
         if (toDisplay) toDisplay.style.display = 'none';
     }, [])
     
-   
-
-    return <WorkoutList currentSession={currentSession} />
-    
+    return <WorkoutList currentSession={currentSession} workoutsData={workouts}/>   
 }

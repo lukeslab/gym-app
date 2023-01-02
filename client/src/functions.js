@@ -1,4 +1,3 @@
-
 export function setCurrentSession(workout){
     if(workout.title) {
         // this will ignore the initial session entry. If title has a value, then decode.
@@ -12,4 +11,15 @@ export function setCurrentSession(workout){
 
 export function getCurrentSession(){
     return JSON.parse(localStorage.getItem('currentSession'));
+}
+
+export async function getWorkoutsData(){
+    const response = await fetch('/api/workouts');
+    if (!response.ok) {
+        throw { message: 'Failed to fetch workouts', status: 500};
+    }
+    const workouts = await response.json()
+    console.log("from fetch: ", workouts)
+    return workouts;
+    
 }
