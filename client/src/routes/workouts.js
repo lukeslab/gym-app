@@ -15,7 +15,7 @@ function Workout({id, title}){
             <span>{title}</span>
             <div style={{marginLeft: '20px'}}>
                 <Form
-                    action="/" 
+                    action="." 
                     method="post" 
                     style={{display: 'inline'}}
                 >

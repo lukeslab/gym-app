@@ -6,10 +6,12 @@ const app = express();
 
 const path = require('path');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
-mongoose.connect(process.env.MONGO_DB)
+// mongoose.connect(process.env.MONGO_DB)
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
 app
   .use(express.static(path.join(__dirname, '/client/build')))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));

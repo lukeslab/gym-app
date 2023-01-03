@@ -15,15 +15,15 @@ function Exercise({name}){
             </div>
             <div className="exercise-sets">
                 <span>Sets</span>
-                <input type="text" value={exercise.sets}/>
+                <input type="text" defaultValue={exercise.sets}/>
             </div>
             <div className="exercise-reps">
                 <span>Reps</span>
-                <input type="text" value={exercise.reps}/>
+                <input type="text" defaultValue={exercise.reps}/>
             </div>
             <div className="exercise-weight">
                 <span>Weight</span>
-                <input type="text" value={exercise.weight}/>
+                <input type="text" defaultValue={exercise.weight}/>
             </div>
         </section>
     )
