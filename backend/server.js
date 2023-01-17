@@ -26,6 +26,25 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static('client/build'))
 app.use('/', require('./routes/root'))
 app.use('/users', require('./routes/users'))
+// app.use('/workouts', require('./routes/workouts'))
+
+app.get('/api/workouts', (req, res) => {
+    console.log('hit api workouts');
+    res.json([
+        {
+            title: "Arms & Shoulders Day",
+            exercises: ["barbell curl", "two-hand tricep pull down", "two-handing bar curl", "hammer curls"]
+        },
+        {
+            title: "Leg Day",
+            exercises: ["leg press"]
+        },
+        {
+            title: "Chest & back Day",
+            exercises: ["push-ups", "barbell bench press"]
+        }
+    ])
+  })
 
 app.all('*', (req, res) => {
     res.status(404);
@@ -39,6 +58,24 @@ app.all('*', (req, res) => {
 })
 
 app.use(errorHandler)
+
+app.get('/api/workouts', (req, res) => {
+  console.log('hit api workouts');
+  res.json([
+      {
+          title: "Arms & Shoulders Day",
+          exercises: ["barbell curl", "two-hand tricep pull down", "two-handing bar curl", "hammer curls"]
+      },
+      {
+          title: "Leg Day",
+          exercises: ["leg press"]
+      },
+      {
+          title: "Chest & back Day",
+          exercises: ["push-ups", "barbell bench press"]
+      }
+  ])
+})
 
 mongoose.connection.once('open', ()=> {
     console.log('Connected to mongodb')
@@ -58,20 +95,3 @@ mongoose.connection.on('error', err => {
 // });
 
 
-app.get('/api/workouts', (req, res) => {
-  console.log('/api/workouts');
-  res.json([
-      {
-          title: "Arms & Shoulders Day",
-          exercises: ["barbell curl", "two-hand tricep pull down", "two-handing bar curl", "hammer curls"]
-      },
-      {
-          title: "Leg Day",
-          exercises: ["leg press"]
-      },
-      {
-          title: "Chest & back Day",
-          exercises: ["push-ups", "barbell bench press"]
-      }
-  ])
-})

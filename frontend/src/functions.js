@@ -14,7 +14,7 @@ export function getCurrentSession(){
 }
 
 export async function getWorkoutsData(){
-    const response = await fetch('/api/workouts');
+    const response = await fetch('api/workouts');
     if (!response.ok) {
         throw { message: 'Failed to fetch workouts', status: 500};
     }

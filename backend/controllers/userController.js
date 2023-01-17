@@ -13,6 +13,18 @@ const getAllUsers = asyncHandler(async (req, res) => {
     res.json(users);
 })
 
+// @desc Get a specific user by ID
+// @route GET /users/:id
+// @access Private
+const getUserById = asyncHandler(async (req, res) => {
+    const { id } = req.params
+
+    const user = await User.findById(id).select('-password').lean()
+
+    if (!user) return res.status(400).json({ message: 'User not found.'})
+    return res.json(user)
+})
+
 // @desc Create all users
 // @route POST /users
 // @access Private
@@ -48,7 +60,7 @@ const updateUser = asyncHandler(async (req, res) => {
     //confirm data
     if (!id || !username || !password) return res.status(400).json({ message: "All fields are required" })
 
-    const user = await user.findById(id).exec()
+    const user = await User.findById(id).exec()
 
     if (!user) return res.status(400).json({ message: 'User not found' })
 
@@ -89,6 +101,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 module.exports = {
     getAllUsers,
     createNewUser,
+    getUserById,
     updateUser,
     deleteUser
 }
