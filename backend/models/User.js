@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
         ref: "Workout"
     }],
     active: {
-        type: boolean,
+        type: Boolean,
         default: true,
     },
 })

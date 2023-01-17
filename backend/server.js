@@ -25,6 +25,8 @@ app.use(express.urlencoded({extended: true}))
 
 app.use(express.static('client/build'))
 app.use('/', require('./routes/root'))
+app.use('/users', require('./routes/users'))
+
 app.all('*', (req, res) => {
     res.status(404);
     if (req.accepts('html')){
