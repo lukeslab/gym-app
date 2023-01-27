@@ -121,3 +121,24 @@ form {
 	border-radius: 50px;
 	margin-left: 10px;
 }
+
+/* Create Workout */
+.create-workout {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 100px;
+}
+
+.create-workout h1 {
+	font-size: 30px;
+}
+
+.create-workout .add-exercise {
+	cursor: pointer;
+	border: 1px solid black;
+	padding: 10px 30px;
+	margin-top: 10px;
+	background-color: limegreen;
+	text-align: center;
+}

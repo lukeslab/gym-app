@@ -19,6 +19,7 @@ import OverwriteAlert, {
 import EditWorkout, {
 
 } from './routes/edit-workout'
+import CreateWorkout from './routes/create-workout';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/edit-workout/:id",
         element: <EditWorkout />
+      },
+      {
+        path: "/create-workout",
+        element: <CreateWorkout />
       }
     ]
   }

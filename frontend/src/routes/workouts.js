@@ -6,7 +6,7 @@ import {
     redirect,
 } from 'react-router-dom';
 // import workoutsData from '../data/workouts';
-import { getCurrentSession, setCurrentSession, getWorkoutsData } from '../functions'
+import { getCurrentSession, setCurrentSession, getUserWorkouts } from '../functions'
 
 function Workout({id, title}){
 
@@ -70,7 +70,7 @@ function WorkoutList({currentSession, workoutsData}){
                 My Workouts
             </h1>
             <ul style={{ marginTop: '50px', padding: 0}}>
-                {workoutsData.map((workout, index) => {
+                {workoutsData.length ? workoutsData.map((workout, index) => {
                     return(
                         <li style={{
                             border: '1px solid black',
@@ -87,7 +87,7 @@ function WorkoutList({currentSession, workoutsData}){
                              />
                         </li>
                     )
-                })}
+                }): <p>You have no workouts! Add some!</p>}
                 <li style={{
                     border: '1px solid black',
                     padding: '10px 30px',
@@ -95,7 +95,7 @@ function WorkoutList({currentSession, workoutsData}){
                     backgroundColor: 'limegreen',
                     textAlign: 'center'
                 }}>
-                    <Link style={{textDecoration:'none', color: 'black'}}to="./create">
+                    <Link style={{textDecoration:'none', color: 'black'}}to="./create-workout">
                         new workout 
                         <span style={{marginLeft: '10px', padding: '2px 5px', borderRadius: '50px', border: '1px solid black'}}>+</span>
                     </Link>
@@ -126,7 +126,7 @@ export async function action({request}){
 }
 export async function loader(){
     const currentSession = getCurrentSession()
-    const workouts = await getWorkoutsData();
+    const workouts = await getUserWorkouts();
     
     // why is workouts a promise if a.) it is put into an array, and b.) workouts is not awaited?
     const loaderData = [workouts, currentSession]

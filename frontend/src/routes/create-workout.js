@@ -1,28 +1,75 @@
-import React from 'react';
-import workoutsData from '../data/workouts';
-import exercisesData from'../data/exercises';
-import { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-export default function EditWorkout () {
+export default function CreateWorkout () {
+    const title = useRef()
+    const [ exercises, setExercises ] = useState([])
     const [ isAddingExercise, setIsAddingExercise ] = useState(false);
+    const [ createButtonIsDisabled, setCreateButtonIsDisabled ] = useState(true)
 
-    function addExercise(){
+    function showTextInput(){
         setIsAddingExercise(!isAddingExercise)
     }
 
+    function addExercise(){
+        if (createButtonIsDisabled) {
+            setCreateButtonIsDisabled(false)
+        }
+        const inputField = document.querySelector('.add-exercise input')
+        const exercise = inputField.value
+
+        setExercises([...exercises, exercise])
+
+        inputField.value = ''
+    }
+
+    async function createWorkout(){
+        if (!exercises || !exercises.length) throw new Error("Exercise list is empty")
+
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: {
+                title: title.current.value,
+                exercises
+            }
+        }
+
+        try {
+            const response = await fetch('/workouts', options)
+        } catch (error) {
+            throw new Error("Unable to create new workout.")
+        }
+        
+    }
+
     return (
-        <>
+        <div className="create-workout">
             <h1>Create Workout</h1>
             <label>
                 Title:
-                <input type="text"></input>
+                <input className="title" type="text" ref={title}></input>
             </label>
-            <ul>
-                 <li>
-                    {isAddingExercise ? <><input></input><button onClick={addExercise}>Done</button></> : <>Add exercise <span onClick={addExercise}>+</span></>}
+            <ul className="exercises">
+                {exercises && exercises.map((exercise, index) => {
+                    return (
+                        <li key={index}>{exercise}</li>
+                    )
+                })}
+                 <li className="add-exercise">
+                    {isAddingExercise ? <><input></input><button onClick={addExercise}>Done</button></> : <span onClick={showTextInput}>Add exercise <span>+</span></span>}
                 </li>
             </ul>
-            <button>Done</button>
-        </>
+            <button 
+                onClick={createWorkout}
+                disabled={createButtonIsDisabled}
+            >Create
+            </button>
+            <Link to="/">
+                <button>Cancel</button>
+            </Link>
+        </div>
     )
 }

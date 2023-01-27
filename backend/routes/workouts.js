@@ -9,5 +9,7 @@ router.route('/')
 router.route('/:id')
     .get(workoutsController.getWorkoutById)
 
+router.route('/user/:id')
+    .get(workoutsController.getWorkoutsByUser)
 
 module.exports = router

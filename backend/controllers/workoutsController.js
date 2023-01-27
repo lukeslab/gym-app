@@ -1,5 +1,22 @@
 const Workout = require('../models/Workout')
-const asyncHandler = require('express-async-handler')
+const asyncHandler = require('express-async-handler');
+const User = require('../models/User');
+
+// @desc Get list of workouts by user
+// @route GET /workouts/user/:id
+// @access Private
+const getWorkoutsByUser = asyncHandler( async (req, res) => {
+    const { id } = req.params;
+
+    if (!id) return res.status(400).json({ message: "User id is required" })
+
+    const user = await User.findById(id).exec()
+    const workouts = user.workouts
+
+    if (!workouts || workouts.length) return res.status(400).json({ message: "No workouts for this user." })
+
+    return res.json(workouts);
+})
 
 // @desc Get a workout by Id
 // @route GET /workouts/:id
@@ -19,7 +36,6 @@ const getWorkoutById = asyncHandler(async (req, res) => {
 // @access Private
 const createWorkout = asyncHandler(async (req, res) => {
     const { title, exercises } = req.body
-
     if (!title || !Array.isArray(exercises) || !exercises.length) {
         return res.status(400).json({ message: 'All fields are required' })
     }
@@ -29,7 +45,6 @@ const createWorkout = asyncHandler(async (req, res) => {
     if (duplicate) return res.status(400).json({ message: 'A workout with that title already exists.'})
 
     const workout = await Workout.create({ title, exercises })
-
     if (!workout) return res.status(400).json({ message: 'Invalid workout data' })
     res.status(201).json({ message: `The workout ${title} was created!`})
 })
@@ -51,6 +66,7 @@ const deleteWorkout = asyncHandler(async (req, res) => {
 
 
 module.exports = {
+    getWorkoutsByUser,
     getWorkoutById,
     createWorkout,
     deleteWorkout
