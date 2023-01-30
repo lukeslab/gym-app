@@ -1,6 +1,6 @@
 const Workout = require('../models/Workout')
-const asyncHandler = require('express-async-handler');
 const User = require('../models/User');
+const asyncHandler = require('express-async-handler');
 
 // @desc Get list of workouts by user
 // @route GET /workouts/user/:id
@@ -10,10 +10,11 @@ const getWorkoutsByUser = asyncHandler( async (req, res) => {
 
     if (!id) return res.status(400).json({ message: "User id is required" })
 
-    const user = await User.findById(id).exec()
-    const workouts = user.workouts
+    const user = await User.findById(id).populate('workouts', "title" )
+    const workouts = user.workouts.map( workout => workout.title)
+    console.log(workouts)
 
-    if (!workouts || workouts.length) return res.status(400).json({ message: "No workouts for this user." })
+    if (!workouts || !workouts.length) return res.status(400).json({ message: "No workouts for this user." })
 
     return res.json(workouts);
 })
@@ -35,8 +36,8 @@ const getWorkoutById = asyncHandler(async (req, res) => {
 // @route POST /workouts
 // @access Private
 const createWorkout = asyncHandler(async (req, res) => {
-    const { title, exercises } = req.body
-    if (!title || !Array.isArray(exercises) || !exercises.length) {
+    const { title, exercises, userId } = req.body
+    if (!title || !Array.isArray(exercises) || !exercises.length || !userId) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
@@ -46,7 +47,15 @@ const createWorkout = asyncHandler(async (req, res) => {
 
     const workout = await Workout.create({ title, exercises })
     if (!workout) return res.status(400).json({ message: 'Invalid workout data' })
+    
+    // update the user's document property "workouts"
+    const user = await User.findById(userId)
+    user.workouts = [...user.workouts, workout._id]
+    user.save();
+
     res.status(201).json({ message: `The workout ${title} was created!`})
+
+
 })
 
 // @desc Delete a workout

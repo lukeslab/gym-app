@@ -13,8 +13,13 @@ export function getCurrentSession(){
     return JSON.parse(localStorage.getItem('currentSession'));
 }
 
+export async function getCurrentUserId(){
+    return '63c704a14822fbc0975a9fa7';
+}
+
 export async function getUserWorkouts(){
-    const response = await fetch('/workouts/user/63c704a14822fbc0975a9fa7');
+    const userId = await getCurrentUserId();
+    const response = await fetch(`/workouts/user/${userId}`);
     if (!response.ok) {
         throw { message: 'Failed to fetch workouts', status: 500};
     }
@@ -24,19 +29,3 @@ export async function getUserWorkouts(){
     return workouts;
     
 }
-
-// export async function createWorkout(workout){
-//     const { title, exercises } = workout
-
-//     const options = {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type':'application/json'
-//         },
-//         body: {
-//             title,
-//             exercises
-//         }
-//     }
-//     const response = await fetch('/workouts', options)
-// }

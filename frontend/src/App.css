@@ -142,3 +142,14 @@ form {
 	background-color: limegreen;
 	text-align: center;
 }
+
+.success-message {
+	background-color: limegreen;
+	padding: 10px;
+	
+}
+
+.error-message{
+	background-color: red;
+	padding: 10px;
+}

@@ -82,7 +82,7 @@ function WorkoutList({currentSession, workoutsData}){
                         }} key={index}>
                             <Workout 
                                 id={index} 
-                                title={workout.title} 
+                                title={workout} 
                                 currentSession={currentSession} 
                              />
                         </li>

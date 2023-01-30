@@ -1,8 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getCurrentUserId } from '../functions';
 
 export default function CreateWorkout () {
     const title = useRef()
+    const [ serverResponse, setServerResponse ] = useState({})
     const [ exercises, setExercises ] = useState([])
     const [ isAddingExercise, setIsAddingExercise ] = useState(false);
     const [ createButtonIsDisabled, setCreateButtonIsDisabled ] = useState(true)
@@ -31,22 +33,39 @@ export default function CreateWorkout () {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: {
+            body: JSON.stringify({
                 title: title.current.value,
-                exercises
-            }
+                exercises,
+                userId: await getCurrentUserId()
+            })
         }
 
-        try {
-            const response = await fetch('/workouts', options)
-        } catch (error) {
-            throw new Error("Unable to create new workout.")
-        }
+        let response = await fetch('/workouts', options)
+        response = await response.json();
         
+        if(response.ok) {
+            setServerResponse({
+                ok: true,
+                message: response.message
+            })
+        } else {
+            setServerResponse({
+                ok: false,
+                message: response.message
+            })
+        }
     }
 
     return (
         <div className="create-workout">
+            {
+            serverResponse?.message && 
+                <span 
+                    className={serverResponse.ok ? "success-message" : "error-message"}
+                >
+                    {serverResponse.message}
+                </span>
+            }
             <h1>Create Workout</h1>
             <label>
                 Title:
