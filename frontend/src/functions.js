@@ -25,7 +25,7 @@ export async function getUserWorkouts(){
     }
     const workouts = await response.json()
 
-    console.log("from fetch: ", workouts)
+    console.log("Got user workouts: ", workouts)
     return workouts;
 }
 

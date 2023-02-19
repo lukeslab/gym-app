@@ -1,15 +1,13 @@
 import React from 'react';
 import { useLoaderData, Link } from 'react-router-dom';
 import { useState } from 'react';
+import { getWorkoutById } from '../functions.js'
 
-function Exercise({name}){
-    const exercisesData = null
-    const exercise = exercisesData.find( exercise => exercise.name === name )
-
+function Exercise({exercise}){
     return(
         <section>
             <div className="exercise-name">
-                <span>{exercise?.name}</span>
+                <span>{exercise?.title}</span>
             </div>
             <div className="exercise-sets">
                 <span>Sets</span>
@@ -28,7 +26,6 @@ function Exercise({name}){
 }
 
 function ExerciseList({ exercises }){
-    const [ exerciseList, setExercises ] = useState(exercises);
     const [ isAddingExercise, setIsAddingExercise ] = useState(false);
 
     function addExercise(){
@@ -39,10 +36,10 @@ function ExerciseList({ exercises }){
         <section className="exercise-list">
             <h2>Exercises</h2>
             <ul>
-                {exerciseList.map( (exercise, index) => {
+                {exercises.map( (exercise, index) => {
                     return (
-                        <li key={index}>
-                            <Exercise name={exercise}/>
+                        <li key={index } data-id={exercise._id}>
+                            <Exercise exercise={exercise}/>
                         </li>
                     )
                 })}
@@ -63,7 +60,7 @@ export async function loader({ params }){
 
 }
 
-export default function EditWorkout () {
+export default function EditWorkout() {
     const { title, exercises } = useLoaderData()
     const [ newTitle, setTitle ] = useState(title);
         

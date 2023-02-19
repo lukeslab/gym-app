@@ -32,8 +32,8 @@ const getWorkoutById = asyncHandler(async (req, res) => {
 
     if (!id) return res.status(400).json({ message: "Workout id required"})
 
-    const workout = await Workout.findById(id).populate('exercises')
-    console.log(workout)
+    const workout = await Workout.findById(id).populate('exercises').lean()
+    console.log("Got workout:", workout)
     if (workout) res.json(workout)
     else res.status(400).json({ message: "Workout not found" })
 })

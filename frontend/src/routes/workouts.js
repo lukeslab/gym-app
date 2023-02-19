@@ -130,7 +130,7 @@ export async function loader(){
     
     // why is workouts a promise if a.) it is put into an array, and b.) workouts is not awaited?
     const loaderData = [workouts, currentSession]
-    console.log(loaderData)
+    console.log("Loader data: ", loaderData)
 
     return loaderData;
 }
