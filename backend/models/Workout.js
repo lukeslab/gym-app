@@ -7,8 +7,10 @@ const workoutSchema = new mongoose.Schema({
         require: true,   
     },
     exercises: {
-        type: Array,
-        require: true
+        // type: Array,
+        // require: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Exercise"
     },
 },
 {

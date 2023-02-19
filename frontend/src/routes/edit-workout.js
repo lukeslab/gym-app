@@ -1,36 +1,34 @@
 import React from 'react';
-import workoutsData from '../data/workouts';
-import exercisesData from'../data/exercises';
-import { useParams, Link } from 'react-router-dom';
+import { useLoaderData, Link } from 'react-router-dom';
 import { useState } from 'react';
 
-
 function Exercise({name}){
+    const exercisesData = null
     const exercise = exercisesData.find( exercise => exercise.name === name )
 
     return(
         <section>
             <div className="exercise-name">
-                <span>{exercise.name}</span>
+                <span>{exercise?.name}</span>
             </div>
             <div className="exercise-sets">
                 <span>Sets</span>
-                <input type="text" defaultValue={exercise.sets}/>
+                <input type="text" defaultValue={exercise?.sets}/>
             </div>
             <div className="exercise-reps">
                 <span>Reps</span>
-                <input type="text" defaultValue={exercise.reps}/>
+                <input type="text" defaultValue={exercise?.reps}/>
             </div>
             <div className="exercise-weight">
                 <span>Weight</span>
-                <input type="text" defaultValue={exercise.weight}/>
+                <input type="text" defaultValue={exercise?.weight}/>
             </div>
         </section>
     )
 }
 
-function ExerciseList({ id }){
-    const [ exercises, setExercises ] = useState(workoutsData[id].exercises);
+function ExerciseList({ exercises }){
+    const [ exerciseList, setExercises ] = useState(exercises);
     const [ isAddingExercise, setIsAddingExercise ] = useState(false);
 
     function addExercise(){
@@ -41,7 +39,7 @@ function ExerciseList({ id }){
         <section className="exercise-list">
             <h2>Exercises</h2>
             <ul>
-                {exercises.map( (exercise, index) => {
+                {exerciseList.map( (exercise, index) => {
                     return (
                         <li key={index}>
                             <Exercise name={exercise}/>
@@ -56,16 +54,22 @@ function ExerciseList({ id }){
     )
 }
 
+export async function loader({ params }){
+    const { id } = params;
+
+    const workout = await fetch(`/workouts/${id}`)
+    if (!workout) console.error('Unable to fetch workout')
+    else return workout
+
+}
+
 export default function EditWorkout () {
-    const { id } = useParams();
-    const [ title, setTitle ] = useState(workoutsData[id].title);
-    
-    
+    const { title, exercises } = useLoaderData()
+    const [ newTitle, setTitle ] = useState(title);
+        
     function handleOnChange(e){
         setTitle(e.target.value);
     }
-
-  
 
     return (
         <div className="edit-workout">
@@ -74,7 +78,7 @@ export default function EditWorkout () {
                 Title:
                 <input type="text" value={title} onChange={handleOnChange}></input>
             </label>
-            <ExerciseList id={id}/>
+            <ExerciseList exercises={exercises}/>
             <Link to="../">Cancel</Link>
             <Link to="../">Save</Link>
         </div>

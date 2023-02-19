@@ -81,8 +81,8 @@ function WorkoutList({currentSession, workoutsData}){
                             alignItems: 'center'
                         }} key={index}>
                             <Workout 
-                                id={index} 
-                                title={workout} 
+                                id={workout.id} 
+                                title={workout.title} 
                                 currentSession={currentSession} 
                              />
                         </li>

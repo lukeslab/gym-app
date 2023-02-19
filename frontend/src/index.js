@@ -13,13 +13,22 @@ import Workouts, {
   loader as workoutsLoader,
   action as workoutsAction
 } from './routes/workouts';
+import Exercises, {
+  loader as exerciseLoader,
+} from './routes/exercises'
 import OverwriteAlert, {
   loader as overwriteSessionLoader,
 } from './routes/overwrite-session'
 import EditWorkout, {
-
+  loader as editWorkoutLoader
 } from './routes/edit-workout'
+import EditExercise, {
+  loader as editExerciseLoader
+} from './routes/edit-exercise';
 import CreateWorkout from './routes/create-workout';
+import CreateExercise, {
+  action as createExerciseAction
+} from './routes/create-exercise';
 
 const router = createBrowserRouter([
   {
@@ -45,11 +54,27 @@ const router = createBrowserRouter([
       },
       {
         path: "/edit-workout/:id",
-        element: <EditWorkout />
+        element: <EditWorkout />,
+        loader: editWorkoutLoader
       },
       {
         path: "/create-workout",
         element: <CreateWorkout />
+      },
+      {
+        path: "/exercises",
+        element: <Exercises />,
+        loader: exerciseLoader,
+      },
+      {
+        path: "/exercises/edit-exercise/:id",
+        element: <EditExercise />,
+        loader: editExerciseLoader
+      },
+      {
+        path: "/exercises/create-exercise",
+        element: <CreateExercise />,
+        action: createExerciseAction
       }
     ]
   }

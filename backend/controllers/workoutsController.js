@@ -10,9 +10,14 @@ const getWorkoutsByUser = asyncHandler( async (req, res) => {
 
     if (!id) return res.status(400).json({ message: "User id is required" })
 
-    const user = await User.findById(id).populate('workouts', "title" )
-    const workouts = user.workouts.map( workout => workout.title)
-    console.log(workouts)
+    const user = await User.findById(id).select('-password').populate('workouts')
+    const workouts = user.workouts.map( workout => {
+       return {
+            id: workout._id.toString(),
+            title: workout.title
+        } 
+    })
+    console.log(user, workouts)
 
     if (!workouts || !workouts.length) return res.status(400).json({ message: "No workouts for this user." })
 
@@ -27,7 +32,8 @@ const getWorkoutById = asyncHandler(async (req, res) => {
 
     if (!id) return res.status(400).json({ message: "Workout id required"})
 
-    const workout = await Workout.findById(id).populate('exercises').exec()
+    const workout = await Workout.findById(id).populate('exercises')
+    console.log(workout)
     if (workout) res.json(workout)
     else res.status(400).json({ message: "Workout not found" })
 })

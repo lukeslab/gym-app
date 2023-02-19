@@ -27,5 +27,38 @@ export async function getUserWorkouts(){
 
     console.log("from fetch: ", workouts)
     return workouts;
-    
+}
+
+export async function getAllExercises(){
+    const response = await fetch('/exercises');
+    if(!response.ok) throw { message: 'Failed to fetch exercsies' }
+
+    const exercises = await response.json()
+
+    console.log("Got exercises: ", exercises)
+    return exercises;
+}
+
+export async function createExercise({title, sets, reps, weight}){
+    console.log('creating exercise')
+    const body = {
+        title,
+        sets,
+        reps,
+        weight
+    }
+    const options = {
+        method:"POST",
+        headers: {
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(body)
+    }
+    const response = await fetch('/exercises', options)
+    if (!response.ok) {
+        throw new Error('failed to create exercise')
+    }
+    const message = await response.json()
+    console.log(`exercise ${title} created!`)
+    return message;
 }
