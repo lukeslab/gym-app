@@ -8,49 +8,46 @@ import {
 // import workoutsData from '../data/workouts';
 import { getCurrentSession, setCurrentSession, getUserWorkouts } from '../functions'
 
-function Workout({id, title}){
+export async function action({request}){
+    const formData = await request.formData();
+    const {title, id} = getCurrentSession();
 
-    return (
-        <>
-            <span>{title}</span>
-            <div style={{marginLeft: '20px'}}>
-                <Form
-                    action="." 
-                    method="post" 
-                    style={{display: 'inline'}}
-                >
-                    <input 
-                        type="hidden"
-                        name="title"
-                        defaultValue={encodeURIComponent(title)}
-                    />
-                    <input 
-                        type="hidden"
-                        name="id"
-                        defaultValue={id}
-                    />
-                    <button 
-                        type="submit" 
-                        style={{
-                            marginLeft: '20px',
-                            backgroundColor: 'white',
-                            border: 'none',
-                            cursor: 'pointer'
-                    }}>
-                        Start
-                    </button>
-                </Form>
-                <button style={{
-                    marginLeft: '20px',
-                    backgroundColor: 'white',
-                    border: 'none',
-                    cursor: 'pointer',
-                }}>
-                    <Link style={{textDecoration: 'none'}}to={`./edit-workout/${id}`}>Edit</Link>
-                </button>
-            </div>
-        </>
-    )
+    const newSession = Object.fromEntries(formData)
+    const {title:newTitle, id:newId} = newSession
+    
+    console.log('fired from workouts action:', newSession)
+    if (title) {
+        // prompt overwrite confirmation screen.
+        console.log('overwrite')
+        return redirect(`/overwrite-session?title=${newTitle}&id=${newId}`)
+    } else {
+        // set current session to selected workout
+        setCurrentSession(Object.fromEntries(formData))
+        return redirect('/current_session')
+    }
+}
+
+export async function loader(){
+    const currentSession = getCurrentSession()
+    const workouts = await getUserWorkouts();
+    
+    // why is workouts a promise if a.) it is put into an array, and b.) workouts is not awaited?
+    const loaderData = [workouts, currentSession]
+    console.log("Loader data: ", loaderData)
+
+    return loaderData;
+}
+
+export default function Workouts() {
+    const [workouts, currentSession] = useLoaderData();
+
+    // stop timer from displaying on this view, but continue the count.
+    useEffect(() => {
+        const toDisplay = document.querySelector('.timer')
+        if (toDisplay) toDisplay.style.display = 'none';
+    }, [])
+    
+    return <WorkoutList currentSession={currentSession} workoutsData={workouts}/>   
 }
 
 function WorkoutList({currentSession, workoutsData}){
@@ -105,44 +102,46 @@ function WorkoutList({currentSession, workoutsData}){
     )
 }
 
-export async function action({request}){
-    const formData = await request.formData();
-    const {title, id} = getCurrentSession();
-
-    const newSession = Object.fromEntries(formData)
-    const {title:newTitle, id:newId} = newSession
-    
-    console.log('fired from workouts action:', newSession)
-    if (title) {
-        // prompt overwrite confirmation screen.
-        console.log('overwrite')
-        return redirect(`/overwrite-session?title=${newTitle}&id=${newId}`)
-    } else {
-        // set current session to selected workout
-        setCurrentSession(Object.fromEntries(formData))
-        return redirect('/current_session')
-    }
-
-}
-export async function loader(){
-    const currentSession = getCurrentSession()
-    const workouts = await getUserWorkouts();
-    
-    // why is workouts a promise if a.) it is put into an array, and b.) workouts is not awaited?
-    const loaderData = [workouts, currentSession]
-    console.log("Loader data: ", loaderData)
-
-    return loaderData;
-}
-
-export default function Workouts() {
-    const [workouts, currentSession] = useLoaderData();
-
-    // stop timer from displaying on this view, but continue the count.
-    useEffect(() => {
-        const toDisplay = document.querySelector('.timer')
-        if (toDisplay) toDisplay.style.display = 'none';
-    }, [])
-    
-    return <WorkoutList currentSession={currentSession} workoutsData={workouts}/>   
+function Workout({id, title}){
+    return (
+        <>
+            <span>{title}</span>
+            <div style={{marginLeft: '20px'}}>
+                <Form
+                    action="." 
+                    method="post" 
+                    style={{display: 'inline'}}
+                >
+                    <input 
+                        type="hidden"
+                        name="title"
+                        defaultValue={encodeURIComponent(title)}
+                    />
+                    <input 
+                        type="hidden"
+                        name="id"
+                        defaultValue={id}
+                    />
+                    <button 
+                        type="submit" 
+                        style={{
+                            marginLeft: '20px',
+                            backgroundColor: 'white',
+                            border: 'none',
+                            cursor: 'pointer'
+                    }}>
+                        Start
+                    </button>
+                </Form>
+                <button style={{
+                    marginLeft: '20px',
+                    backgroundColor: 'white',
+                    border: 'none',
+                    cursor: 'pointer',
+                }}>
+                    <Link style={{textDecoration: 'none'}}to={`./edit-workout/${id}`}>Edit</Link>
+                </button>
+            </div>
+        </>
+    )
 }

@@ -7,25 +7,33 @@ import {
 import workoutsData from '../data/workouts';
 import exerciseData from '../data/exercises';
 
-function NoSessionMessage(){
+export function loader(){
+    return localStorage.getItem('currentSession');
+}
+
+export default function CurrentSession() {    
+    const { title, id } = JSON.parse(useLoaderData());
+    
+    useEffect( () =>{
+        const timerElement = document.querySelector('.timer')
+        if (title && timerElement) timerElement.style.display = 'flex';
+    })
+
     return (
-        <section>
-            <p style={{marginTop: "100px"}}>Session is not active</p>
-            <button style={{
-                backgroundColor: 'white',
-                alignSelf: 'center',
-                border: '1px solid black',
-                padding: '20px 50px',
-                marginTop: '25px',
-                fontSize: '20px',
-                cursor: 'pointer'
-            }}><Link style={{textDecoration: "none", color: 'black'}} to="/">Go to workouts</Link></button>
+        <section style={{
+            textAlign: 'center',
+            position: 'absolute',
+            top: '181px',
+            left: '0',
+            right: '0'
+        }}>
+            {title ? <SetList title={title}/> : 
+            <NoSessionMessage />}
         </section>
     )
 }
 
-function SetList({title}){
-    
+function SetList({title}){ 
     const workout = workoutsData.filter(workout => workout.title === title)[0];
     const exerciseList = workout.exercises.map(exerciseFromWorkout => {
         return exerciseData.filter(exerciseFromModel => {
@@ -77,28 +85,19 @@ function SetList({title}){
     )
 }
 
-export function loader(){
-    return localStorage.getItem('currentSession');
-}
-
-export default function CurrentSession() {    
-    const { title, id } = JSON.parse(useLoaderData());
-    
-    useEffect( () =>{
-        const timerElement = document.querySelector('.timer')
-        if (title && timerElement) timerElement.style.display = 'flex';
-    })
-
+function NoSessionMessage(){
     return (
-        <section style={{
-            textAlign: 'center',
-            position: 'absolute',
-            top: '181px',
-            left: '0',
-            right: '0'
-        }}>
-            {title ? <SetList title={title}/> : 
-            <NoSessionMessage />}
+        <section>
+            <p style={{marginTop: "100px"}}>Session is not active</p>
+            <button style={{
+                backgroundColor: 'white',
+                alignSelf: 'center',
+                border: '1px solid black',
+                padding: '20px 50px',
+                marginTop: '25px',
+                fontSize: '20px',
+                cursor: 'pointer'
+            }}><Link style={{textDecoration: "none", color: 'black'}} to="/">Go to workouts</Link></button>
         </section>
     )
 }

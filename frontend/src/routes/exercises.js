@@ -5,23 +5,26 @@ import {
 } from 'react-router-dom';
 import { getCurrentSession, getAllExercises } from '../functions'
 
-function Exercise({id, title}){
+export async function loader(){
+    const currentSession = getCurrentSession()
+    const exercises = await getAllExercises()
+    
+    const loaderData = [exercises, currentSession]
+    console.log(loaderData)
 
-    return (
-        <>
-            <span>{title}</span>
-            <div style={{marginLeft: '20px'}}>
-                <button style={{
-                    marginLeft: '20px',
-                    backgroundColor: 'white',
-                    border: 'none',
-                    cursor: 'pointer',
-                }}>
-                    <Link style={{textDecoration: 'none'}}to={`./edit-exercise/${id}`}>Edit</Link>
-                </button>
-            </div>
-        </>
-    )
+    return loaderData;
+}
+
+export default function Exercises() {
+    const [exercises, currentSession] = useLoaderData();
+
+    // stop timer from displaying on this view, but continue the count.
+    useEffect(() => {
+        const toDisplay = document.querySelector('.timer')
+        if (toDisplay) toDisplay.style.display = 'none';
+    }, [])
+    
+    return <ExerciseList currentSession={currentSession} exercisesData={exercises}/>   
 }
 
 function ExerciseList({exercisesData}){
@@ -75,24 +78,21 @@ function ExerciseList({exercisesData}){
     )
 }
 
-export async function loader(){
-    const currentSession = getCurrentSession()
-    const exercises = await getAllExercises()
-    
-    const loaderData = [exercises, currentSession]
-    console.log(loaderData)
+function Exercise({id, title}){
 
-    return loaderData;
-}
-
-export default function Exercises() {
-    const [exercises, currentSession] = useLoaderData();
-
-    // stop timer from displaying on this view, but continue the count.
-    useEffect(() => {
-        const toDisplay = document.querySelector('.timer')
-        if (toDisplay) toDisplay.style.display = 'none';
-    }, [])
-    
-    return <ExerciseList currentSession={currentSession} exercisesData={exercises}/>   
+    return (
+        <>
+            <span>{title}</span>
+            <div style={{marginLeft: '20px'}}>
+                <button style={{
+                    marginLeft: '20px',
+                    backgroundColor: 'white',
+                    border: 'none',
+                    cursor: 'pointer',
+                }}>
+                    <Link style={{textDecoration: 'none'}}to={`./edit-exercise/${id}`}>Edit</Link>
+                </button>
+            </div>
+        </>
+    )
 }

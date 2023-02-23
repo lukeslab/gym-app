@@ -2,29 +2,6 @@ import React from 'react';
 import { useLoaderData, Link } from 'react-router-dom';
 import { useState } from 'react';
 
-function Exercise({exercise}){
-
-    return(
-        <section>
-            <div className="exercise-name">
-                <span>{exercise?.title}</span>
-            </div>
-            <div className="exercise-sets">
-                <span>Sets</span>
-                <input type="text" defaultValue={exercise?.sets}/>
-            </div>
-            <div className="exercise-reps">
-                <span>Reps</span>
-                <input type="text" defaultValue={exercise?.reps}/>
-            </div>
-            <div className="exercise-weight">
-                <span>Weight</span>
-                <input type="text" defaultValue={exercise?.weight}/>
-            </div>
-        </section>
-    )
-}
-
 export async function loader({ params }){
     const { id } = params;
 
@@ -50,8 +27,32 @@ export default function EditExercise () {
                 <input type="text" value={title} onChange={handleOnChange}></input>
             </label>
             <Exercise exercise={exercise}/>
-            <Link to="../">Cancel</Link>
+            <Link to="../exercises">Cancel</Link>
             <Link to="../">Save</Link>
         </div>
     )
 }
+
+function Exercise({exercise}){
+
+    return(
+        <section>
+            <div className="exercise-name">
+                <span>{exercise?.title}</span>
+            </div>
+            <div className="exercise-sets">
+                <span>Sets</span>
+                <input type="text" defaultValue={exercise?.sets}/>
+            </div>
+            <div className="exercise-reps">
+                <span>Reps</span>
+                <input type="text" defaultValue={exercise?.reps}/>
+            </div>
+            <div className="exercise-weight">
+                <span>Weight</span>
+                <input type="text" defaultValue={exercise?.weight}/>
+            </div>
+        </section>
+    )
+}
+
