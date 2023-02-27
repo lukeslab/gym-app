@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {
     Link,
     useLoaderData,
+    useLocation
 } from 'react-router-dom';
 import { getCurrentSession, getAllExercises } from '../functions'
 
@@ -24,11 +25,6 @@ export default function Exercises() {
         if (toDisplay) toDisplay.style.display = 'none';
     }, [])
     
-    return <ExerciseList currentSession={currentSession} exercisesData={exercises}/>   
-}
-
-function ExerciseList({exercisesData}){
-    
     return (
         <section className="" style={{
             display: 'flex',
@@ -43,6 +39,15 @@ function ExerciseList({exercisesData}){
             }}>
                 My Exercises
             </h1>
+            <ExerciseList currentSession={currentSession} exercisesData={exercises}/>   
+        </section>
+    )
+}
+
+export function ExerciseList({exercisesData}){
+    
+    return (
+        <>
             <ul style={{ marginTop: '50px', padding: 0}}>
                 {exercisesData.length ? exercisesData.map((exercise, index) => {
                     return(
@@ -57,7 +62,7 @@ function ExerciseList({exercisesData}){
                             <Exercise 
                                 id={exercise.id} 
                                 title={exercise.title}
-                             />
+                                />
                         </li>
                     )
                 }): <p>You have no exercises! Add some!</p>}
@@ -74,12 +79,13 @@ function ExerciseList({exercisesData}){
                     </Link>
                 </li>
             </ul>
-        </section>
+        </>
     )
 }
 
 function Exercise({id, title}){
-
+    //We need to pass location to AllExercises component in order to determine certain options, such as 'add to workout button'.
+    const location = useLocation();
     return (
         <>
             <span>{title}</span>
@@ -90,8 +96,11 @@ function Exercise({id, title}){
                     border: 'none',
                     cursor: 'pointer',
                 }}>
-                    <Link style={{textDecoration: 'none'}}to={`./edit-exercise/${id}`}>Edit</Link>
+                    <Link style={{textDecoration: 'none'}}to={`/exercises/edit-exercise/${id}`}>Edit</Link>
                 </button>
+                {
+                    location.pathname.includes('/edit-workout/') && <button>Add</button>
+                }
             </div>
         </>
     )

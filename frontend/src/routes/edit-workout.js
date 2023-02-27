@@ -1,7 +1,6 @@
-import React from 'react';
-import { useLoaderData, Link } from 'react-router-dom';
-import { useState } from 'react';
-import { getWorkoutById } from '../functions.js'
+import React, { useEffect, useState } from 'react';
+import { useLoaderData, useFetcher, useLocation, Link } from 'react-router-dom';
+import {ExerciseList as AllExercises} from './exercises';
 
 export async function loader({ params }){
     const { id } = params;
@@ -9,7 +8,6 @@ export async function loader({ params }){
     const workout = await fetch(`/workouts/${id}`)
     if (!workout) console.error('Unable to fetch workout')
     else return workout
-
 }
 
 export default function EditWorkout() {
@@ -36,7 +34,21 @@ export default function EditWorkout() {
 
 function ExerciseList({ exercises }){
     const [ isAddingExercise, setIsAddingExercise ] = useState(false);
+    const fetcher = useFetcher()
+    
+    useEffect(() => {
+        if (fetcher.state === "idle" && !fetcher.data) {
+            fetcher.load("/exercises")
+        }
+    }, [fetcher])
 
+    let allExercises, currentSession
+    if (fetcher.data) {
+        // Deconstruction must happen after the useEffect, when fetcher.data is true.
+        [ allExercises, currentSession ] = fetcher.data;
+    }
+    console.log('All exercises:', allExercises)
+    
     function addExercise(){
         setIsAddingExercise(!isAddingExercise)
     }
@@ -47,13 +59,13 @@ function ExerciseList({ exercises }){
             <ul>
                 {exercises.map( (exercise, index) => {
                     return (
-                        <li key={index } data-id={exercise._id}>
+                        <li key={index} data-id={exercise._id}>
                             <Exercise exercise={exercise}/>
                         </li>
                     )
                 })}
                 <li className="add-exercise">
-                    {isAddingExercise ? <><input></input><button onClick={addExercise}>Add</button></> : <><a onClick={addExercise}>Add Exercise <span>+</span></a></>}
+                    {isAddingExercise ? <AllExercises exercisesData={allExercises} /> : <a onClick={addExercise}>Add Exercise <span>+</span></a>}
                 </li>
             </ul>
         </section>
