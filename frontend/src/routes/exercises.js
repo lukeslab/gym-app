@@ -2,22 +2,26 @@ import React, {useEffect} from 'react';
 import {
     Link,
     useLoaderData,
-    useLocation
+    useLocation,
+    Form
 } from 'react-router-dom';
 import { getCurrentSession, getAllExercises } from '../functions'
 
 export async function loader(){
-    const currentSession = getCurrentSession()
-    const exercises = await getAllExercises()
-    
-    const loaderData = [exercises, currentSession]
+
+    const loaderData = {
+        currentSession: getCurrentSession(),
+        exercises: await getAllExercises() 
+    }
+
     console.log(loaderData)
 
     return loaderData;
 }
 
 export default function Exercises() {
-    const [exercises, currentSession] = useLoaderData();
+    const {currentSession, exercises} = useLoaderData();
+    console.log(currentSession, exercises)
 
     // stop timer from displaying on this view, but continue the count.
     useEffect(() => {
@@ -44,7 +48,7 @@ export default function Exercises() {
     )
 }
 
-export function ExerciseList({exercisesData}){
+export function ExerciseList({exercisesData, workoutId}){
     
     return (
         <>
@@ -60,8 +64,9 @@ export function ExerciseList({exercisesData}){
                             alignItems: 'center'
                         }} key={index}>
                             <Exercise 
-                                id={exercise.id} 
+                                exerciseId={exercise.id} 
                                 title={exercise.title}
+                                workoutId={workoutId}
                                 />
                         </li>
                     )
@@ -83,9 +88,10 @@ export function ExerciseList({exercisesData}){
     )
 }
 
-function Exercise({id, title}){
+function Exercise({exerciseId, title, workoutId}){
     //We need to pass location to AllExercises component in order to determine certain options, such as 'add to workout button'.
     const location = useLocation();
+    console.log('In Exercise component:', workoutId)
     return (
         <>
             <span>{title}</span>
@@ -96,10 +102,16 @@ function Exercise({id, title}){
                     border: 'none',
                     cursor: 'pointer',
                 }}>
-                    <Link style={{textDecoration: 'none'}}to={`/exercises/edit-exercise/${id}`}>Edit</Link>
+                    <Link style={{textDecoration: 'none'}}to={`/exercises/edit-exercise/${exerciseId}`}>Edit</Link>
                 </button>
                 {
-                    location.pathname.includes('/edit-workout/') && <button>Add</button>
+                    location.pathname.includes('/edit-workout/') && 
+                        <Form method="post" action={`/edit-workout/${workoutId}`}>
+                            <button>Add</button>
+                            <input type="hidden" name="exerciseId" value={exerciseId}
+                            ></input>
+                            <input type="hidden" name="workoutId" value={workoutId}></input>
+                        </Form>
                 }
             </div>
         </>

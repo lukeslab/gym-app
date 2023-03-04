@@ -20,7 +20,8 @@ import OverwriteAlert, {
   loader as overwriteSessionLoader,
 } from './routes/overwrite-session'
 import EditWorkout, {
-  loader as editWorkoutLoader
+  loader as editWorkoutLoader,
+  action as editWorkoutAction
 } from './routes/edit-workout'
 import EditExercise, {
   loader as editExerciseLoader
@@ -55,7 +56,8 @@ const router = createBrowserRouter([
       {
         path: "/edit-workout/:id",
         element: <EditWorkout />,
-        loader: editWorkoutLoader
+        loader: editWorkoutLoader,
+        action: editWorkoutAction
       },
       {
         path: "/create-workout",

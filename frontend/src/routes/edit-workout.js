@@ -1,19 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { useLoaderData, useFetcher, useLocation, Link } from 'react-router-dom';
-import {ExerciseList as AllExercises} from './exercises';
+import { redirect, useLoaderData, useFetcher, useActionData, Link } from 'react-router-dom';
+import { ExerciseList as AllExercises } from './exercises';
+
+export async function action({ request }){
+    console.log('firing edit workouta ction')
+    const { exerciseId, workoutId } = Object.fromEntries(await request.formData())
+
+    const response = await fetch(`/exercises/${exerciseId}`)
+    const addedExercise = await response.json()
+    console.log('From edit workout action', addedExercise)
+    // redirect(`/edit-workout/${workoutId}`)
+    return addedExercise;
+}
 
 export async function loader({ params }){
     const { id } = params;
+    // I think we need to use local storage. Fetch from db if localstorage is not set for workout details. If is set, then pull from it. This way we can update it with added workouts. Save button should then update it on the db. 
+    const response = await fetch(`/workouts/${id}`)
+    const workout = await response.json()
 
-    const workout = await fetch(`/workouts/${id}`)
+    // console.log('workout', workout)
     if (!workout) console.error('Unable to fetch workout')
-    else return workout
+    else return {id, workout}
 }
 
 export default function EditWorkout() {
-    const { title, exercises } = useLoaderData()
+    const workoutData = {
+        loader: useLoaderData(),
+        action: useActionData()
+    }
+    
+    const {id, workout: { title, exercises }} = workoutData.loader
+
+    let exercisesToList = [ ...exercises ]
+    
+    const addedExercise = workoutData?.action;
+    if ( addedExercise ) {    
+        console.log('addedExercise', addedExercise)
+        exercisesToList.push(addedExercise)
+    }
+
+    console.log('Exercises to list', exercisesToList)
+
     const [ newTitle, setTitle ] = useState(title);
-        
+
     function handleOnChange(e){
         setTitle(e.target.value);
     }
@@ -25,29 +55,29 @@ export default function EditWorkout() {
                 Title:
                 <input type="text" value={title} onChange={handleOnChange}></input>
             </label>
-            <ExerciseList exercises={exercises}/>
+            <ExerciseList exercises={exercisesToList} workoutId={id}/>
             <Link to="../">Cancel</Link>
             <Link to="../">Save</Link>
         </div>
     )
 }
 
-function ExerciseList({ exercises }){
+function ExerciseList({ exercises, workoutId }){
     const [ isAddingExercise, setIsAddingExercise ] = useState(false);
     const fetcher = useFetcher()
     
+    console.log('in exerclist list', exercises)
     useEffect(() => {
         if (fetcher.state === "idle" && !fetcher.data) {
             fetcher.load("/exercises")
         }
     }, [fetcher])
 
-    let allExercises, currentSession
-    if (fetcher.data) {
-        // Deconstruction must happen after the useEffect, when fetcher.data is true.
-        [ allExercises, currentSession ] = fetcher.data;
-    }
-    console.log('All exercises:', allExercises)
+    // let fetcherData;
+    // if (fetcher.data) {
+    //     fetcherData = fetcher.data;
+    // }
+    // console.log('All exercises:', allExercises)
     
     function addExercise(){
         setIsAddingExercise(!isAddingExercise)
@@ -65,7 +95,7 @@ function ExerciseList({ exercises }){
                     )
                 })}
                 <li className="add-exercise">
-                    {isAddingExercise ? <AllExercises exercisesData={allExercises} /> : <a onClick={addExercise}>Add Exercise <span>+</span></a>}
+                    {isAddingExercise ? <AllExercises exercisesData={fetcher?.data?.exercises} workoutId={workoutId} /> : <a onClick={addExercise}>Add Exercise <span>+</span></a>}
                 </li>
             </ul>
         </section>
