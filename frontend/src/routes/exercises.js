@@ -8,21 +8,17 @@ import {
 import { getCurrentSession, getAllExercises } from '../functions'
 
 export async function loader(){
-
     const loaderData = {
         currentSession: getCurrentSession(),
         exercises: await getAllExercises() 
     }
-
-    console.log(loaderData)
 
     return loaderData;
 }
 
 export default function Exercises() {
     const {currentSession, exercises} = useLoaderData();
-    console.log(currentSession, exercises)
-
+    
     // stop timer from displaying on this view, but continue the count.
     useEffect(() => {
         const toDisplay = document.querySelector('.timer')
@@ -43,12 +39,14 @@ export default function Exercises() {
             }}>
                 My Exercises
             </h1>
-            <ExerciseList currentSession={currentSession} exercisesData={exercises}/>   
+            <ExerciseList exercisesData={exercises}/>   
         </section>
     )
 }
 
-export function ExerciseList({exercisesData, workoutId}){
+export function ExerciseList({exercisesData, workoutId, listedExercises}){
+
+    // manipulate the exercisesData here to exclude those already showing in edit workout, but should show all when on the /exercises route. 
     
     return (
         <>

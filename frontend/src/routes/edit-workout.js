@@ -32,6 +32,7 @@ export default function EditWorkout() {
     
     const {id, workout: { title, exercises }} = workoutData.loader
 
+    //convert this to state????
     let exercisesToList = [ ...exercises ]
     
     const addedExercise = workoutData?.action;
@@ -55,39 +56,42 @@ export default function EditWorkout() {
                 Title:
                 <input type="text" value={title} onChange={handleOnChange}></input>
             </label>
-            <ExerciseList exercises={exercisesToList} workoutId={id}/>
+            <ExerciseList exercisesToList={exercisesToList} workoutId={id}/>
             <Link to="../">Cancel</Link>
             <Link to="../">Save</Link>
         </div>
     )
 }
 
-function ExerciseList({ exercises, workoutId }){
+function ExerciseList({ exercisesToList, workoutId }){
     const [ isAddingExercise, setIsAddingExercise ] = useState(false);
     const fetcher = useFetcher()
+    let addExerciseList = [];
+
+    if(fetcher?.data?.exercises){
+        console.log('fetcher data', fetcher.data.exercises)
+        console.log('exercises to list ', exercisesToList)
+        
+        addExerciseList = fetcher.data.exercises.filter( ({id: id1}) => {
+            return !exercisesToList.some(({_id: id2}) => id2 === id1)
+        })
+    }
+    // console.log('addExercisesList', addExerciseList)
+    function addExercise(){
+        setIsAddingExercise(!isAddingExercise)
+    }
     
-    console.log('in exerclist list', exercises)
     useEffect(() => {
         if (fetcher.state === "idle" && !fetcher.data) {
             fetcher.load("/exercises")
         }
     }, [fetcher])
 
-    // let fetcherData;
-    // if (fetcher.data) {
-    //     fetcherData = fetcher.data;
-    // }
-    // console.log('All exercises:', allExercises)
-    
-    function addExercise(){
-        setIsAddingExercise(!isAddingExercise)
-    }
-
     return (
         <section className="exercise-list">
             <h2>Exercises</h2>
             <ul>
-                {exercises.map( (exercise, index) => {
+                {exercisesToList.map( (exercise, index) => {
                     return (
                         <li key={index} data-id={exercise._id}>
                             <Exercise exercise={exercise}/>
@@ -95,7 +99,7 @@ function ExerciseList({ exercises, workoutId }){
                     )
                 })}
                 <li className="add-exercise">
-                    {isAddingExercise ? <AllExercises exercisesData={fetcher?.data?.exercises} workoutId={workoutId} /> : <a onClick={addExercise}>Add Exercise <span>+</span></a>}
+                    {isAddingExercise ? <AllExercises exercisesData={addExerciseList} workoutId={workoutId} /> : <a onClick={addExercise}>Add Exercise <span>+</span></a>}
                 </li>
             </ul>
         </section>
