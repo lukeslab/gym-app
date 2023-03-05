@@ -4,6 +4,7 @@ const workoutsController = require('../controllers/workoutsController')
 
 router.route('/')
     .post(workoutsController.createWorkout)
+    .put(workoutsController.updateWorkout)
     .delete(workoutsController.deleteWorkout)
 
 router.route('/:id')

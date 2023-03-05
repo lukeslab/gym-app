@@ -64,6 +64,24 @@ const createWorkout = asyncHandler(async (req, res) => {
 
 })
 
+// @desc Update a workout
+// @route PUT /workouts
+// @access Private
+const updateWorkout = asyncHandler(async (req, res) => {
+    console.log(req.body)
+    const { id, updatedExercises } = req.body
+
+    if (!id) return res.status(400).json({ message: 'Workout id is required' })
+
+    const workout = await Workout.findById(id).exec()
+    if (!workout) return res.status(400).json({ message: 'Workout not found' })
+    workout.exercises = updatedExercises
+    workout.save()
+    
+    res.status(200).json({ message: `The workout ${workout.title} was updated.`})
+    console.log('updated')
+})
+
 // @desc Delete a workout
 // @route DELETE /workouts
 // @access Private
@@ -84,5 +102,6 @@ module.exports = {
     getWorkoutsByUser,
     getWorkoutById,
     createWorkout,
+    updateWorkout,
     deleteWorkout
 }

@@ -14,7 +14,23 @@ export async function loader({ params }){
 }
 
 export default function EditWorkout() {
-    const {workout: { title, exercises }} = useLoaderData()
+    async function saveChanges(e) {
+        const options = {
+            method: "PUT",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                id: id,
+                updatedExercises: exercisesToList
+            })
+        }
+        const response = await fetch('/workouts', options)
+        const message = await response.json()
+        console.log(message)
+    }
+
+    const {id, workout: { title, exercises }} = useLoaderData()
     const [ exercisesToList, setExercisesToList ] = useState([ ...exercises ])
     
     const [ newTitle, setTitle ] = useState(title);
@@ -35,7 +51,7 @@ export default function EditWorkout() {
                 setExercisesToList={setExercisesToList}
             />
             <Link to="../">Cancel</Link>
-            <Link to="../">Save</Link>
+            <Link to="../" onClick={saveChanges}>Save</Link>
         </div>
     )
 }
