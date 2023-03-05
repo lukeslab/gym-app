@@ -58,6 +58,7 @@ form {
 	justify-content: flex-start;
 	height: 100vh;
 	margin-top: 100px;
+	margin-bottom: 50px;
 }
 
 .edit-workout > * {

@@ -44,9 +44,9 @@ export default function Exercises() {
     )
 }
 
-export function ExerciseList({exercisesData, workoutId, listedExercises}){
+export function ExerciseList({exercisesData, workoutId, exercisesToList, setExercisesToList}){
 
-    // manipulate the exercisesData here to exclude those already showing in edit workout, but should show all when on the /exercises route. 
+    // manipulate the exercisesData here to exclude those already showing in edit workout, but should show all when on the /exercises route
     
     return (
         <>
@@ -65,6 +65,8 @@ export function ExerciseList({exercisesData, workoutId, listedExercises}){
                                 exerciseId={exercise.id} 
                                 title={exercise.title}
                                 workoutId={workoutId}
+                                exercisesToList={exercisesToList}
+                                setExercisesToList={setExercisesToList}
                                 />
                         </li>
                     )
@@ -86,10 +88,24 @@ export function ExerciseList({exercisesData, workoutId, listedExercises}){
     )
 }
 
-function Exercise({exerciseId, title, workoutId}){
+function Exercise({exerciseId, title, workoutId, exercisesToList, setExercisesToList}){
     //We need to pass location to AllExercises component in order to determine certain options, such as 'add to workout button'.
     const location = useLocation();
     console.log('In Exercise component:', workoutId)
+
+    async function addExerciseToExercisesToList(e){
+        const exerciseId = e.target.getAttribute('data-id')
+        
+        const response = await fetch(`/exercises/${exerciseId}`)
+        const exercise = await response.json()
+
+        setExercisesToList([
+            ...exercisesToList,
+            exercise
+           // fuckin A
+        ])
+    }
+
     return (
         <>
             <span>{title}</span>
@@ -104,12 +120,13 @@ function Exercise({exerciseId, title, workoutId}){
                 </button>
                 {
                     location.pathname.includes('/edit-workout/') && 
-                        <Form method="post" action={`/edit-workout/${workoutId}`}>
-                            <button>Add</button>
-                            <input type="hidden" name="exerciseId" value={exerciseId}
-                            ></input>
-                            <input type="hidden" name="workoutId" value={workoutId}></input>
-                        </Form>
+                        // <Form method="post" action={`/edit-workout/${workoutId}`}>
+                        <>
+                            <button data-id={exerciseId} onClick={addExerciseToExercisesToList}>Add</button>
+                            {/* <input type="hidden" name="exerciseId" value={exerciseId} />
+                            <input type="hidden" name="workoutId" value={workoutId} /> */}
+                        </>
+                        // </Form>
                 }
             </div>
         </>

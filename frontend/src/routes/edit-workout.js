@@ -1,21 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { redirect, useLoaderData, useFetcher, useActionData, Link } from 'react-router-dom';
+import { useLoaderData, useFetcher, Link } from 'react-router-dom';
 import { ExerciseList as AllExercises } from './exercises';
-
-export async function action({ request }){
-    console.log('firing edit workouta ction')
-    const { exerciseId, workoutId } = Object.fromEntries(await request.formData())
-
-    const response = await fetch(`/exercises/${exerciseId}`)
-    const addedExercise = await response.json()
-    console.log('From edit workout action', addedExercise)
-    // redirect(`/edit-workout/${workoutId}`)
-    return addedExercise;
-}
 
 export async function loader({ params }){
     const { id } = params;
-    // I think we need to use local storage. Fetch from db if localstorage is not set for workout details. If is set, then pull from it. This way we can update it with added workouts. Save button should then update it on the db. 
+    // Think about using local storage. Fetch from db if localstorage is not set for workout details. If is set, then pull from it. This way we can update it with added workouts. Save button should then update it on the db. 
     const response = await fetch(`/workouts/${id}`)
     const workout = await response.json()
 
@@ -25,24 +14,9 @@ export async function loader({ params }){
 }
 
 export default function EditWorkout() {
-    const workoutData = {
-        loader: useLoaderData(),
-        action: useActionData()
-    }
+    const {workout: { title, exercises }} = useLoaderData()
+    const [ exercisesToList, setExercisesToList ] = useState([ ...exercises ])
     
-    const {id, workout: { title, exercises }} = workoutData.loader
-
-    //convert this to state????
-    let exercisesToList = [ ...exercises ]
-    
-    const addedExercise = workoutData?.action;
-    if ( addedExercise ) {    
-        console.log('addedExercise', addedExercise)
-        exercisesToList.push(addedExercise)
-    }
-
-    console.log('Exercises to list', exercisesToList)
-
     const [ newTitle, setTitle ] = useState(title);
 
     function handleOnChange(e){
@@ -56,31 +30,35 @@ export default function EditWorkout() {
                 Title:
                 <input type="text" value={title} onChange={handleOnChange}></input>
             </label>
-            <ExerciseList exercisesToList={exercisesToList} workoutId={id}/>
+            <ExerciseList
+                exercisesToList={exercisesToList}
+                setExercisesToList={setExercisesToList}
+            />
             <Link to="../">Cancel</Link>
             <Link to="../">Save</Link>
         </div>
     )
 }
 
-function ExerciseList({ exercisesToList, workoutId }){
-    const [ isAddingExercise, setIsAddingExercise ] = useState(false);
-    const fetcher = useFetcher()
-    let addExerciseList = [];
-
-    if(fetcher?.data?.exercises){
-        console.log('fetcher data', fetcher.data.exercises)
-        console.log('exercises to list ', exercisesToList)
-        
-        addExerciseList = fetcher.data.exercises.filter( ({id: id1}) => {
-            return !exercisesToList.some(({_id: id2}) => id2 === id1)
-        })
-    }
-    // console.log('addExercisesList', addExerciseList)
+function ExerciseList({exercisesToList, setExercisesToList}){
     function addExercise(){
         setIsAddingExercise(!isAddingExercise)
     }
     
+    const {id: workoutId} = useLoaderData()
+
+    const [ isAddingExercise, setIsAddingExercise ] = useState(false);
+    
+    const fetcher = useFetcher()
+    let addExerciseList = [];
+
+    //dont show exercises in the add list if they are already in the workout.
+    if(fetcher?.data?.exercises){
+        addExerciseList = fetcher.data.exercises.filter( ({id: id1}) => {
+            return !exercisesToList.some(({_id: id2}) => id2 === id1)
+        })
+    }
+
     useEffect(() => {
         if (fetcher.state === "idle" && !fetcher.data) {
             fetcher.load("/exercises")
@@ -99,7 +77,13 @@ function ExerciseList({ exercisesToList, workoutId }){
                     )
                 })}
                 <li className="add-exercise">
-                    {isAddingExercise ? <AllExercises exercisesData={addExerciseList} workoutId={workoutId} /> : <a onClick={addExercise}>Add Exercise <span>+</span></a>}
+                    {isAddingExercise ? 
+                    <AllExercises 
+                        exercisesData={addExerciseList} 
+                        workoutId={workoutId}
+                        exercisesToList={exercisesToList}
+                        setExercisesToList={setExercisesToList}    
+                    /> : <a onClick={addExercise}>Add Exercise <span>+</span></a>}
                 </li>
             </ul>
         </section>
