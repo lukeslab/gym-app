@@ -102,7 +102,6 @@ function Exercise({exerciseId, title, workoutId, exercisesToList, setExercisesTo
         setExercisesToList([
             ...exercisesToList,
             exercise
-           // fuckin A
         ])
     }
 

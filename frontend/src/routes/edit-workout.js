@@ -10,10 +10,19 @@ export async function loader({ params }){
 
     // console.log('workout', workout)
     if (!workout) console.error('Unable to fetch workout')
-    else return {id, workout}
+    else return { id, workout }
 }
 
 export default function EditWorkout() {
+    const { id, workout: { title, exercises } } = useLoaderData()
+    const [ exercisesToList, setExercisesToList ] = useState([ ...exercises ])
+    
+    const [ newTitle, setTitle ] = useState(title);
+
+    function handleOnChange(e){
+        setTitle(e.target.value);
+    }
+
     async function saveChanges(e) {
         const options = {
             method: "PUT",
@@ -28,15 +37,6 @@ export default function EditWorkout() {
         const response = await fetch('/workouts', options)
         const message = await response.json()
         console.log(message)
-    }
-
-    const {id, workout: { title, exercises }} = useLoaderData()
-    const [ exercisesToList, setExercisesToList ] = useState([ ...exercises ])
-    
-    const [ newTitle, setTitle ] = useState(title);
-
-    function handleOnChange(e){
-        setTitle(e.target.value);
     }
 
     return (
@@ -57,16 +57,23 @@ export default function EditWorkout() {
 }
 
 function ExerciseList({exercisesToList, setExercisesToList}){
-    function addExercise(){
-        setIsAddingExercise(!isAddingExercise)
-    }
     
-    const {id: workoutId} = useLoaderData()
-
+    const { id: workoutId } = useLoaderData()
     const [ isAddingExercise, setIsAddingExercise ] = useState(false);
     
     const fetcher = useFetcher()
     let addExerciseList = [];
+
+    function removeExercise(e){
+        const id = e.target.parentElement.getAttribute("data-id")
+        console.log(id)
+        const newExercisesToList = exercisesToList.filter( exercise => exercise._id !== id)
+        setExercisesToList([ ...newExercisesToList ])
+    }
+
+    function addExercise(){
+        setIsAddingExercise(!isAddingExercise)
+    }
 
     //dont show exercises in the add list if they are already in the workout.
     if(fetcher?.data?.exercises){
@@ -89,6 +96,7 @@ function ExerciseList({exercisesToList, setExercisesToList}){
                     return (
                         <li key={index} data-id={exercise._id}>
                             <Exercise exercise={exercise}/>
+                            <button onClick={removeExercise}>Delete</button>
                         </li>
                     )
                 })}
@@ -107,6 +115,7 @@ function ExerciseList({exercisesToList, setExercisesToList}){
 }
 
 function Exercise({exercise}){
+
     return(
         <section>
             <div className="exercise-name">

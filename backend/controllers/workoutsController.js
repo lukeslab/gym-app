@@ -2,9 +2,11 @@ const Workout = require('../models/Workout')
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 
-// @desc Get list of workouts by user
-// @route GET /workouts/user/:id
-// @access Private
+/**
+ *@desc Get list of workouts by user
+ *@route GET /workouts/user/:id
+ *@access Private 
+ */
 const getWorkoutsByUser = asyncHandler( async (req, res) => {
     const { id } = req.params;
 
@@ -19,7 +21,7 @@ const getWorkoutsByUser = asyncHandler( async (req, res) => {
     })
     console.log(user, workouts)
 
-    if (!workouts || !workouts.length) return res.status(400).json({ message: "No workouts for this user." })
+    if (!workouts.isArray() || workouts.length === 0) return res.status(204).json({ message: "No workouts for this user." })
 
     return res.json(workouts);
 })
@@ -79,7 +81,7 @@ const updateWorkout = asyncHandler(async (req, res) => {
     workout.save()
     
     res.status(200).json({ message: `The workout ${workout.title} was updated.`})
-    console.log('updated')
+    console.log('updated workout', id)
 })
 
 // @desc Delete a workout
