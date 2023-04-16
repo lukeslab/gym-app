@@ -4,20 +4,22 @@ import {
     useLocation,
     useLoaderData
 } from 'react-router-dom';
-import workoutsData from '../data/workouts';
-import exerciseData from '../data/exercises';
 
-export function loader(){
-    return localStorage.getItem('currentSession');
+export async function loader(){
+    const { id } = JSON.parse(localStorage.getItem('currentSession'));
+    const response = await fetch(`/workouts/${id}`)
+    const workout = await response.json()
+    console.log(workout)
+    return workout
 }
 
 export default function CurrentSession() {    
-    const { title, id } = JSON.parse(useLoaderData());
+    const { title, exercises } = useLoaderData();
     
     useEffect( () =>{
         const timerElement = document.querySelector('.timer')
         if (title && timerElement) timerElement.style.display = 'flex';
-    })
+    }, [])
 
     return (
         <section style={{
@@ -27,34 +29,29 @@ export default function CurrentSession() {
             left: '0',
             right: '0'
         }}>
-            {title ? <SetList title={title}/> : 
-            <NoSessionMessage />}
+            {title ? <SetList exercises={exercises} /> : <NoSessionMessage />}
         </section>
     )
 }
 
-function SetList({title}){ 
-    const workout = workoutsData.filter(workout => workout.title === title)[0];
-    const exerciseList = workout.exercises.map(exerciseFromWorkout => {
-        return exerciseData.filter(exerciseFromModel => {
-            return exerciseFromWorkout === exerciseFromModel.name 
-        })[0];
-    }) 
-    
-    let setList = [];
-    exerciseList.forEach(exercise => {
+function SetList({exercises}){ 
+    const setList = [];
+    console.log("Current session setlist: ", exercises)
+    exercises.forEach(exercise => {
+        console.log(exercise)
         for (let set = 1; set <= exercise.sets; set++){
             setList.push(
-                <li style={{
-                    border: '1px solid black',
-                    padding: '10px',
-                    marginTop: '10px',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                }} key={exercise.name+set}>
+                <li key={exercise.title+set} 
+                    style={{
+                        border: '1px solid black',
+                        padding: '10px',
+                        marginTop: '10px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                }} >
                     <span style={{flex: '1'}}>
-                        {`${exercise.name} Set ${set}: ${exercise.reps} reps @ ${exercise.weight} lbs`} 
+                        {`${exercise.title} Set ${set}: ${exercise.reps} reps @ ${exercise.weight} lbs`} 
                     </span>
                     <div>
                         <button style={{
@@ -72,7 +69,7 @@ function SetList({title}){
             )
         }
     })
-    
+    console.log(setList)
     return (
         <ul style={{
             margin: '60px auto 100px auto',
@@ -80,7 +77,7 @@ function SetList({title}){
             maxWidth: '500px',    
             minWidth: '400px',
         }}>
-            {setList}
+           {setList}
         </ul>
     )
 }
