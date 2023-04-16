@@ -21,7 +21,7 @@ const getWorkoutsByUser = asyncHandler( async (req, res) => {
     })
     console.log(user, workouts)
 
-    if (!workouts.isArray() || workouts.length === 0) return res.status(204).json({ message: "No workouts for this user." })
+    if (!Array.isArray(workouts) || workouts.length === 0) return res.status(204).json({ message: "No workouts for this user." })
 
     return res.json(workouts);
 })
