@@ -105,7 +105,11 @@ form {
 
 .exercise-list .add-exercise {
 	text-align: center;
-	padding: 0;
+	padding: 30px;
+}
+
+.add-exercise ul {
+	margin: 0 !important;
 }
 
 .add-exercise a {
@@ -156,3 +160,50 @@ form {
 }
 
 /* Edit Exercise */
+
+/* CurrentSession */
+
+.exercise-card{
+	border: 2px solid black;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 25px;
+	padding: 15px 30px;
+}
+
+.exercise-card > * {
+	margin-bottom: 10px
+}
+
+.exercise-card p {
+	width: fit-content
+}
+
+.rep-bubbles-container,
+.exercise-card-details {
+	display: flex;
+}
+
+.exercise-card-details li{
+	/* need to add units to */
+	margin-right: 50px;
+
+}
+
+.rep-bubble {
+	height: 15px;
+	width: 30px;
+	border-radius: 50px;
+	margin-right: 10px;
+}
+
+.incomplete {
+	background-color: red
+}
+
+.exercise-card button {
+	width: fit-content;
+	height: 20px;
+	background-color:skyblue;
+	border: 0;
+}

@@ -38,34 +38,36 @@ function SetList({exercises}){
     const setList = [];
     console.log("Current session setlist: ", exercises)
     exercises.forEach(exercise => {
+        const { _id, target:{ sets } } = exercise
         console.log(exercise)
-        for (let set = 1; set <= exercise.sets; set++){
+        for (let set = 1; set <= sets; set++){
             setList.push(
-                <li key={exercise.title+set} 
-                    style={{
-                        border: '1px solid black',
-                        padding: '10px',
-                        marginTop: '10px',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                }} >
-                    <span style={{flex: '1'}}>
-                        {`${exercise.title} Set ${set}: ${exercise.reps} reps @ ${exercise.weight} lbs`} 
-                    </span>
-                    <div>
-                        <button style={{
-                            backgroundColor: 'limegreen',
-                            border: 'none',
-                            padding: '5px 10px',
-                        }}>Pass</button>
-                        <button style={{
-                            backgroundColor: 'red',
-                            border: 'none',
-                            padding: '5px 10px',
-                        }}>Fail</button>
-                    </div>
-                </li>
+                // <li key={exercise.title+set} 
+                //     style={{
+                //         border: '1px solid black',
+                //         padding: '10px',
+                //         marginTop: '10px',
+                //         display: 'flex',
+                //         justifyContent: 'space-between',
+                //         alignItems: 'center'
+                // }} >
+                //     <span style={{flex: '1'}}>
+                //         {`${exercise.title} Set ${set}: ${exercise.reps} reps @ ${exercise.weight} lbs`} 
+                //     </span>
+                //     <div>
+                //         <button style={{
+                //             backgroundColor: 'limegreen',
+                //             border: 'none',
+                //             padding: '5px 10px',
+                //         }}>Pass</button>
+                //         <button style={{
+                //             backgroundColor: 'red',
+                //             border: 'none',
+                //             padding: '5px 10px',
+                //         }}>Fail</button>
+                //     </div>
+                // </li>
+                <ExerciseCard key={ _id+set } exercise={exercise} />
             )
         }
     })
@@ -79,6 +81,34 @@ function SetList({exercises}){
         }}>
            {setList}
         </ul>
+    )
+}
+
+function ExerciseCard({ exercise }){
+    const { _id, title, target } = exercise
+    console.log(_id)
+    const repBubbles = []
+    for (let x = 0; x < target.reps; x++){
+        repBubbles.push(<li key={"rep"+x} className="rep-bubble incomplete"></li>)
+    }
+
+
+    return (
+        <section className="exercise-card">
+            <p>Exercise: {title}</p>
+            <ul className="exercise-card-details">
+            {/* key="sets"
+key="reps"
+key="weight" */}
+                <li> Set: {target.sets} </li>
+                <li> Reps: {target.reps} </li>
+                <li> Weight: {target.weight} </li>
+            </ul>
+            <ul className="rep-bubbles-container">
+                {repBubbles}
+            </ul>
+            <button className="record-set">Record Set</button>
+        </section>
     )
 }
 
