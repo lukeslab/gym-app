@@ -1,3 +1,29 @@
+/*
+	-> Resets
+	-  App
+		-  Timer
+		-  Nav
+		-  View
+			-  Current Session
+				-  Timer
+				-  Set List
+					-  Set Card
+				-> Nav
+			-  Workouts
+				-  Timer
+				-  Workouts List
+					-  Workout Card
+				-  Nav
+			-  Exercises
+				-  Timer
+				-  Exercises List
+					-  Exercise Card
+				-  Nav
+*/
+* {
+	box-sizing: border-box;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -48,7 +74,46 @@ form {
 	display: inline;
 }
 
+/*
+	-  Resets
+	-> App
+		-  Timer
+		-  Nav
+		-  View
+			-  Current Session
+				-  Timer
+				-  Set List
+					-  Set Card
+				-  Nav
+			-  Workouts
+				-  Timer
+				-  Workouts List
+					-  Workout Card
+				-  Nav
+			-  Exercises
+				-  Timer
+				-  Exercises List
+					-  Exercise Card
+				-  Nav
+*/
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
 
+.app-component {
+	margin-bottom: 40px;
+}
+
+.error-message{
+	background-color: darkred;
+	color: white;
+	width: fit-content;
+	padding: 10px;
+	align-self: center;
+	margin-bottom: 15px;
+}
 /* edit workout */
 
 .edit-workout {
@@ -154,16 +219,140 @@ form {
 	
 }
 
-.error-message{
-	background-color: red;
-	padding: 10px;
-}
+
 
 /* Edit Exercise */
 
-/* CurrentSession */
+/*
+	-  Resets
+	-  App
+		-  Timer
+		-  Nav
+		-  View
+			-  Current Session
+				-  Timer
+				-> Set List
+					-  Set Card
+				-  Nav
+			-  Workouts
+				-  Timer
+				-  Workouts List
+					-  Workout Card
+				-  Nav
+			-  Exercises
+				-  Timer
+				-  Exercises List
+					-  Exercise Card
+				-  Nav
+*/
+.set-list {
+	width: 80vw;
+	margin: auto;
+	
+}
 
-.exercise-card{
+.set-list .banner.container {
+	flex-direction: row;
+	padding: 10px;
+	position: relative;
+	
+}
+
+.set-list .banner {
+	background-color:lightslategrey;
+	height: 50px;
+	width: 100%;
+	color: white;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 15px;
+}
+
+.set-list .banner::before {
+	display: block;
+	content: " ";
+	position: absolute;
+	left: 30px;
+	border: 10px solid lightslategrey;
+	border-left:20px solid white 
+
+}
+
+.set-list .expanded.banner::before{
+	transform: rotate(90deg);
+	top: 20px;
+}
+
+.set-list .current-set .banner::before {
+	display: none;
+}
+
+/*
+	-  Resets
+	-  App
+		-  Timer
+		-  Nav
+		-  View
+			-  Current Session
+				-> Timer
+				-  Set List
+				-  Nav
+			-  Workouts
+				-  Timer
+				-  Workouts List
+				-  Nav
+			-  Exercises
+				-  Timer
+				-  Exercises List
+				-  Nav
+*/
+/* Intentionally empty */
+
+/*
+	-  Resets
+	-> App
+		-  Timer
+		-  Nav
+		-  View
+			-  Current Session
+				-  Timer
+				-> Set List
+				-  Nav
+			-  Workouts
+				-  Timer
+				-  Workouts List
+				-  Nav
+			-  Exercises
+				-  Timer
+				-  Exercises List
+				-  Nav
+*/
+
+
+
+/*
+	-  Resets
+	-  App
+		-  Timer
+		-  Nav
+		-  View
+			-  Current Session
+				-  Timer
+				-  Set List
+					-> Set Card
+				-  Nav
+			-  Workouts
+				-  Timer
+				-  Workouts List
+					-  Workout Card
+				-  Nav
+			-  Exercises
+				-  Timer
+				-  Exercises List
+					-  Exercise Card
+				-  Nav
+*/
+.set-card{
 	border: 2px solid black;
 	display: flex;
 	flex-direction: column;
@@ -171,20 +360,20 @@ form {
 	padding: 15px 30px;
 }
 
-.exercise-card > * {
+.set-card > * {
 	margin-bottom: 10px
 }
 
-.exercise-card p {
+.set-card p {
 	width: fit-content
 }
 
 .rep-bubbles-container,
-.exercise-card-details {
+.set-card-details {
 	display: flex;
 }
 
-.exercise-card-details li{
+.set-card-details li{
 	/* need to add units to */
 	margin-right: 50px;
 
@@ -201,9 +390,10 @@ form {
 	background-color: red
 }
 
-.exercise-card button {
+.set-card button {
 	width: fit-content;
 	height: 20px;
 	background-color:skyblue;
 	border: 0;
 }
+

@@ -40,7 +40,7 @@ export default function Timer({timer, setTimer}){
     }
 
     return( 
-        <section className="timer" style={{
+        <section className="app-component timer" style={{
             display: display,
             flexDirection: 'column',
             textAlign: 'center'

@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 export default function Nav(){
     return (
-        <nav style={{
+        <nav className="app-component" style={{
             position: 'fixed',
             bottom: '0',
             left: '0',
