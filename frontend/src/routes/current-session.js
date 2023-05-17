@@ -30,13 +30,25 @@ export default function CurrentSession() {
 
 function SetList({exercises}){ 
     console.log("[debug on] Colating current session setlist: ", exercises)
-    const [ completedSets, setCompletedSets ] = useState([])
-    const [ currentSet, setCurrentSet ] = useState()
-    const [ nextSet, setNextSet ] = useState()
+    
+    // Determine the initial state for setList
+    const currentSet = []
+    const nextSet = []
+    exercises.forEach( (exercise, index) => {
+        const { _id, target:{ sets } } = exercise
+        console.log(exercise)
+        for (let set = 1; set <= sets; set++) {
+            if (set === 1 && index === 0) {
+                currentSet.push({exercise, set})
+            } else {
+                nextSet.push({exercise, set})
+            }
+        }
+    })
     const [ setList, setSetList ] = useState({
-        "completed-sets": [],
-        "current-set": [],
-        "next-set": []
+        "completed": [],
+        "current": currentSet,
+        "next": nextSet
     })
 
 
@@ -79,91 +91,65 @@ function SetList({exercises}){
             console.error(error, error.source)
         }
     }
-
-    // Display the set cards for those completed, current, and next.
     
-    useEffect(() => {
-        console.log('ifired')
-        const newSetList = {
-            "completed-sets": [],
-            "current-set": [],
-            "next-set": []
-        }
-
-        exercises.forEach( (exercise, index) => {
-            const { _id, target:{ sets } } = exercise
-            console.log(exercise)
-            for (let set = 1; set <= sets; set++) {
-                if (set === 1 && index === 0) newSetList["current-set"].push(<ExerciseCard key={ _id+set } exercise={exercise} set={set} setSetList={setSetList} setList={setList}/>)
-                else newSetList["next-set"].push( <ExerciseCard key={ _id+set } exercise={exercise} set={set} setSetList={setSetList} setList={setList}/> )
-            }
-        })
-
-        setSetList(newSetList)
-
-    }, [])
 
     console.log('this is setlist', setList)
     return (
         <section className="container set-list">
-            <div className="container completed-sets ">
+            <div className="container complete ">
                 <div onClick={e => toggleBannerState(e)} className="banner container">
-                    <span> Completed Sets </span>
+                    <span> Completed </span>
                 </div>
                 <ul>
-                    {setList["completed-sets"]}
+                    {setList["completed"].map( ({exercise, set}) => <SetCard key={exercise._id+set } exercise={exercise} set={set} setSetList={setSetList} setList={setList}/>)}
                 </ul>
             </div>
-            <div className="container current-set ">
+            <div className="container current ">
                 <div className="banner container"> 
-                    <span> Current Set </span>
+                    <span> Current </span>
                 </div>
                 <ul>
-                    {setList["current-set"]}
+                    {setList["current"].map( ({exercise, set}) => <SetCard key={exercise._id+set } exercise={exercise} set={set} setSetList={setSetList} setList={setList}/>)}
                 </ul>
             </div>
-            <div onClick={e => toggleBannerState(e)} className="container next-sets">
+            <div onClick={e => toggleBannerState(e)} className="container next">
                 <div className="expanded banner container">
-                    <span> Next Sets </span>
+                    <span> Next </span>
                 </div>
                 <ul>
-                    {setList["next-set"]}
+                    {setList["next"].map( ({exercise, set}) => <SetCard key={ exercise._id+set } exercise={exercise} set={set} setSetList={setSetList} setList={setList}/>)}
                 </ul>
             </div>
         </section>
     )
 }
 
-function ExerciseCard({ exercise, set, setSetList, setList }){
+function SetCard({ exercise, set, setSetList, setList }){
+    console.log(`[debug] Creating exercise card:`, exercise, set, setList)
     const { _id, title, target } = exercise
-    console.log(`[debug] Creating exercise card: ${title} ${set} ${_id}`)
-    console.log('whats up with setlist', setList)
+    
+    const [ setWasRecorded, setSetWasRecorded ] = useState(false)
+    
     const repBubbles = []
+
+    useEffect(() => {
+        console.log(setWasRecorded)
+    }, [setWasRecorded])
 
     function recordSet(e) {
         console.log(`[debug] Recording set...`, e)
-        const setCardElem = e.target.parentElement
-        const completedDate = new Date(Date.now())
+
+        setSetWasRecorded(true)
+
         try {
-            e.target.style.display = 'none';
 
-            const completedDateElem = document.createElement('span')
-            completedDateElem.innerText = `Completed on ${completedDate.toLocaleDateString()}`
-            setCardElem.append(completedDateElem)
+            const newCompletedSets = [...setList['completed'], ...setList['current']]
 
-            // update state
-            const newSetList = {
-                "completed-sets": [],
-                "current-set": {},
-                "next-set": []
-            }
-
-            console.log('thing here', setList)
-            newSetList['completed-sets'] = [...setList['current-set']]
-            newSetList['current-set'] = setList['next-set'][0]
-            newSetList['next-set']  = setList['next-set'].slice(2)
-            console.log('new set list',newSetList)
-            setSetList(newSetList)
+            setSetList(setList => ({
+                "completed": newCompletedSets,
+                "current": [setList['next'][0]],
+                "next": setList['next'].slice(1)
+            }))
             
         } catch (e) {
             console.error(e)
@@ -185,7 +171,7 @@ function ExerciseCard({ exercise, set, setSetList, setList }){
             <ul className="rep-bubbles-container">
                 {repBubbles}
             </ul>
-            <button onClick={e => recordSet(e)} className="record-set">Record Set</button>
+            {setWasRecorded ? (<span>Completed on {new Date(Date.now()).toLocaleDateString()}</span>) : (<button onClick={e => recordSet(e)} className="record-set">Record Set</button>)}
         </li>
     )
 }
