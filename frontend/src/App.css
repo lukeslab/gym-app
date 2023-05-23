@@ -268,22 +268,27 @@ form {
 	margin-bottom: 15px;
 }
 
-.set-list .banner::before {
+.set-list .banner .expand-state.collapsed::before {
 	display: block;
 	content: " ";
 	position: absolute;
 	left: 30px;
+	top: 17px;
 	border: 10px solid lightslategrey;
-	border-left:20px solid white 
-
+	border-left: 20px solid white 
 }
 
-.set-list .expanded.banner::before{
-	transform: rotate(90deg);
-	top: 20px;
+.set-list .banner .expand-state.expanded::before{
+	display: block;
+	content: " ";
+	position: absolute;
+	left: 30px;
+	top: 18px;
+	border: 10px solid lightslategrey;
+	border-top: 20px solid white 
 }
 
-.set-list .current-set .banner::before {
+.set-list .banner .expand-state.none::before {
 	display: none;
 }
 
