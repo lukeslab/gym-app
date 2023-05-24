@@ -84,6 +84,7 @@ function SetStatusBannerBucket (props){
     }
 
     function toggleBannerState(e){
+        if (e.target.classList.contains('expand-state')) return
         console.log('[debug on] Toggling banner state...', e)
         document?.querySelector('.error-message')?.remove()
         try {
@@ -116,7 +117,7 @@ function SetStatusBannerBucket (props){
             errorMessageElem.classList.add('error-message')
             errorMessageElem.innerText = error.message
             console.log(errorMessageElem)
-            e.target.parentElement.append(errorMessageElem)
+            document.querySelector(`.container.${expandState}`).append(errorMessageElem)
             console.error(error, error.source)
         }
     }
@@ -141,9 +142,7 @@ function SetCard(props){
     const { exercise, setNumber, setSetList, setList, status } = props
     const { _id, title, target } = exercise //apparently you cannot use this variable if you deconstruct them all together, I.E. exercise: { _ id, title, target }, ...  = props
     
-    const repBubbles = []
-
-    function recordSet(e) {
+    function recordSet(e,) {
         console.log(`[debug] Recording set...`, e)
            
         try {
@@ -170,32 +169,6 @@ function SetCard(props){
 
             })
             console.log("New set list: ", newSetList)
-
-            // // Find all existing completed sets.
-            // const completedSets = setList.filter( set => set.status === "completed" && true)
-            // console.log('completedSets: ', completedSets)
-
-            // // Find the current set
-            // const currentSet = setList.filter ( set => set.status === "current" && true )
-
-            // // Change the status of the current step from 'current' to 'completed'
-            // currentSet.status = "completed"
-
-            // // Add the current set to the END of Completed Sets
-            // completedSets.push(currentSet)
-
-            // // Find next sets
-            // const nextSets = setList.filter( set => set.status === "next" && true)
-
-            // nextSets[0].status = "current"
-            // // Make the first index of nextSets the new current set
-            // const newCurrentSet = nextSets[0]
-
-            // console.log('New Current Set: ', newCurrentSet)
-            
-            // console.log('New set list: ', updatedSetList)
-            
-            // Update the setlist with the completed set.
             setSetList(newSetList)
             
             
@@ -204,8 +177,38 @@ function SetCard(props){
         }
     }
 
+    const bubblesContainer = useRef()
+    function toggleRepBubbles(repBubbleEnteredIndex) {
+        if (bubblesConfirmed) return
+        resetRepBubbles()
+        
+        // When I mouse over index 3, 1 2 and 3 should light green
+        const repBubbles = bubblesContainer.current.children
+        const bubblesToFill = Object.values(repBubbles).slice(0, repBubbleEnteredIndex + 1)
+
+        bubblesToFill.forEach( bubble => bubble.style.background = "green" )
+    }
+    function resetRepBubbles(){
+        if (bubblesConfirmed) return
+        const repBubbles = Object.values(bubblesContainer.current.children)
+        console.log(repBubbles)
+        repBubbles.forEach( bubble => bubble.style.background = "red")
+    }
+
+    let bubblesConfirmed = false
+    function confirmRepBubbles() {
+        bubblesConfirmed = true
+    }
+
+    const repBubbles = []
     for (let x = 0; x < target.reps; x++){
-        repBubbles.push(<li key={"rep"+x} className="rep-bubble incomplete"></li>)
+        repBubbles.push(
+            <li onMouseEnter={() => toggleRepBubbles(x)}
+                onClick={confirmRepBubbles} 
+                key={"rep"+x} 
+                className="rep-bubble incomplete">
+            </li>
+        )
     }
 
     return (
@@ -216,7 +219,9 @@ function SetCard(props){
                 <li> Reps: {target.reps} </li>
                 <li> Weight: {target.weight} </li>
             </ul>
-            <ul className="rep-bubbles-container">
+            <ul ref={bubblesContainer} 
+                onMouseLeave={resetRepBubbles}
+                className="rep-bubbles-container">
                 {repBubbles}
             </ul>
             {status === "completed" ? (<span>Completed on {new Date(Date.now()).toLocaleDateString()}</span>) : (<button onClick={e => recordSet(e)} className="record-set">Record set</button>)}
