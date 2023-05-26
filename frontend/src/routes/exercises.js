@@ -26,19 +26,8 @@ export default function Exercises() {
     }, [])
     
     return (
-        <section className="" style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            marginTop: '50px'
-        }}>
-            <h1 style={{
-                fontSize: '30px', 
-                textTransform: 'uppercase', 
-                fontFamily:'sans-serif'
-            }}>
-                My Exercises
-            </h1>
+        <section className="my-exercises">
+            <h1> My Exercises </h1>
             <ExerciseList exercisesData={exercises}/>   
         </section>
     )
@@ -49,42 +38,28 @@ export function ExerciseList({exercisesData, workoutId, exercisesToList, setExer
     // manipulate the exercisesData here to exclude those already showing in edit workout, but should show all when on the /exercises route
     
     return (
-        <>
-            <ul style={{ marginTop: '50px', padding: 0}}>
-                {exercisesData.length ? exercisesData.map((exercise, index) => {
-                    return(
-                        <li style={{
-                            border: '1px solid black',
-                            padding: '10px 30px',
-                            marginTop: '10px',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                        }} key={index}>
-                            <Exercise 
-                                exerciseId={exercise.id} 
-                                title={exercise.title}
-                                workoutId={workoutId}
-                                exercisesToList={exercisesToList}
-                                setExercisesToList={setExercisesToList}
-                                />
-                        </li>
-                    )
-                }): <p>You have no exercises! Add some!</p>}
-                <li style={{
-                    border: '1px solid black',
-                    padding: '10px 30px',
-                    marginTop: '10px',
-                    backgroundColor: 'limegreen',
-                    textAlign: 'center'
-                }}>
-                    <Link style={{textDecoration:'none', color: 'black'}}to="./create-exercise">
-                        new exercise 
-                        <span style={{marginLeft: '10px', padding: '2px 5px', borderRadius: '50px', border: '1px solid black'}}>+</span>
-                    </Link>
-                </li>
-            </ul>
-        </>
+        <ul className="exercise-list">
+            {exercisesData.length ? 
+            
+            exercisesData.map((exercise, index) => {
+                return(
+                    <li className={`exercise ${exercise}`}>
+                        <Exercise   exerciseId={exercise.id} 
+                                    title={exercise.title}
+                                    workoutId={workoutId}
+                                    exercisesToList={exercisesToList}
+                                    setExercisesToList={setExercisesToList}
+                        />
+                    </li>
+                )
+            }) : <p className="no-exercises"> You have no exercises! Add some!</p>}
+            <li className="create-exercise">
+                <Link to="./create-exercise">
+                    new exercise 
+                    <span> + </span>
+                </Link>
+            </li>
+        </ul>
     )
 }
 
@@ -108,24 +83,18 @@ function Exercise({exerciseId, title, workoutId, exercisesToList, setExercisesTo
     return (
         <>
             <span>{title}</span>
-            <div style={{marginLeft: '20px'}}>
-                <button style={{
-                    marginLeft: '20px',
-                    backgroundColor: 'white',
-                    border: 'none',
-                    cursor: 'pointer',
-                }}>
-                    <Link style={{textDecoration: 'none'}}to={`/exercises/edit-exercise/${exerciseId}`}>Edit</Link>
+            <div>
+                <button>
+                    <Link>Edit</Link>
                 </button>
-                {
-                    location.pathname.includes('/edit-workout/') && 
-                        // <Form method="post" action={`/edit-workout/${workoutId}`}>
-                        <>
-                            <button data-id={exerciseId} onClick={addExerciseToExercisesToList}>Add</button>
-                            {/* <input type="hidden" name="exerciseId" value={exerciseId} />
-                            <input type="hidden" name="workoutId" value={workoutId} /> */}
-                        </>
-                        // </Form>
+                {location.pathname.includes('/edit-workout/') && 
+                    // <Form method="post" action={`/edit-workout/${workoutId}`}>
+                <>
+                    <button data-id={exerciseId} onClick={addExerciseToExercisesToList}>Add</button>
+                    {/* <input type="hidden" name="exerciseId" value={exerciseId} />
+                    <input type="hidden" name="workoutId" value={workoutId} /> */}
+                </>
+                // </Form>
                 }
             </div>
         </>

@@ -27,35 +27,12 @@ export default function OverwriteAlert(){
     }
 
     return (
-        <section className="overwrite-alert" style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh'
-        }}>
-            <h2 style={{fontSize: '30px', width: '90%', textAlign: 'center'}}>Session is already active.</h2> 
-            <p style={{fontSize: '25px', marginTop: '20px'}}>Would you like to start a new one?</p>
-            <div style={{
-                marginTop: '40px',
-                width: '300px',
-                display: 'flex',
-                justifyContent: 'space-around'
-            }}>
-                <button style={{
-                    fontSize: '20px', 
-                    backgroundColor: 'limegreen', 
-                    border: 'none', 
-                    padding: '10px 20px',
-                    cursor: "pointer"
-                }} onClick={overwriteCurrentSession}>Yes</button>
-                <button style={{
-                    fontSize: '20px', 
-                    backgroundColor: 'red', 
-                    border: 'none', 
-                    padding: '10px 20px',
-                    cursor: 'pointer'
-                }} onClick={returnToWorkouts}>No</button> 
+        <section className="overwrite-alert">
+            <h2>Session is already active.</h2> 
+            <p>Would you like to start a new one?</p>
+            <div>
+                <button onClick={overwriteCurrentSession}>Yes</button>
+                <button onClick={returnToWorkouts}>No</button> 
             </div>
         </section> 
     )

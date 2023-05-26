@@ -60,9 +60,7 @@ export default function CreateWorkout () {
         <div className="create-workout">
             {
             serverResponse?.message && 
-                <span 
-                    className={serverResponse.ok ? "success-message" : "error-message"}
-                >
+                <span className={serverResponse.ok ? "success-message" : "error-message"}>
                     {serverResponse.message}
                 </span>
             }

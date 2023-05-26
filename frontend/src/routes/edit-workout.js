@@ -102,11 +102,11 @@ function ExerciseList({exercisesToList, setExercisesToList}){
                 })}
                 <li className="add-exercise">
                     {isAddingExercise ? 
-                    <AllExercises 
-                        exercisesData={addExerciseList} 
-                        workoutId={workoutId}
-                        exercisesToList={exercisesToList}
-                        setExercisesToList={setExercisesToList}    
+
+                    <AllExercises   exercisesData={addExerciseList} 
+                                    workoutId={workoutId}
+                                    exercisesToList={exercisesToList}
+                                    setExercisesToList={setExercisesToList}    
                     /> : <a onClick={addExercise}>Add Exercise <span>+</span></a>}
                 </li>
             </ul>
