@@ -47,58 +47,35 @@ export default function Workouts() {
         if (toDisplay) toDisplay.style.display = 'none';
     }, [])
     
-    return <WorkoutList currentSession={currentSession} workoutsData={workouts}/>   
+    return (
+        <section className="list-container my-workouts">
+            <h1> My Workouts </h1>
+            <WorkoutList currentSession={currentSession} workoutsData={workouts}/>   
+        </section>
+    )
 }
 
 function WorkoutList({currentSession, workoutsData}){
     // console.log("from workoutlist: ",workoutsData)
     return (
-        <section className="" style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            marginTop: '50px'
-        }}>
-            <h1 style={{
-                fontSize: '30px', 
-                textTransform: 'uppercase', 
-                fontFamily:'sans-serif'
-            }}>
-                My Workouts
-            </h1>
-            <ul style={{ marginTop: '50px', padding: 0}}>
-                {workoutsData.length ? workoutsData.map((workout, index) => {
-                    return(
-                        <li style={{
-                            border: '1px solid black',
-                            padding: '10px 30px',
-                            marginTop: '10px',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                        }} key={index}>
-                            <Workout 
-                                id={workout.id} 
-                                title={workout.title} 
-                                currentSession={currentSession} 
-                             />
-                        </li>
-                    )
-                }): <p>You have no workouts! Add some!</p>}
-                <li style={{
-                    border: '1px solid black',
-                    padding: '10px 30px',
-                    marginTop: '10px',
-                    backgroundColor: 'limegreen',
-                    textAlign: 'center'
-                }}>
-                    <Link style={{textDecoration:'none', color: 'black'}}to="./create-workout">
-                        new workout 
-                        <span style={{marginLeft: '10px', padding: '2px 5px', borderRadius: '50px', border: '1px solid black'}}>+</span>
-                    </Link>
-                </li>
-            </ul>
-        </section>
+        <ul className="list workouts-list">
+            {workoutsData.length ? workoutsData.map((workout, index) => {
+                return(
+                    <li className={`list-item workout ${workout}`} key={index}>
+                        <Workout
+                            id={workout.id} 
+                            title={workout.title} 
+                            currentSession={currentSession} 
+                            />
+                    </li>
+                )
+            }): <p className="no-workouts"> You have no workouts! Add some! </p>}
+            <li className="list-item new-button new-workout">
+                <Link to="./create-workout">
+                    new workout <span> + </span>
+                </Link>
+            </li>
+        </ul>
     )
 }
 
@@ -106,40 +83,14 @@ function Workout({id, title}){
     return (
         <>
             <span>{title}</span>
-            <div style={{marginLeft: '20px'}}>
-                <Form
-                    action="." 
-                    method="post" 
-                    style={{display: 'inline'}}
-                >
-                    <input 
-                        type="hidden"
-                        name="title"
-                        defaultValue={encodeURIComponent(title)}
-                    />
-                    <input 
-                        type="hidden"
-                        name="id"
-                        defaultValue={id}
-                    />
-                    <button 
-                        type="submit" 
-                        style={{
-                            marginLeft: '20px',
-                            backgroundColor: 'white',
-                            border: 'none',
-                            cursor: 'pointer'
-                    }}>
-                        Start
-                    </button>
+            <div>
+                <Form action="." method="post">
+                    <input type="hidden" name="title" defaultValue={encodeURIComponent(title)} />
+                    <input type="hidden" name="id" defaultValue={id} />
+                    <button type="submit"> Start </button>
                 </Form>
-                <button style={{
-                    marginLeft: '20px',
-                    backgroundColor: 'white',
-                    border: 'none',
-                    cursor: 'pointer',
-                }}>
-                    <Link style={{textDecoration: 'none'}}to={`./edit-workout/${id}`}>Edit</Link>
+                <button>
+                    <Link to={`./edit-workout/${id}`}> Edit </Link>
                 </button>
             </div>
         </>

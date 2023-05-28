@@ -23,7 +23,10 @@
 * {
 	box-sizing: border-box;
 }
-
+a {
+	text-decoration: none;
+	color: black;
+}
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -114,6 +117,7 @@ form {
 	align-self: center;
 	margin-bottom: 15px;
 }
+
 /* edit workout */
 
 .edit-workout {
@@ -140,88 +144,12 @@ form {
 	font-size: 24px;
 }
 
-.exercise-list {
-	width: 70%;
-}
-
-.exercise-list h2 {
-	margin-top: 20px;
-	align-self: flex-start;
-}
-
-.exercise-list li {
-	margin-top: 20px;
-	border: 1px solid black;
-	padding: 10px;
-}
-
-.exercise-list li * {
-	margin-top: 5px;
-}
-
-.exercise-list ul section div{
-	display: flex;
-	justify-content: space-between;
-}
-
-.exercise-list ul section div:first-child {
-	font-weight: bold;
-}
-
-.exercise-list .add-exercise {
-	text-align: center;
-	padding: 30px;
-}
-
-.add-exercise ul {
-	margin: 0 !important;
-}
-
-.add-exercise a {
-	cursor: pointer;
-	display: block;
-	margin:0;
-	padding: 10px;
-	background-color: limegreen;
-}
-
-.add-exercise a span {
-	padding: 2px 5px;
-	border: 1px solid black;
-	border-radius: 50px;
-	margin-left: 10px;
-}
-
-/* Create Workout */
-.create-workout, .edit-exercise {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-top: 100px;
-}
-
-.create-workout h1 {
-	font-size: 30px;
-}
-
-.create-workout .add-exercise {
-	cursor: pointer;
-	border: 1px solid black;
-	padding: 10px 30px;
-	margin-top: 10px;
-	background-color: limegreen;
-	text-align: center;
-}
-
 .success-message {
 	background-color: limegreen;
 	padding: 10px;
 	
 }
 
-
-
-/* Edit Exercise */
 
 /*
 	-  Resets
@@ -400,5 +328,69 @@ form {
 	height: 20px;
 	background-color:skyblue;
 	border: 0;
+}
+
+
+/* routes/workouts.js */
+/* routes/exercises.js */
+
+.list-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 50px;
+}
+
+.list-container h1 {
+	font-size: 30px;
+	text-transform: uppercase;
+	font-family: sans-serif
+}
+
+.list{
+	margin-top: 50px;
+	padding: 0;
+}
+
+.list li {
+	border: 1px solid black;
+	padding: 10px 30px;
+	margin-top: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.new-button {
+	background: limegreen;
+	text-align: center;
+}
+
+.new-button span {
+	margin-left: 10px;
+	padding: 2px 5px;
+	border-radius: 50px;
+	border: 1px solid black;
+}
+
+/* components/Workout.js */
+
+.list-item div{
+	margin-left: 20px;
+}
+
+.list-item button {
+	margin-left: 20px;
+	background-color: white;
+	border: none;
+	cursor: pointer;
+}
+
+.new-button a {
+	margin: auto;
+}
+
+.list-item form {
+	display: inline;
 }
 

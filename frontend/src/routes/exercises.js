@@ -26,7 +26,7 @@ export default function Exercises() {
     }, [])
     
     return (
-        <section className="my-exercises">
+        <section className="list-container my-exercises">
             <h1> My Exercises </h1>
             <ExerciseList exercisesData={exercises}/>   
         </section>
@@ -38,12 +38,12 @@ export function ExerciseList({exercisesData, workoutId, exercisesToList, setExer
     // manipulate the exercisesData here to exclude those already showing in edit workout, but should show all when on the /exercises route
     
     return (
-        <ul className="exercise-list">
+        <ul className="list exercise-list">
             {exercisesData.length ? 
             
             exercisesData.map((exercise, index) => {
                 return(
-                    <li className={`exercise ${exercise}`}>
+                    <li key={index} className={`list-item exercise ${exercise}`}>
                         <Exercise   exerciseId={exercise.id} 
                                     title={exercise.title}
                                     workoutId={workoutId}
@@ -53,10 +53,9 @@ export function ExerciseList({exercisesData, workoutId, exercisesToList, setExer
                     </li>
                 )
             }) : <p className="no-exercises"> You have no exercises! Add some!</p>}
-            <li className="create-exercise">
+            <li className="list-item new-button new-exercise">
                 <Link to="./create-exercise">
-                    new exercise 
-                    <span> + </span>
+                    new exercise <span> + </span>
                 </Link>
             </li>
         </ul>
@@ -85,7 +84,7 @@ function Exercise({exerciseId, title, workoutId, exercisesToList, setExercisesTo
             <span>{title}</span>
             <div>
                 <button>
-                    <Link>Edit</Link>
+                    <Link to={`/exercises/edit-exercise/${exerciseId}`}>Edit</Link>
                 </button>
                 {location.pathname.includes('/edit-workout/') && 
                     // <Form method="post" action={`/edit-workout/${workoutId}`}>
