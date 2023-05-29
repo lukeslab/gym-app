@@ -373,7 +373,8 @@ form {
 	border: 1px solid black;
 }
 
-/* components/Workout.js */
+/*  */
+/*  */
 
 .list-item div{
 	margin-left: 20px;
@@ -394,3 +395,42 @@ form {
 	display: inline;
 }
 
+/* routes/overwrite-session.js */
+
+.overwrite-alert{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.overwrite-alert h2 {
+	font-size: 30px;
+	width: 90%;
+	text-align: center;
+}
+
+.overwrite-alert p {
+	font-size: 25px;
+	margin-top: 20px;
+}
+
+.overwrite-alert div {
+	margin-top: 40px;
+	width: 300px;
+	display: flex;
+	justify-content: space-around;
+}
+
+.overwrite-alert button {
+	font-size: 20px;
+	border: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	background-color: rgb(232, 96, 96);
+}
+
+.overwrite-alert button:first-of-type {
+	background-color: rgb(88, 185, 88);
+}
