@@ -87,11 +87,9 @@ function Exercise({exerciseId, title, workoutId, exercisesToList, setExercisesTo
                     <Link to={`/exercises/edit-exercise/${exerciseId}`}>Edit</Link>
                 </button>
                 {location.pathname.includes('/edit-workout/') && 
-                    // <Form method="post" action={`/edit-workout/${workoutId}`}>
                 <>
                     <button data-id={exerciseId} onClick={addExerciseToExercisesToList}>Add</button>
-                    {/* <input type="hidden" name="exerciseId" value={exerciseId} />
-                    <input type="hidden" name="workoutId" value={workoutId} /> */}
+             
                 </>
                 // </Form>
                 }
