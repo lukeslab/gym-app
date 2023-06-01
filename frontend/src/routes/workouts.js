@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
-import { Link, useLoaderData, Form, redirect } from 'react-router-dom';
-import MainCardList from '../components/MainCardList';
+import { useLoaderData, redirect } from 'react-router-dom';
 import { getCurrentSession, setCurrentSession, getUserWorkouts } from '../functions'
+
+import MainCardList from '../components/MainCardList';
 
 export async function action({request}){
     const formData = await request.formData();
-    const {title, id} = getCurrentSession();
+    const { title } = getCurrentSession();
 
     const newSession = Object.fromEntries(formData)
     const {title:newTitle, id:newId} = newSession
@@ -28,7 +29,7 @@ export async function loader(){
     
     // why is workouts a promise if a.) it is put into an array, and b.) workouts is not awaited?
     const loaderData = [workouts, currentSession]
-    console.log("Loader data: ", loaderData)
+    console.log("routes/workouts.js Loader data: ", loaderData)
 
     return loaderData;
 }

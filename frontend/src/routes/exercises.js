@@ -1,18 +1,15 @@
-import React, {useEffect} from 'react';
-import {
-    Link,
-    useLoaderData,
-    useLocation,
-    Form
-} from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Link, useLoaderData, useLocation } from 'react-router-dom'
 import { getCurrentSession, getAllExercises } from '../functions'
+
+import MainCardList from '../components/MainCardList'
 
 export async function loader(){
     const loaderData = {
         currentSession: getCurrentSession(),
         exercises: await getAllExercises() 
     }
-
+    console.log('exercises.js loader: ', loaderData)
     return loaderData;
 }
 
@@ -28,72 +25,10 @@ export default function Exercises() {
     return (
         <section className="list-container my-exercises">
             <h1> My Exercises </h1>
-            <ExerciseList exercisesData={exercises}/>   
+            <MainCardList   type="exercise"
+                            data={exercises}
+                            options={{}}
+            />   
         </section>
-    )
-}
-
-export function ExerciseList({exercisesData, workoutId, exercisesToList, setExercisesToList}){
-
-    // manipulate the exercisesData here to exclude those already showing in edit workout, but should show all when on the /exercises route
-    
-    return (
-        <ul className="list exercise-list">
-            {exercisesData.length ? 
-            
-            exercisesData.map((exercise, index) => {
-                return(
-                    <li key={index} className={`list-item exercise ${exercise}`}>
-                        <Exercise   exerciseId={exercise.id} 
-                                    title={exercise.title}
-                                    workoutId={workoutId}
-                                    exercisesToList={exercisesToList}
-                                    setExercisesToList={setExercisesToList}
-                        />
-                    </li>
-                )
-            }) : <p className="no-exercises"> You have no exercises! Add some!</p>}
-            <li className="list-item new-button new-exercise">
-                <Link to="./create-exercise">
-                    new exercise <span> + </span>
-                </Link>
-            </li>
-        </ul>
-    )
-}
-
-function Exercise({exerciseId, title, workoutId, exercisesToList, setExercisesToList}){
-    //We need to pass location to AllExercises component in order to determine certain options, such as 'add to workout button'.
-    const location = useLocation();
-    console.log('In Exercise component:', workoutId)
-
-    async function addExerciseToExercisesToList(e){
-        const exerciseId = e.target.getAttribute('data-id')
-        
-        const response = await fetch(`/exercises/${exerciseId}`)
-        const exercise = await response.json()
-
-        setExercisesToList([
-            ...exercisesToList,
-            exercise
-        ])
-    }
-
-    return (
-        <>
-            <span>{title}</span>
-            <div>
-                <button>
-                    <Link to={`/exercises/edit-exercise/${exerciseId}`}>Edit</Link>
-                </button>
-                {location.pathname.includes('/edit-workout/') && 
-                <>
-                    <button data-id={exerciseId} onClick={addExerciseToExercisesToList}>Add</button>
-             
-                </>
-                // </Form>
-                }
-            </div>
-        </>
     )
 }

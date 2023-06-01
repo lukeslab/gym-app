@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export function MainCardList(props){
     const { type, data, options } = props
-    console.log(`[debug]: MainCardList type: ${type}, data: ${data}, options: ${options}`)
+    console.log("[debug]: MainCardList type:", type, "data: ", data, "options:", options)
 
     return (
         <ul className="list workouts-list">
@@ -15,9 +15,8 @@ export function MainCardList(props){
                     <li className={`list-item ${type} ${data.title}`} key={index}>
                         <MainCard   type={type}
                                     data={workout}
-                                    options={options.currentSession}
+                                    options={options}
                         />
-
                     </li>
                 )
             }) : <p className="no-workouts"> You have no workouts! Add some! </p>}

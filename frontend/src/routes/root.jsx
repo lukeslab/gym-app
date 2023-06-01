@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Outlet, redirect } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { getCurrentSession, setCurrentSession } from "../functions";
+
 import Timer from "../components/Timer";
 import Nav from "../components/Nav";
-import { getCurrentSession, setCurrentSession } from "../functions";
+
 const initialSession = {
     title: null, 
     id: null
