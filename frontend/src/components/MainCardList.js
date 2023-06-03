@@ -7,7 +7,7 @@ export function MainCardList(props){
     console.log("[debug]: MainCardList type:", type, "data: ", data, "options:", options)
 
     return (
-        <ul className="list workouts-list">
+        <ul className={`list ${type}-list`}>
             {data.length ? 
             
             data.map((workout, index) => {
@@ -19,9 +19,9 @@ export function MainCardList(props){
                         />
                     </li>
                 )
-            }) : <p className="no-workouts"> You have no workouts! Add some! </p>}
-            <li className="list-item new-button new-workout">
-                <Link to="./create-workout"> new workout <span> + </span> </Link>
+            }) : <p className={`no-${type}`}> You have no {type}! Add some! </p>}
+            <li className={`list-item new-button new-${type}`}>
+                <Link to={`./create-${type}`}> new {type} <span> + </span> </Link>
             </li>
         </ul>
     )

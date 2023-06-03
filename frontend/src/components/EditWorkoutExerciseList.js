@@ -46,7 +46,7 @@ export function EditWorkoutExerciseList(props){
                 {exercisesToList.map( (exercise, index) => {
                     return (
                         <li key={index} data-id={exercise._id}>
-                            <EditExerciseCard exercise={exercise}/>
+                            <EditExerciseCard   exercise={exercise} />
                             <button onClick={removeExercise}>Delete</button>
                         </li>
                     )
@@ -57,7 +57,7 @@ export function EditWorkoutExerciseList(props){
                     <MainCardList   type="exercise"
                                     data={addExerciseList}
                                     options={{
-                                        workoutId,
+                                        "enableAddButton": true,
                                         exercisesToList,
                                         setExercisesToList
                                     }}   

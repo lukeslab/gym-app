@@ -28,11 +28,13 @@ export function MainCard(props){
                     <input type="hidden" name="id" defaultValue={data.id} />
                     <button type="submit"> Start </button>
                 </Form>}
+                
                 <button>
                     <Link to={`./edit-${type}/${data.id}`}> Edit </Link>
                 </button>
                 
-                {options.workoutId &&
+                {type === "exercise" &&
+                options?.enableAddButton &&
 
                 <button data-id={data._id} onClick={addExerciseToWorkoutExercises}>Add</button>}
             </div>

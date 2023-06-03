@@ -58,32 +58,30 @@ export default function CreateWorkout () {
 
     return (
         <div className="create-workout">
-            {
-            serverResponse?.message && 
-                <span className={serverResponse.ok ? "success-message" : "error-message"}>
-                    {serverResponse.message}
-                </span>
-            }
+            {serverResponse?.message && 
+
+            <span className={serverResponse.ok ? "success-message" : "error-message"}>
+                {serverResponse.message}
+            </span>}
             <h1>Create Workout</h1>
             <label>
                 Title:
                 <input className="title" type="text" ref={title}></input>
             </label>
             <ul className="exercises">
-                {exercises && exercises.map((exercise, index) => {
-                    return (
-                        <li key={index}>{exercise}</li>
-                    )
-                })}
-                 <li className="add-exercise">
-                    {isAddingExercise ? <><input></input><button onClick={addExercise}>Done</button></> : <span onClick={showTextInput}>Add exercise <span>+</span></span>}
+                {exercises && 
+                
+                exercises.map((exercise, index) => <li key={index}>{exercise}</li> )}
+                <li className="add-exercise">
+                    {isAddingExercise ? 
+                    
+                    <>
+                        <input></input>
+                        <button onClick={addExercise}>Done</button>
+                    </> : <span onClick={showTextInput}>Add exercise <span>+</span></span>}
                 </li>
             </ul>
-            <button 
-                onClick={createWorkout}
-                disabled={createButtonIsDisabled}
-            >Create
-            </button>
+            <button onClick={createWorkout} disabled={createButtonIsDisabled}>Create</button>
             <Link to="/">
                 <button>Cancel</button>
             </Link>

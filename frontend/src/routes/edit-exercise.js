@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLoaderData, Link } from 'react-router-dom';
 import { useState } from 'react';
+import ExerciseDetails from '../components/ExerciseDetails';
 
 export async function loader({ params }){
     const { id } = params;
@@ -22,37 +23,10 @@ export default function EditExercise () {
     return (
         <div className="edit-exercise">
             <h1>Edit Exercise</h1>
-            <label>
-                Title:
-                <input type="text" value={title} onChange={handleOnChange}></input>
-            </label>
-            <Exercise exercise={exercise}/>
+            <ExerciseDetails type="edit" data={{title}} options={{}}/>
             <Link to="../exercises">Cancel</Link>
             <Link to="../">Save</Link>
         </div>
-    )
-}
-
-function Exercise({exercise}){
-
-    return(
-        <section>
-            <div className="exercise-name">
-                <span>{exercise?.title}</span>
-            </div>
-            <div className="exercise-sets">
-                <span>Sets</span>
-                <input type="text" defaultValue={exercise?.sets}/>
-            </div>
-            <div className="exercise-reps">
-                <span>Reps</span>
-                <input type="text" defaultValue={exercise?.reps}/>
-            </div>
-            <div className="exercise-weight">
-                <span>Weight</span>
-                <input type="text" defaultValue={exercise?.weight}/>
-            </div>
-        </section>
     )
 }
 
