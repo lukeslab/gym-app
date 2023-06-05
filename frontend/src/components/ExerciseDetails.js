@@ -4,6 +4,16 @@ function ExerciseDetails(props) {
     const { type, data, options } = props
     console.log("[debug]: ExerciseDetails type:", type, "data: ", data, "options:", options)
 
+    switch(type){
+        case 'edit': 
+
+        break;
+
+        case 'create':
+
+        break
+    }
+
     return   ( 
         <section className="exercise-details">
             <div className="exercise-title">
@@ -24,15 +34,15 @@ function ExerciseDetails(props) {
             </div>
             <div className="exercise-sets">
                 <span>Sets:</span>
-                <input type="number" name="sets"/>
+                <input type="number" name="sets" defaultValue={type === 'edit' && data.target.sets}/>
             </div>
             <div className="exercise-reps">
                 <span>Reps:</span>
-                <input type="number" name="reps"/>
+                <input type="number" name="reps" defaultValue={type === 'edit' && data.target.reps} />
             </div>
             <div className="exercise-weight">
                 <span>Weight:</span>
-                <input type="number" name="weight"/>
+                <input type="number" name="weight" defaultValue={type === 'edit' && data.target.reps}/>
             </div>
         </section>
     )

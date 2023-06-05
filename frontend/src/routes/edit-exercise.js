@@ -23,7 +23,7 @@ export default function EditExercise () {
     return (
         <div className="edit-exercise">
             <h1>Edit Exercise</h1>
-            <ExerciseDetails type="edit" data={{title}} options={{}}/>
+            <ExerciseDetails type="edit" data={exercise} options={{}}/>
             <Link to="../exercises">Cancel</Link>
             <Link to="../">Save</Link>
         </div>
