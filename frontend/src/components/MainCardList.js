@@ -10,14 +10,12 @@ export function MainCardList(props){
         <ul className={`list ${type}-list`}>
             {data.length ? 
             
-            data.map((workout, index) => {
+            data.map((listItem, index) => {
                 return(
-                    <li className={`list-item ${type} ${data.title}`} key={index}>
-                        <MainCard   type={type}
-                                    data={workout}
-                                    options={options}
-                        />
-                    </li>
+                    <MainCard   type={type}
+                                data={{listItem, index}}
+                                options={options}
+                    />
                 )
             }) : <p className={`no-${type}`}> You have no {type}! Add some! </p>}
             <li className={`list-item new-button new-${type}`}>

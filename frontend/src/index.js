@@ -67,7 +67,7 @@ const router = createBrowserRouter([
         loader: exerciseLoader,
       },
       {
-        path: "/exercises/edit-exercise/:id",
+        path: "/edit-exercise/:id",
         element: <EditExercise />,
         loader: editExerciseLoader
       },

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLoaderData, Link } from 'react-router-dom';
 
-import EditWorkoutExerciseList from '../components/EditWorkoutExerciseList';
+import WorkoutDetails from '../components/WorkoutDetails';
 
 export async function loader({ params }){
     const { id } = params;
@@ -15,8 +15,10 @@ export async function loader({ params }){
 }
 
 export default function EditWorkout() {
-    const { id, workout: { title, exercises } } = useLoaderData()
-    const [ exercisesToList, setExercisesToList ] = useState([ ...exercises ])
+    const { id, workout } = useLoaderData()
+    const { title } = workout
+    console.log(workout)
+    const [ exercises, setExercises ] = useState(workout.exercises)
     
     const [ newTitle, setTitle ] = useState(title);
 
@@ -32,7 +34,7 @@ export default function EditWorkout() {
             },
             body: JSON.stringify({
                 id: id,
-                updatedExercises: exercisesToList
+                updatedExercises: exercises
             })
         }
         const response = await fetch('/workouts', options)
@@ -43,14 +45,9 @@ export default function EditWorkout() {
     return (
         <div className="edit-workout">
             <h1>Edit Workout</h1>
-            <label>
-                Title:
-                <input type="text" value={title} onChange={handleOnChange}></input>
-            </label>
-            <EditWorkoutExerciseList
-                exercisesToList={exercisesToList}
-                setExercisesToList={setExercisesToList}
-                workoutId={id}
+            <WorkoutDetails     type="edit" 
+                                data={{workout, exercises}} 
+                                options={{setExercises, setTitle}} 
             />
             <Link to="../">Cancel</Link>
             <Link to="../" onClick={saveChanges}>Save</Link>

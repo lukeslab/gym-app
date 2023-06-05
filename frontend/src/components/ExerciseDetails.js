@@ -4,16 +4,6 @@ function ExerciseDetails(props) {
     const { type, data, options } = props
     console.log("[debug]: ExerciseDetails type:", type, "data: ", data, "options:", options)
 
-    switch(type){
-        case 'edit': 
-
-        break;
-
-        case 'create':
-
-        break
-    }
-
     return   ( 
         <section className="exercise-details">
             <div className="exercise-title">
