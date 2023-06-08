@@ -3,7 +3,7 @@ import { Form, Link } from "react-router-dom"
 
 export function MainCard(props){
     const { type, data, options } = props
-    console.log("[debug]: MainCard type:", type, "data: ", data, "options:", options)
+    console.log("[debug]: MainCard props:", props)
     
     async function addExerciseToWorkout(e){
         console.log('addExerciseToWorkout event: ', e)

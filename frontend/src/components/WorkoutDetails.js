@@ -6,7 +6,7 @@ import ExerciseDetails from "./ExerciseDetails";
 
 export function WorkoutDetails(props){
     const { type, data, options } = props
-    console.log("[debug]: WorkoutDetails type:", type, "data: ", data, "options:", options)
+    console.log("[debug]: WorkoutDetails props:", props)
 
     const [ isAddingExercise, setIsAddingExercise ] = useState(false);
     const fetcher = useFetcher()

@@ -19,12 +19,6 @@ export default function EditWorkout() {
     const { title } = workout
     console.log(workout)
     const [ exercises, setExercises ] = useState(workout.exercises)
-    
-    const [ newTitle, setTitle ] = useState(title);
-
-    function handleOnChange(e){
-        setTitle(e.target.value);
-    }
 
     async function saveChanges(e) {
         const options = {
@@ -47,7 +41,7 @@ export default function EditWorkout() {
             <h1>Edit Workout</h1>
             <WorkoutDetails     type="edit" 
                                 data={{workout, exercises}} 
-                                options={{setExercises, setTitle}} 
+                                options={{setExercises}} 
             />
             <Link to="../">Cancel</Link>
             <Link to="../" onClick={saveChanges}>Save</Link>

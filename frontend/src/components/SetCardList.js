@@ -9,8 +9,8 @@ function SetCardList(props){
 
     //create set list
     exercises.forEach( (exercise, index) => {
-        const { _id, target:{ sets } } = exercise
-        console.log(exercise)
+        const { target:{ sets } } = exercise
+
         for (let setNumber = 1; setNumber <= sets; setNumber++) {
             if (setNumber === 1 && index === 0) {
                 defaultSetList.push({exercise, setNumber, status:"current"})
@@ -21,12 +21,7 @@ function SetCardList(props){
     })
     
     const [ setList, setSetList ] = useState(defaultSetList)
-    
-
-    // Create a library of easy-to-read functions such as isFirst() ... i'll come back
-
   
-
     const SetStatusBannerBucketProps = {
         setList,
         setSetList,

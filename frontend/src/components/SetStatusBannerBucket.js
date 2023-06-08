@@ -2,12 +2,11 @@ import React from "react";
 import SetCard from "./SetCard";
 
 function SetStatusBannerBucket (props){
-    console.log("Set Status Banner Bucket Props: ", props)
-    const { children, expandState } = props;
-    const status = children[0].toLowerCase() + children.slice(1)
+    console.log("[debug]: SetStatusBannerBucket Props: ", props)
+    const { children, expandState, setList, setSetList } = props;
 
-    const { setList, setSetList } = props;
-    const setsByStatus = setList.filter( set => set.status === status)
+    const status = children[0].toLowerCase() + children.slice(1)
+    const setsByStatus = setList.filter(set => set.status === status)
    
     const setCardProps = {
         setList,
@@ -55,12 +54,10 @@ function SetStatusBannerBucket (props){
     
     return(
         <div className={`container ${expandState}`}>
-            {   
-                <div onClick={e => toggleBannerState(e)} className="container banner">
-                    <div className={`expand-state ${expandState}`} ></div>
-                    <span className="status"> {children} </span>
-                </div>
-            }
+            <div onClick={e => toggleBannerState(e)} className="container banner">
+                <div className={`expand-state ${expandState}`} ></div>
+                <h2 className="status"> {children} </h2>
+            </div>
             <ul>
                 {setsByStatus.map( set => <SetCard {...set} {...setCardProps} />)}
             </ul>

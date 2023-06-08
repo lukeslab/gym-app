@@ -57,7 +57,8 @@ function SetCard(props){
                             bubblesContainer={bubblesContainer}
                             resetRepBubbles={resetRepBubbles}
                             bubblesConfirmed={bubblesConfirmed}
-            />)
+            />
+        )
     }
 
     return (

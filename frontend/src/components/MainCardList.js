@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export function MainCardList(props){
     const { type, data, options } = props
-    console.log("[debug]: MainCardList type:", type, "data: ", data, "options:", options)
+    console.log("[debug]: MainCardList props:", props)
 
     return (
         <ul className={`list ${type}-list`}>

@@ -2,25 +2,15 @@ import React from "react";
 
 function ExerciseDetails(props) {
     const { type, data, options } = props
-    console.log("[debug]: ExerciseDetails type:", type, "data: ", data, "options:", options)
+    console.log("[debug]: ExerciseDetails props:", props)
 
-    return   ( 
+    return ( 
         <section className="exercise-details">
             <div className="exercise-title">
-                {type === "create" && 
-                
                 <label>
                     Title:
-                    <input type="text" name="title"></input>
-                </label>}
-                
-                {type === "edit" && 
-                
-                <label>
-                    Title:
-                    <input type="text" name="title" defaultValue={data.title}></input>
+                    <input type="text" name="title" defaultValue={type === "edit" ? data.title : null}></input>
                 </label>
-                }
             </div>
             <div className="exercise-sets">
                 <span>Sets:</span>
