@@ -1,0 +1,32 @@
+.setCard {
+    border: 1px solid black;
+    width: 500px;
+    height: 440px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-self: center;
+    padding: 15px;
+}
+
+.setCardArt {
+    height: 200px;
+    width: 400px;
+    background-color:lightgrey;
+    align-self: center;
+}
+
+.setCardDetails {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    align-self: center;
+}
+
+.setCardDetails div {
+    width: 75px;
+}
+
+button {
+    background-color: #8BA4FB;
+}
