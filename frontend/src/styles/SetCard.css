@@ -23,10 +23,18 @@
     align-self: center;
 }
 
+.setCardDetails.rest {
+    width: 250px;
+}
+
 .setCardDetails div {
     width: 75px;
 }
 
 button {
     background-color: #8BA4FB;
+}
+
+input {
+    width: 55px;
 }

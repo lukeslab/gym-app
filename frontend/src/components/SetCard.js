@@ -1,12 +1,20 @@
-import React, { useState } from "react";
 import '../styles/SetCard.css'
+import React, { useState, useRef } from "react";
 
-function SetCard({ type, data }) {
+function SetCard({ type, data, changeActiveSetCardIndex }) {
     const { exercise, i } = data;
     const [ nextIsDisabled, setNextIsDisabled ] = useState(true)
+    const [ userFailedSet, setUserFailedSet ] = useState('')
+    const inputElem = useRef()
+
+
+    function handleInputElement(){
+        if (inputElem.value === "") setNextIsDisabled(true)
+        else setNextIsDisabled(false)
+    }
 
     return (
-        <section class={`setCard ${type}`}>
+        <section class={`setCard ${type}  `}>
             {type === "exercise" && <h1>{`${exercise.title}: ${i} of ${exercise.target.sets} @ ${exercise.target.weight}lbs`}</h1>}
             {type === "rest" && <h1>Rest</h1>}
 
@@ -15,17 +23,24 @@ function SetCard({ type, data }) {
             </div>
 
             <div class={`setCardDetails ${type}`}>
-                <div></div>
+                {type === "exercise" && <><div></div>
                 <div><span>Targets</span></div>
                 <div><span>Actuals</span></div>
                 <div><span>Results</span></div>
                 <div><span>Reps</span></div>
                 <div>{exercise.target.reps}</div>
+                <div><input ref={inputElem} onChange={handleInputElement} /></div>
+                <div></div></>}
+                {type === "rest" && <>
                 <div></div>
-                <div></div>
+                <div>Target</div>
+                <div>Actual</div>
+                <div>Rest Interval</div>
+                <div>{exercise.restInterval}</div>
+                <div><input></input></div></>}
             </div>
 
-            <button disabled={nextIsDisabled}> Next </button>
+            <button disabled={nextIsDisabled} onClick={changeActiveSetCardIndex}> Next </button>
         </section>
     )
 
