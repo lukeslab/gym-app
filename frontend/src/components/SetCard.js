@@ -1,15 +1,16 @@
 import '../styles/SetCard.css'
 import React, { useState, useRef } from "react";
 
-function SetCard({ type, data, changeActiveSetCardIndex }) {
+function SetCard({ type, data, options }) {
     const { exercise, i } = data;
     const [ nextIsDisabled, setNextIsDisabled ] = useState(true)
     const [ userFailedSet, setUserFailedSet ] = useState('')
     const inputElem = useRef()
 
+    console.log(nextIsDisabled)
 
     function handleInputElement(){
-        if (inputElem.value === "") setNextIsDisabled(true)
+        if (inputElem.current.value === "") setNextIsDisabled(true)
         else setNextIsDisabled(false)
     }
 
@@ -37,10 +38,10 @@ function SetCard({ type, data, changeActiveSetCardIndex }) {
                 <div>Actual</div>
                 <div>Rest Interval</div>
                 <div>{exercise.restInterval}</div>
-                <div><input></input></div></>}
+                <div><input ref={inputElem} onChange={handleInputElement} /></div></>}
             </div>
 
-            <button disabled={nextIsDisabled} onClick={changeActiveSetCardIndex}> Next </button>
+            <button disabled={nextIsDisabled} onClick={options.changeActiveSetCardIndex}> Next </button>
         </section>
     )
 

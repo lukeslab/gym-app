@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import SetCard from './SetCard'
 
 function SetCardList({ exercises }){
     let setCardList = []
     const [ activeSetCardIndex, setActiveSetCardIndex ] = useState(0)
+   
 
     function changeActiveSetCardIndex() {
         if (activeSetCardIndex < setCardList.length) setActiveSetCardIndex(activeSetCardIndex+1)
@@ -21,9 +22,9 @@ function SetCardList({ exercises }){
             const options =  {
                 "changeActiveSetCardIndex": changeActiveSetCardIndex
             }
-             
-            setCardList.push(<SetCard  type="exercise" data={data} changeActiveSetCardIndex={changeActiveSetCardIndex} />)        
-            setCardList.push(<SetCard  type="rest" data={data} options={options} changeActiveSetCardIndex={changeActiveSetCardIndex} />)
+
+            setCardList.push(<SetCard key={`exercise-${exercise.title}-set-${i}`} type="exercise" data={data} options={options} />)        
+            setCardList.push(<SetCard key={`rest-${exercise.title}-set-${i}`}type="rest" data={data} options={options} />)
         } 
     })
     
