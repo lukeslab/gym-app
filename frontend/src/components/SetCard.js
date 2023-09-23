@@ -5,43 +5,62 @@ function SetCard({ type, data, options }) {
     const { exercise, i } = data;
     const [ nextIsDisabled, setNextIsDisabled ] = useState(true)
     const [ userFailedSet, setUserFailedSet ] = useState('')
-    const inputElem = useRef()
+    const [ resultField, setResultField ] = useState('')
+    const actualInputElement = useRef()
+    const targetReps = useRef()
 
     console.log(nextIsDisabled)
 
-    function handleInputElement(){
-        if (inputElem.current.value === "") setNextIsDisabled(true)
-        else setNextIsDisabled(false)
+    function handleNextButtonClick(){
+        options.changeActiveSetCardIndex()
+    }
+
+    function handleActualInputElement(){
+        function displaySetResult(targetReps, actualReps) {
+            const difference = actualReps - targetReps;
+            console.log(targetReps, actualReps, difference)
+            let result; 
+            if (difference < 0) result = `Fail (${difference})` 
+            else if (difference === 0) result = `Pass`
+            else result = `Pass (+${difference})`
+            setResultField(result)
+        }
+
+        if (actualInputElement.current.value === "") setNextIsDisabled(true)
+        else {
+            setNextIsDisabled(false)
+            displaySetResult(targetReps.current.innerText, actualInputElement.current.value)
+        }
     }
 
     return (
-        <section class={`setCard ${type}  `}>
+        <section className={`setCard ${type}`}>
             {type === "exercise" && <h1>{`${exercise.title}: ${i} of ${exercise.target.sets} @ ${exercise.target.weight}lbs`}</h1>}
             {type === "rest" && <h1>Rest</h1>}
 
-            <div class={`setCardArt ${type}`}>
+            <div className={`setCardArt ${type}`}>
                 {/* Artwork should go here */}
             </div>
 
-            <div class={`setCardDetails ${type}`}>
+            <div className={`setCardDetails ${type}`}>
                 {type === "exercise" && <><div></div>
-                <div><span>Targets</span></div>
-                <div><span>Actuals</span></div>
-                <div><span>Results</span></div>
+                <div><span>Target</span></div>
+                <div><span>Actual</span></div>
+                <div><span>Result</span></div>
                 <div><span>Reps</span></div>
-                <div>{exercise.target.reps}</div>
-                <div><input ref={inputElem} onChange={handleInputElement} /></div>
-                <div></div></>}
+                <div ref={targetReps} className={"target-reps"}>{exercise.target.reps}</div>
+                <div><input ref={actualInputElement} onChange={handleActualInputElement} /></div>
+                <div className={'results'}>{resultField}</div></>}
                 {type === "rest" && <>
                 <div></div>
                 <div>Target</div>
                 <div>Actual</div>
                 <div>Rest Interval</div>
-                <div>{exercise.restInterval}</div>
-                <div><input ref={inputElem} onChange={handleInputElement} /></div></>}
+                <div ref={targetReps}>{exercise.restInterval}</div>
+                <div><input ref={actualInputElement} onChange={handleActualInputElement} /></div></>}
             </div>
 
-            <button disabled={nextIsDisabled} onClick={options.changeActiveSetCardIndex}> Next </button>
+            <button disabled={nextIsDisabled} onClick={handleNextButtonClick}> Next </button>
         </section>
     )
 

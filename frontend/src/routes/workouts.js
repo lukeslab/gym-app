@@ -36,12 +36,6 @@ export async function loader(){
 
 export default function Workouts() {
     const [workouts, currentSession] = useLoaderData();
-
-    // stop timer from displaying on this view, but continue the count.
-    useEffect(() => {
-        const toDisplay = document.querySelector('.timer')
-        if (toDisplay) toDisplay.style.display = 'none';
-    }, [])
     
     return (
         <section className="list-container my-workouts">
