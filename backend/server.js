@@ -45,7 +45,7 @@ app.use('/workouts', require('./routes/workouts'))
 //     ])
 //   })
 app.use('/exercises', require('./routes/exercises'))
-
+app.use('/session', require('./routes/session'))
 // app.get('/api/workouts', (req, res) => {
 //     console.log('hit api workouts');
 //     res.json([
