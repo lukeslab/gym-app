@@ -18,7 +18,12 @@ export async function action({request}){
         return redirect(`/overwrite-session?title=${newTitle}&id=${newId}`)
     } else {
         // set current session to selected workout
-        setCurrentSession(Object.fromEntries(formData))
+        const newSession = {
+            id: 1,
+            status: "incomplete",
+            workout: Object.fromEntries(formData)
+        }
+        setCurrentSession(newSession)
         return redirect('/current_session')
     }
 }

@@ -2,14 +2,13 @@ import React from "react";
 import MainCard from "./MainCard";
 import { Link } from "react-router-dom";
 
-export function MainCardList(props){
-    const { type, data, options } = props
-    console.log("[debug]: MainCardList props:", props)
+export function MainCardList({ type, data, options }){
 
     return (
         <ul className={`list ${type}-list`}>
             {data.length ? 
             
+            //listItem is either a Workout or an Exercise, depending on type.
             data.map((listItem, index) => {
                 return(
                     <MainCard   type={type}
@@ -17,7 +16,7 @@ export function MainCardList(props){
                                 options={options}
                     />
                 )
-            }) : <p className={`no-${type}`}> You have no {type}! Add some! </p>}
+            }) : <p className={`no-${type}`}> You have no {type}s! Add some! </p>}
             <li className={`list-item new-button new-${type}`}>
                 <Link to={`./create-${type}`}> new {type} <span> + </span> </Link>
             </li>

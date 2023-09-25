@@ -11,6 +11,8 @@ function SetCard({ type, data, options }) {
     function handleNextButtonClick(){
         options.changeActiveSetCardIndex()
         
+        // Send currentSession to MongoDB
+        
     }
 
     const cardDetailOptions = {

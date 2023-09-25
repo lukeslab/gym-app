@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 function SetCardExerciseDetails({data, options}){
-    const { exercise } = data;
+    const { exercise, activeSetCardIndex } = data;
     const { setNextIsDisabled } = options;
 
     const target = useRef(0)
@@ -20,10 +20,18 @@ function SetCardExerciseDetails({data, options}){
             resultField.current.innerText = result
         }
 
+        function updateCurrentSessionSetCardDataActual() {
+            const currentSession = JSON.parse(localStorage.getItem('currentSession'))
+            currentSession.workout.setCardsData[activeSetCardIndex].actual = actual.current.value
+            console.log(currentSession)
+            localStorage.setItem('currentSession', JSON.stringify(currentSession))
+        }
+
         if (actual.current.value === "") setNextIsDisabled(true)
         else {
             setNextIsDisabled(false)
             calculateResultField(target.current.innerText, actual.current.value)
+            updateCurrentSessionSetCardDataActual()
         }
     }
 
@@ -36,7 +44,7 @@ function SetCardExerciseDetails({data, options}){
             <div><span>Reps</span></div>
             <div ref={target} className={"target-reps"}>{exercise.target.reps}</div>
             <div><input ref={actual} onChange={displayResultField} /></div>
-            <div className={'results'} ref={resultField}></div>
+            <div ref={resultField} className={'results'}></div>
         </>
     )
 }

@@ -5,7 +5,7 @@ import NoSessionMessage from '../components/NoSessionMessage';
 import SetCardList from '../components/SetCardList';
 
 export async function loader(){
-    const { id } = JSON.parse(localStorage.getItem('currentSession'));
+    const { workout: {id} } = JSON.parse(localStorage.getItem('currentSession'));
     const response = await fetch(`/workouts/${id}`)
     const workout = await response.json()
     console.log(workout)

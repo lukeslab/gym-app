@@ -1,10 +1,8 @@
 import React from "react"
 import { Form, Link } from "react-router-dom"
 
-export function MainCard(props){
-    const { type, data, options } = props
-    console.log("[debug]: MainCard props:", props)
-    
+export function MainCard({ type, data, options }){
+
     async function addExerciseToWorkout(e){
         console.log('addExerciseToWorkout event: ', e)
         const exerciseId = e.target.getAttribute('data-id')
@@ -13,7 +11,7 @@ export function MainCard(props){
         console.log('Excercise to add: ', exercise)
 
         options.setExercises([
-            ...options.exercises,
+            ...options.workout.exercises,
             exercise
         ])
     }
@@ -25,7 +23,7 @@ export function MainCard(props){
                 {type === "workout" && 
                 
                 <Form action="." method="post">
-                    <input type="hidden" name="title" defaultValue={encodeURIComponent(data.title)} />
+                    <input type="hidden" name="title" defaultValue={encodeURIComponent(data.listItem.title)} />
                     <input type="hidden" name="id" defaultValue={data.listItem.id} />
                     <button type="submit"> Start </button>
                 </Form>}
