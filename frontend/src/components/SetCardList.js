@@ -16,7 +16,8 @@ function SetCardList({ exercises }){
         for (let i=1; i <= exercise.target.sets; i++) {
             const data = {
                 exercise,
-                i
+                i,
+                activeSetCardIndex
             }
 
             const options =  {

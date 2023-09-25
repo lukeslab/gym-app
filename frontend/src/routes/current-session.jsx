@@ -9,16 +9,11 @@ export async function loader(){
     const response = await fetch(`/workouts/${id}`)
     const workout = await response.json()
     console.log(workout)
-    return workout
+    return workout;
 }
 
 export default function CurrentSession() {    
     const { title, exercises } = useLoaderData();
-    
-    useEffect( () =>{
-        const timerElement = document.querySelector('.timer')
-        if (title && timerElement) timerElement.style.display = 'flex';
-    }, [])
 
     return (
         <section className="app-component current-session container">
