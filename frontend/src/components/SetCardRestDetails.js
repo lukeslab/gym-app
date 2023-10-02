@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 
 function SetCardRestDetails({data, options}){
-    const { exercise, activeSetCardIndex } = data;
+    const { activeSetCardIndex } = data;
     const { setNextIsDisabled } = options;
     
     const target = useRef()
     let actual = 0;
-
+    console.log(data)
     function updateCurrentSessionSetCardDataActual() {
         const currentSession = JSON.parse(localStorage.getItem('currentSession'))
         currentSession.workout.setCardsData[activeSetCardIndex].actual = actual
@@ -30,7 +30,7 @@ function SetCardRestDetails({data, options}){
     return (
         <>
             <div>Rest Interval</div>
-            <div ref={target}>{exercise.restInterval}</div>
+            <div ref={target}>{data.target}</div>
         </>
     )
 }

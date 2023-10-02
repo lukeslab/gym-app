@@ -4,7 +4,7 @@ import SetCardExerciseDetails from './SetCardExeriseDetails';
 import SetCardRestDetails from './SetCardRestDetails';
 
 function SetCard({ type, data, options }) {
-    const { exercise, i } = data;
+    const { title, target, setNumber } = data;
     const [ nextIsDisabled, setNextIsDisabled ] = useState(true)
     
 
@@ -21,7 +21,7 @@ function SetCard({ type, data, options }) {
 
     return (
         <section className={`setCard ${type}`}>
-            {type === "exercise" && <h1>{`${exercise.title}: ${i} of ${exercise.target.sets} @ ${exercise.target.weight}lbs`}</h1>}
+            {type === "exercise" && <h1>{`${title}: ${setNumber} of ${target.sets} @ ${target.weight}lbs`}</h1>}
             {type === "rest" && <h1>Rest</h1>}
 
             <div className={`setCardArt ${type}`}>

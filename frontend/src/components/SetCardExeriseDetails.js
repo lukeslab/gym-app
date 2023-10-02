@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 function SetCardExerciseDetails({data, options}){
-    const { exercise, activeSetCardIndex } = data;
+    const { activeSetCardIndex } = data;
     const { setNextIsDisabled } = options;
 
     const target = useRef(0)
@@ -9,7 +9,7 @@ function SetCardExerciseDetails({data, options}){
     const resultField = useRef(0)
     console.log(target)
 
-    function displayResultField(){
+    function onActualFieldInputChange(){
         function calculateResultField(target, actualReps) {
             const difference = actualReps - target;
             console.log(target, actualReps, difference)
@@ -17,6 +17,10 @@ function SetCardExerciseDetails({data, options}){
             if (difference < 0) result = `Fail (${difference})` 
             else if (difference === 0) result = `Pass`
             else result = `Pass (+${difference})`
+            return result
+        }
+
+        function displayResultField(result) {
             resultField.current.innerText = result
         }
 
@@ -30,7 +34,10 @@ function SetCardExerciseDetails({data, options}){
         if (actual.current.value === "") setNextIsDisabled(true)
         else {
             setNextIsDisabled(false)
-            calculateResultField(target.current.innerText, actual.current.value)
+            
+            const result = calculateResultField(target.current.innerText, actual.current.value)
+            displayResultField(result)
+            
             updateCurrentSessionSetCardDataActual()
         }
     }
@@ -42,8 +49,8 @@ function SetCardExerciseDetails({data, options}){
             <div><span>Actual</span></div>
             <div><span>Result</span></div>
             <div><span>Reps</span></div>
-            <div ref={target} className={"target-reps"}>{exercise.target.reps}</div>
-            <div><input ref={actual} onChange={displayResultField} /></div>
+            <div ref={target} className={"target-reps"}>{data.target.reps}</div>
+            <div><input ref={actual} onChange={onActualFieldInputChange} /></div>
             <div ref={resultField} className={'results'}></div>
         </>
     )
