@@ -1,6 +1,7 @@
 import React from "react"
 import { Form, Link } from "react-router-dom"
 
+// This is a menu card, fix it
 export function MainCard({ type, data, options }){
 
     async function addExerciseToWorkout(e){

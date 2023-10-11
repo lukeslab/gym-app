@@ -3,8 +3,10 @@ import SetCard from './SetCard'
 import { useEffect } from 'react'
 
 function SetCardList({ data }){
-    const { setCardsData } = data
-    const [ activeSetCardIndex, setActiveSetCardIndex ] = useState(0)
+    const { setCardsData, currentSession } = data
+    console.log(data)
+    const [ activeSetCardIndex, setActiveSetCardIndex ] = useState(() => findCurrentlyActiveCardIndex())
+    
     let setCardsToDisplay = []
 
     function changeActiveSetCardIndex() {
@@ -24,27 +26,46 @@ function SetCardList({ data }){
         setCardsToDisplay.push(<SetCard key={`${index}`} type={setCard.type} data={data} options={options}/>)
 
     })
-    console.log(setCardsToDisplay)
 
+    // Save the session to database if it is the last setCard
     useEffect(()=> {
         (async () => {
-            // When the activeIndex changes, save the localStorage session to MongoDB.
-            const currentSession = localStorage.getItem('currentSession')
+            if (isTheLastSetCard()) saveWorkoutSessionToDatabase()
 
-            const options = {
-                method: "POST",
-                headers: {
-                    "Content-Type":"application/json"
-                },
-                body: currentSession
+            function isTheLastSetCard(){
+                return activeSetCardIndex === setCardsToDisplay.length -1 ? true : false
             }
 
-            const response = await fetch('/session', options )
-            console.log(response)
+            async function saveWorkoutSessionToDatabase(){
+                const currentSession = localStorage.getItem('currentSession')
+
+                const options = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":"application/json"
+                    },
+                    body: currentSession
+                }
+
+                const response = await fetch('/session', options )
+                console.log(response)
+            }
         })()
     }, [activeSetCardIndex])
 
     return setCardsToDisplay[activeSetCardIndex]
+
+    function findCurrentlyActiveCardIndex(){
+        let index
+        try {
+            index = currentSession.workout?.setCardsData.findIndex((setCardData) => setCardData.actual === null)
+        } catch(e) {
+            index = 0
+        } finally {
+            return index
+        }
+
+    }
 }
 
 export default SetCardList
