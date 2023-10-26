@@ -22,15 +22,13 @@ export default function CurrentSession() {
     const setCardsData = []
 
     if (isANewSession()) initNewSession(exercises)
-    else {
-        setCardsData.push(...currentSession.workout.setCardsData)
-    }
+    else setCardsData.push(...currentSession.workout.setCardsData)
 
     useEffect( () => {
         currentSession.workout.setCardsData = setCardsData
-        
+        console.log('hello?')
         localStorage.setItem('currentSession', JSON.stringify(currentSession))
-        
+        console.log('set local storage')
     }, [])
 
     const data = {
@@ -61,12 +59,14 @@ export default function CurrentSession() {
                         setNumber: i,
                         target: exercise.target,
                         actual: null,
+                        isComplete: false
                     })
                     setCardsData.push({
                         type: "rest",
                         title: "Rest",
                         target: exercise.restInterval,
                         actual: null,
+                        isComplete: false
                     })
                 }
             })

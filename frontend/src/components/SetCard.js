@@ -8,13 +8,6 @@ function SetCard({ type, data, options }) {
     const [ nextIsDisabled, setNextIsDisabled ] = useState(true)
     
 
-    function handleNextButtonClick(){
-        options.changeActiveSetCardIndex()
-        
-        // Send currentSession to MongoDB
-        
-    }
-
     const cardDetailOptions = {
         setNextIsDisabled
     }
@@ -35,7 +28,7 @@ function SetCard({ type, data, options }) {
                 <SetCardRestDetails data={data} options={cardDetailOptions}/>}
             </div>
 
-            <button disabled={nextIsDisabled} onClick={handleNextButtonClick}> Next </button>
+            <button disabled={nextIsDisabled} onClick={() => options.changeActiveSetCardIndex()}> Next </button>
         </section>
     )
 
