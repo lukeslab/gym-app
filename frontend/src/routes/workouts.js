@@ -20,7 +20,7 @@ export async function action({request}){
         // set current session to selected workout
         const newSession = {
             id: 1,
-            status: "incomplete",
+            isComplete: false,
             workout: Object.fromEntries(formData)
         }
         setCurrentSession(newSession)

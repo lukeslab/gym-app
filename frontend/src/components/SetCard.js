@@ -22,13 +22,13 @@ function SetCard({ type, data, options }) {
             </div>
 
             <div className={`setCardDetails ${type}`}>
-                {type === "exercise" ? 
-                
-                <SetCardExerciseDetails data={data} options={cardDetailOptions} /> :
-                <SetCardRestDetails data={data} options={cardDetailOptions}/>}
+                {type === "exercise"  && <SetCardExerciseDetails data={data} options={cardDetailOptions} /> }
+
+                {type === "rest" && <SetCardRestDetails data={data} options={cardDetailOptions}/> }
+                {type === "setComplete" && <p>Congrats you did it! ``~~**Confetti``~~~`**</p>}
             </div>
 
-            <button disabled={nextIsDisabled} onClick={() => options.changeActiveSetCardIndex()}> Next </button>
+            {type !== "setComplete" && <button disabled={nextIsDisabled} onClick={() => options.changeActiveSetCardIndex()}> Next </button>}
         </section>
     )
 

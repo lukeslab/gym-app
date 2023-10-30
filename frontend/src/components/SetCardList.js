@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 
 function SetCardList({ data }){
     const { setCardsData, currentSession } = data
-    console.log(data)
     const [ activeSetCardIndex, setActiveSetCardIndex ] = useState(() => findCurrentlyActiveCardIndex())
     
     let setCardsToDisplay = []
@@ -18,7 +17,7 @@ function SetCardList({ data }){
 
     // Iterate through the exercise list
     // do we even need to tod this if we're only displaying a single card? It's good if you want a deck effect but thats currently not even being rendered.
-    setCardsData.forEach( (setCard, index) => {
+    setCardsData.forEach( (setCard, index, array) => {
         const data = {
             ...setCard,
             activeSetCardIndex
@@ -27,28 +26,28 @@ function SetCardList({ data }){
             "changeActiveSetCardIndex": changeActiveSetCardIndex
         }
         setCardsToDisplay.push(<SetCard key={`${index}`} type={setCard.type} data={data} options={options}/>)
-
     })
+
+    setCardsToDisplay.push(<SetCard key={`${setCardsToDisplay.length}`} type="setComplete" data={{title: "Set Complete"}} options={null} />)
+
+    console.log(setCardsToDisplay)
 
     // Save the session to database if it is the last setCard
     useEffect(()=> {
         (async () => {
-            if (isTheLastSetCard()) saveWorkoutSessionToDatabase()
-
-            function isTheLastSetCard(){
-                return activeSetCardIndex === setCardsToDisplay.length -1 ? true : false
-            }
+            if (isTheLastSetCard(activeSetCardIndex)) saveWorkoutSessionToDatabase()
 
             async function saveWorkoutSessionToDatabase(){
-                const currentSession = localStorage.getItem('currentSession')
-                currentSession.isCompleted = true;
+                console.log('saved session to db')
+                const currentSession = JSON.parse(localStorage.getItem('currentSession'))
+                currentSession.isComplete = true;
 
                 const options = {
                     method: "POST",
                     headers: {
                         "Content-Type":"application/json"
                     },
-                    body: currentSession
+                    body: JSON.stringify(currentSession)
                 }
 
                 const response = await fetch('/session', options )
@@ -60,14 +59,21 @@ function SetCardList({ data }){
     return setCardsToDisplay[activeSetCardIndex]
 
     function findCurrentlyActiveCardIndex(){
-        let index;
+        let currentlyActiveCardIndex;
         try {
-            index = currentSession.workout?.setCardsData.findIndex((setCardData) => setCardData?.isComplete === false)
+            currentlyActiveCardIndex = currentSession.workout?.setCardsData.findIndex((setCardData) => setCardData?.isComplete === false)
         } catch (e) {
-            index = 0 
+            currentlyActiveCardIndex = 0 
         }
 
-        return index
+        return currentlyActiveCardIndex
+    }
+
+    function isTheLastSetCard(index){
+        console.log('is the last set card')
+        console.log(index, setCardsToDisplay.length)
+        if (index === setCardsToDisplay.length - 1) return true
+        else return false
     }
 }
 
