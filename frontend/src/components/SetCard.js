@@ -1,11 +1,13 @@
 import '../styles/SetCard.css'
 import React, { useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom'
 import SetCardExerciseDetails from './SetCardExeriseDetails';
 import SetCardRestDetails from './SetCardRestDetails';
 
 function SetCard({ type, data, options }) {
     const { title, target, setNumber } = data;
     const [ nextIsDisabled, setNextIsDisabled ] = useState(true)
+    const navigate = useNavigate()
     
 
     const cardDetailOptions = {
@@ -27,8 +29,11 @@ function SetCard({ type, data, options }) {
                 {type === "rest" && <SetCardRestDetails data={data} options={cardDetailOptions}/> }
                 {type === "setComplete" && <p>Congrats you did it! ``~~**Confetti``~~~`**</p>}
             </div>
+            
+            {type === "setComplete" ? 
+            <button onClick={() => navigate('/')}> New Session </button> : 
+            <button disabled={nextIsDisabled} onClick={() => options.changeActiveSetCardIndex()}> Next </button>}
 
-            {type !== "setComplete" && <button disabled={nextIsDisabled} onClick={() => options.changeActiveSetCardIndex()}> Next </button>}
         </section>
     )
 
