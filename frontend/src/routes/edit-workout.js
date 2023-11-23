@@ -1,8 +1,9 @@
 import "../styles/routes/edit-workout.css"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLoaderData, Link } from 'react-router-dom';
 
 import WorkoutDetails from '../components/WorkoutDetails';
+import ExerciseDeckCardFront from "../components/ExerciseDeckCardFront";
 
 export async function loader({ params }){
     const { id } = params;
@@ -18,10 +19,20 @@ export async function loader({ params }){
 export default function EditWorkout() {
     const { id, workout } = useLoaderData()
     const { title, exercises } = workout
-    console.log(workout)
-    const [ exerciseDeck, setExercisesDeck ] = useState(exercises)
+    const [ exerciseDeck, setExercisesDeck ] = useState()
     const [ isEditable, setIsEditable ] = useState(false)
     const [ isIntervalsByExercise, setIsIntervalsByExercise ] = useState(false)
+
+    console.log(exercises)
+
+    const exerciseDeckCards = []
+    for (const exercise of exercises) {
+        exerciseDeckCards.push(<ExerciseDeckCardFront key={exercise.title} exercise={exercise} />)
+    }   
+
+    useEffect( () => {
+        setExercisesDeck(exerciseDeckCards)
+    }, [])
 
     async function saveChanges(e) {
         const options = {
@@ -47,22 +58,25 @@ export default function EditWorkout() {
                 <h1>{title}</h1>
             </div>
             <div className="rest-interval">
-                <p>Rest Interval (seconds): </p>
-                <label class={isEditable || "disabled"}>
+                <p className="route-subheader">Rest Interval (seconds): </p>
+                <label className={isEditable || "disabled"}>
                     <input disabled={!isEditable} type="checkbox" />
                     Set Interval by Exercise
                 </label>
             </div>
-            <div classname="exercise-deck">
-
+            <div className="exercise-deck">
+                <p className="route-subheader">Exercise Deck</p>
+                <div className="row-container">
+                    {exerciseDeck}
+                </div>
             </div>
             { isEditable ? 
                 <div>
-                    <button class="save" onClick={() => saveChanges()}>Save</button>
+                    <button className="save" onClick={() => saveChanges()}>Save</button>
 
                     {/* the canel button needs to reset the checkbox to empty. */}
-                    <button class="cancel" onClick={() => setIsEditable(false)}>Cancel</button>
-                </div> : <button onClick={() => setIsEditable(true)}>Edit Exercise</button>}
+                    <button className="cancel" onClick={() => setIsEditable(false)}>Cancel</button>
+                </div> : <button className="edit-button" onClick={() => setIsEditable(true)}>Edit Workout</button>}
             {/* <WorkoutDetails     type="edit" 
                                 data={{workout, exercises}} 
                                 options={{setExercises}} 

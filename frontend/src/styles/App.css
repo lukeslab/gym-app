@@ -84,6 +84,16 @@ button {
 	margin-bottom: 40px;
 }
 
+.column-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.row-container {
+	display: flex;
+	flex-direction: row;
+}
+
 .error-message{
 	background-color: darkred;
 	color: white;

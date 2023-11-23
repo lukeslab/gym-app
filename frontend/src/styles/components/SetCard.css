@@ -9,32 +9,32 @@
     padding: 15px;
 }
 
-.setCardArt {
+.setCard .setCardArt {
     height: 200px;
     width: 400px;
     background-color:lightgrey;
     align-self: center;
 }
 
-.setCardDetails {
+.setCard .setCardDetails {
     display: flex;
     flex-wrap: wrap;
     width: 300px;
     align-self: center;
 }
 
-.setCardDetails.rest {
+.setCard .setCardDetails.rest {
     width: 250px;
 }
 
-.setCardDetails div {
+.setCard .setCardDetails div {
     width: 75px;
 }
 
-button {
+.setCard button {
     background-color: #8BA4FB;
 }
 
-input {
+.setCard input {
     width: 55px;
 }

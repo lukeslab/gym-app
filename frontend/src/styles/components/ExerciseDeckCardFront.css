@@ -1,0 +1,32 @@
+.exercise-card {
+    width: 300px;
+    flex-shrink: 0;
+    margin: 20px;
+    border: solid 1px black;
+    padding: 20px;
+}
+.exercise-card .title {
+    font-weight: bold;
+    align-self: start;
+}
+.exercise-card .artwork {
+    margin-top: 20px;
+    padding: 65px 20px;
+    height: 150px;
+    width: 90%;
+    background-color: lightgrey;
+    align-self: center;
+}
+
+.exercise-card .exercise-stats button {
+    padding: 5px 25px;
+    background-color: #9FF9FF;
+    font-size: 10px;
+}
+
+.exercise-card .exercise-stats {
+    margin-top: 20px;
+    height: 100px;
+    flex-wrap: wrap;
+    align-content: space-around;
+}

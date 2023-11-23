@@ -1,36 +1,58 @@
 .edit-workout {
 	display: flex;
 	flex-direction: column;
-	/* align-items: center; */
 	justify-content: flex-start;
 	height: 100vh;
     text-align: center;
-    /* align-self: center */
 }
 
 .edit-workout .header {
-	text-transform: uppercase;
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .edit-workout .header p{
     margin-bottom: 10px;
+    font-size: 20px;
 }
 
 .edit-workout .header h1 {
-    font-size: 30px;
+    font-size: 32px;
 }
 
-.rest-interval {
+.edit-workout .exercise-deck {
+    margin-top: 50px;
+}
+
+.edit-workout .exercise-deck > .row-container{
+    overflow-x: scroll;
+    width: 350px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.edit-workout .exercise-deck > .row-container::-webkit-scrollbar{
+    display: none;
+}
+
+.edit-workout .route-subheader {
+    border-bottom: 1px solid #1C18CE;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    width: fit-content;
     text-align: start;
 }
 
-.rest-interval p {
-    margin-bottom: 10px;
-    text-decoration: underline;
-    width: 200px;
+.edit-workout .rest-interval {
+    text-align: start;
 }
 
-.rest-interval .disabled {
+.edit-workout .rest-interval .disabled {
     color: grey;
 }
+
+.edit-workout .edit-button{
+    background-color: #FFAF65;
+    padding: 20px 30px;
+    font-size: 20px;
+}
+
