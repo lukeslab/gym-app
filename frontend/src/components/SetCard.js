@@ -1,4 +1,4 @@
-import '../styles/SetCard.css'
+import '../styles/components/SetCard.css'
 import React, { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom'
 import SetCardExerciseDetails from './SetCardExeriseDetails';

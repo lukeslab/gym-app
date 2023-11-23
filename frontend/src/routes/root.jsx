@@ -13,12 +13,12 @@ function Root(){
     if (!getCurrentSession()) setCurrentSession(initialSession)
 
     return (
-        <>
+        <div className="app-container">
             {/* <Timer timer={timer} setTimer={setTimer}/> */}
             <MyStopwatch />
             <Outlet />
             <Nav />
-        </>
+        </div>
     )
 }
 

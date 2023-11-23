@@ -1,3 +1,4 @@
+import "../styles/routes/edit-workout.css"
 import React, { useState } from 'react';
 import { useLoaderData, Link } from 'react-router-dom';
 
@@ -16,9 +17,11 @@ export async function loader({ params }){
 
 export default function EditWorkout() {
     const { id, workout } = useLoaderData()
-    const { title } = workout
+    const { title, exercises } = workout
     console.log(workout)
-    const [ exercises, setExercises ] = useState(workout.exercises)
+    const [ exerciseDeck, setExercisesDeck ] = useState(exercises)
+    const [ isEditable, setIsEditable ] = useState(false)
+    const [ isIntervalsByExercise, setIsIntervalsByExercise ] = useState(false)
 
     async function saveChanges(e) {
         const options = {
@@ -34,17 +37,37 @@ export default function EditWorkout() {
         const response = await fetch('/workouts', options)
         const message = await response.json()
         console.log(message)
+        setIsEditable(false)
     }
 
     return (
-        <div className="edit-workout">
-            <h1>Edit Workout</h1>
-            <WorkoutDetails     type="edit" 
+        <div className="view-container edit-workout">
+            <div className="header">
+                <p>My Workouts</p>
+                <h1>{title}</h1>
+            </div>
+            <div className="rest-interval">
+                <p>Rest Interval (seconds): </p>
+                <label class={isEditable || "disabled"}>
+                    <input disabled={!isEditable} type="checkbox" />
+                    Set Interval by Exercise
+                </label>
+            </div>
+            <div classname="exercise-deck">
+
+            </div>
+            { isEditable ? 
+                <div>
+                    <button class="save" onClick={() => saveChanges()}>Save</button>
+
+                    {/* the canel button needs to reset the checkbox to empty. */}
+                    <button class="cancel" onClick={() => setIsEditable(false)}>Cancel</button>
+                </div> : <button onClick={() => setIsEditable(true)}>Edit Exercise</button>}
+            {/* <WorkoutDetails     type="edit" 
                                 data={{workout, exercises}} 
                                 options={{setExercises}} 
-            />
-            <Link to="../">Cancel</Link>
-            <Link to="../" onClick={saveChanges}>Save</Link>
+            /> */}
+
         </div>
     )
 }

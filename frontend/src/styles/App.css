@@ -1,25 +1,4 @@
-/*
-	-> Resets
-	-  App
-		-  Timer
-		-  Nav
-		-  View
-			-  Current Session
-				-  Timer
-				-  Set List
-					-  Set Card
-				-> Nav
-			-  Workouts
-				-  Timer
-				-  Workouts List
-					-  Workout Card
-				-  Nav
-			-  Exercises
-				-  Timer
-				-  Exercises List
-					-  Exercise Card
-				-  Nav
-*/
+/* Resets */
 * {
 	box-sizing: border-box;
 }
@@ -85,32 +64,20 @@ button {
 	align-self: center;
 }
 
-/*
-	-  Resets
-	-> App
-		-  Timer
-		-  Nav
-		-  View
-			-  Current Session
-				-  Timer
-				-  Set List
-					-  Set Card
-				-  Nav
-			-  Workouts
-				-  Timer
-				-  Workouts List
-					-  Workout Card
-				-  Nav
-			-  Exercises
-				-  Timer
-				-  Exercises List
-					-  Exercise Card
-				-  Nav
-*/
-.container {
+/* App level styles */
+#root {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+}
+.app-container {
+	display:flex;
+	flex-direction: column;
+	align-self: center;
+}
+.view-container {
+	margin-top: 50px;
+	align-self: center;
+	max-width: 500px;
 }
 
 .app-component {
@@ -128,29 +95,7 @@ button {
 
 /* edit workout */
 
-.edit-workout {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: flex-start;
-	height: 100vh;
-	margin-top: 100px;
-	margin-bottom: 50px;
-}
 
-.edit-workout > * {
-	margin-top: 10px;
-}
-
-.edit-workout h1 {
-	font-size: 30px;
-	text-transform: uppercase;
-	margin-bottom: 20px;
-}
-
-.edit-workout label{
-	font-size: 24px;
-}
 
 .success-message {
 	background-color: limegreen;
