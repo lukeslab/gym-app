@@ -43,8 +43,9 @@ export default function Workouts() {
     const [workouts, currentSession] = useLoaderData();
     
     return (
-        <section className="list-container my-workouts">
-            <h1> My Workouts </h1>
+        <section className="max-w-md mx-auto">
+            <h1 className="text-4xl font-bold text-center mb-6"> My Workouts </h1>
+            
             <MainCardList   type="workout" 
                             data={workouts}
                             options={currentSession} 
