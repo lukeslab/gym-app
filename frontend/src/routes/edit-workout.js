@@ -68,7 +68,14 @@ export default function EditWorkout() {
                     <span className={!isEditable && "opacity-50"}>Set intervals by exercise</span>
                 </label>
             </div>
-            <h3 className="text-lg font-bold mb-4">Exercise Deck</h3>
+            <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold">Exercise Deck</h3>
+                <button class="bg-green-500 rounded-full p-2 flex items-center justify-center shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-white">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                </button>
+            </div>
             <div className="flex overflow-x-scroll mb-4">
                 {exerciseDeck}
             </div>
