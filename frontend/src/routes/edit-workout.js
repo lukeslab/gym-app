@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLoaderData, Link } from 'react-router-dom';
 
-import ExerciseDeckCardFront from '../components/ExerciseDeckCardFront';
+import ExerciseDeckCard from '../components/ExerciseDeckCard'
 import WorkoutDetails from '../components/WorkoutDetails';
 
 export async function loader({ params }) {
@@ -27,7 +27,7 @@ export default function EditWorkout() {
 
     const exerciseDeckCards = []
     for (const exercise of exercises) {
-        exerciseDeckCards.push(<ExerciseDeckCardFront key={exercise.title} exercise={exercise} isEditable={isEditable} />)
+        exerciseDeckCards.push(<ExerciseDeckCard key={exercise.title} exercise={exercise} isEditable={isEditable} />)
     }   
 
     useEffect( () => {
@@ -70,11 +70,11 @@ export default function EditWorkout() {
             </div>
             <div className="flex items-center justify-between">
                 <h3 className="text-lg font-bold">Exercise Deck</h3>
-                <button class="bg-green-500 rounded-full p-2 flex items-center justify-center shadow-lg">
+                {isEditable && <button class="bg-green-500 rounded-full p-2 flex items-center justify-center shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-white">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                     </svg>
-                </button>
+                </button>}
             </div>
             <div className="flex overflow-x-scroll mb-4">
                 {exerciseDeck}
