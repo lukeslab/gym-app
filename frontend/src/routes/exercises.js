@@ -23,8 +23,8 @@ export default function Exercises() {
     }, [])
     
     return (
-        <section className="list-container my-exercises">
-            <h1> My Exercises </h1>
+        <section className="max-w-md mx-auto">
+            <h1 className="text-4xl font-bold text-center mb-6"> My Exercises </h1>
             <MainCardList   type="exercise"
                             data={exercises}
                             options={{}}

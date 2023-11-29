@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import { useLoaderData, redirect } from 'react-router-dom';
 import { getCurrentSession, setCurrentSession, getUserWorkouts } from '../functions'
 
 import MainCardList from '../components/MainCardList';
+import OverwriteSessionModal from '../components/OverwriteSession';
 
 export async function action({request}){
     const formData = await request.formData();
@@ -41,15 +42,24 @@ export async function loader(){
 
 export default function Workouts() {
     const [workouts, currentSession] = useLoaderData();
+    const [ workoutSessionStarted, setWorkoutSessionStarted ] = useState(false)
     
+    const options = {
+        currentSession,
+        setWorkoutSessionStarted
+    }
+
     return (
-        <section className="max-w-md mx-auto">
-            <h1 className="text-4xl font-bold text-center mb-6"> My Workouts </h1>
-            
-            <MainCardList   type="workout" 
-                            data={workouts}
-                            options={currentSession} 
-            />  
-        </section>
+        <>
+            {workoutSessionStarted && <OverwriteSessionModal />}
+            <section className="max-w-md mx-auto">
+                <h1 className="text-4xl font-bold text-center mb-6"> My Workouts </h1>
+                
+                <MainCardList   type="workout" 
+                                data={workouts}
+                                options={options} 
+                />  
+            </section>
+        </>
     )
 }
