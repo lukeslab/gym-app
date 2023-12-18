@@ -2,8 +2,8 @@ import React from "react";
 
 function ExerciseDeckCardFront({ exercise, isEditable, setCardIsFaceup }) {
     const { title, target: { sets, reps, weight }, restInterval } = exercise
-    
-    function toggleCardSide(){
+
+    function toggleCardSide() {
         setCardIsFaceup(false)
     }
 
