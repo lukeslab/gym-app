@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLoaderData, Link } from 'react-router-dom';
+import { useLoaderData, Link, useNavigate } from 'react-router-dom';
 
 import ExerciseDeckCard from '../components/ExerciseDeckCard'
 import WorkoutDetails from '../components/WorkoutDetails';
@@ -16,6 +16,7 @@ export async function loader({ params }) {
 }
 
 export default function EditWorkout() {
+    const navigate = useNavigate()
     const { id, workout } = useLoaderData()
     const { title, exercises } = workout
     const checkboxElem = useRef()
@@ -83,7 +84,12 @@ export default function EditWorkout() {
             <div>
                 <button className="bg-green-500 text-white px-6 py-2 rounded" onClick={saveChanges}>Save</button>
                 <button className="bg-red-500 text-white px-6 py-2 rounded"onClick={cancelChanges}>Cancel</button>
-            </div> : <button className="bg-orange-500 text-white px-6 py-2 rounded" onClick={() => setIsEditable(true)}>Edit Workout</button>}
+            </div> : 
+            <div> 
+                <button className="bg-red-500 text-white px-6 py-2 rounded" onClick={() => navigate(-1) }>Back</button>
+                <button className="bg-orange-500 text-white px-6 py-2 rounded" onClick={() => setIsEditable(true)}>Edit Workout</button>
+            </div>
+            }
         </div>
     )
 }
