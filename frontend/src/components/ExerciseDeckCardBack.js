@@ -1,21 +1,16 @@
 import React from 'react';
 
-function ExerciseDeckCardBack({ exercise, isEditable, setCardIsFaceup }) {
+function ExerciseDeckCardBack({ exercise, isEditable, setIsFaceUp }) {
     const { title, stats: { timesPerformed, highestWeight, targetsHit, targetsMissed, successRate } } = exercise
     console.log(exercise.stats)
 
-    function toggleCardSide() {
-        setCardIsFaceup(true)
+    function toggleCardSide(e) {
+        e.stopPropagation()
+        setIsFaceUp(true)
     }
 
     return (
-        <div className="w-72 rounded overflow-hidden shadow-lg bg-white p-4 shrink-0">
-            <div className="flex flex-row space-between">
-                <h2 className="text-lg font-bold mb-4">{title}</h2>
-                {isEditable && <button class="flex items-center justify-center bg-transparent border-2 border-red-500 text-red-500 rounded-full w-6 h-6 hover:bg-red-500 hover:text-white transition-colors">
-                    <span class="text-s">&times;</span>
-                </button>}
-            </div>
+        <>
             <div className="mb-4 bg-gray-300 h-32 flex items-center justify-center">
                 <span>Graph of targets placeholder</span>
             </div>
@@ -32,7 +27,7 @@ function ExerciseDeckCardBack({ exercise, isEditable, setCardIsFaceup }) {
                     Back
                 </button>
             </div>
-        </div>
+        </>
     )
 }
 
