@@ -1,11 +1,14 @@
 import './index.css'
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Root from "./routes/root"
 import { 
   createBrowserRouter, 
   RouterProvider
 } from 'react-router-dom';
+
+import Root, {
+  loader as rootLoader
+} from "./routes/root"
 import CurrentSession, {
   loader as sessionLoader
 } from './routes/current-session';
@@ -34,7 +37,8 @@ const router = createBrowserRouter([
   {
     path: "/",
     element : <Root />,
-    errorElement: <section><p>Houston, we have a problem.</p><img src="/img/error.gif"></img></section>,
+    loader: rootLoader,
+    // errorElement: <section><p>Houston, we have a problem.</p><img src="/img/error.gif"></img></section>,
     children: [
       {
         index: true,
