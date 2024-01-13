@@ -14,7 +14,6 @@ import CurrentSession, {
 } from './routes/current-session';
 import Workouts, {
   loader as workoutsLoader,
-  action as workoutsAction
 } from './routes/workouts';
 import Exercises, {
   loader as exerciseLoader,
@@ -38,13 +37,12 @@ const router = createBrowserRouter([
     path: "/",
     element : <Root />,
     loader: rootLoader,
-    // errorElement: <section><p>Houston, we have a problem.</p><img src="/img/error.gif"></img></section>,
+    errorElement: <section><p>Houston, we have a problem.</p><img src="/img/error.gif"></img></section>,
     children: [
       {
         index: true,
         element: <Workouts />,
         loader: workoutsLoader,
-        action: workoutsAction,
       },
       {
         path: "/current_session",

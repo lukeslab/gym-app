@@ -1,33 +1,9 @@
 import React, { useState } from 'react';
-import { useLoaderData, redirect } from 'react-router-dom';
-import { getCurrentSession, setCurrentSession, getUserWorkouts } from '../functions'
+import { useLoaderData } from 'react-router-dom';
+import { getCurrentSession, getUserWorkouts } from '../functions'
 
 import MainCardList from '../components/MainCardList';
 import OverwriteSessionModal from '../components/OverwriteSession';
-
-export async function action({ request }) {
-    const formData = await request.formData();
-    const { title } = getCurrentSession();
-
-    const newSession = Object.fromEntries(formData)
-    const { title: newTitle, id: newId } = newSession
-
-    console.log('fired from workouts action:', newSession)
-    if (title) {
-        // prompt overwrite confirmation screen.
-        console.log('overwrite')
-        return redirect(`/overwrite-session?title=${newTitle}&id=${newId}`)
-    } else {
-        // set current session to selected workout
-        const newSession = {
-            id: 1,
-            status: "incomplete",
-            workout: Object.fromEntries(formData)
-        }
-        setCurrentSession(newSession)
-        return redirect('/current_session')
-    }
-}
 
 export async function loader() {
     const currentSession = getCurrentSession()
@@ -54,20 +30,21 @@ export default function Workouts() {
     }
 
     const overwriteSessionModalProps = {
-        overwriteSessionWith
+        overwriteSessionWith,
+        setShowOverwriteSessionModal
     }
 
     return (
         <>
-            {showOverwriteSessionModal ? <OverwriteSessionModal {...overwriteSessionModalProps}/> :
-                <section className="max-w-md mx-auto">
-                    <h1 className="text-4xl font-bold text-center mb-6"> My Workouts </h1>
+            {showOverwriteSessionModal && <OverwriteSessionModal {...overwriteSessionModalProps} />}
+            <section className="max-w-md mx-auto">
+                <h1 className="text-4xl font-bold text-center mb-6"> My Workouts </h1>
 
-                    <MainCardList type="workout"
-                        data={workouts}
-                        options={options}
-                    />
-                </section>}
+                <MainCardList type="workout"
+                    data={workouts}
+                    options={options}
+                />
+            </section>
         </>
     )
 }
