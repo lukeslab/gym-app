@@ -54,20 +54,21 @@ export default function Workouts() {
     }
 
     const overwriteSessionModalProps = {
-        overwriteSessionWith
+        overwriteSessionWith,
+        setShowOverwriteSessionModal
     }
 
     return (
         <>
-            {showOverwriteSessionModal ? <OverwriteSessionModal {...overwriteSessionModalProps}/> :
-                <section className="max-w-md mx-auto">
-                    <h1 className="text-4xl font-bold text-center mb-6"> My Workouts </h1>
+            {showOverwriteSessionModal && <OverwriteSessionModal {...overwriteSessionModalProps} />}
+            <section className="max-w-md mx-auto">
+                <h1 className="text-4xl font-bold text-center mb-6"> My Workouts </h1>
 
-                    <MainCardList type="workout"
-                        data={workouts}
-                        options={options}
-                    />
-                </section>}
+                <MainCardList type="workout"
+                    data={workouts}
+                    options={options}
+                />
+            </section>
         </>
     )
 }
