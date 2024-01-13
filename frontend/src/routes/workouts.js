@@ -43,15 +43,23 @@ export async function loader() {
 export default function Workouts() {
     const [workouts, currentSession] = useLoaderData();
     const [showOverwriteSessionModal, setShowOverwriteSessionModal] = useState(false)
+    const [overwriteSessionWith, setOverwriteSessionWith] = useState()
+
+    console.log('overwriteSessionWith is: ', overwriteSessionWith)
 
     const options = {
         currentSession,
-        setShowOverwriteSessionModal
+        setShowOverwriteSessionModal,
+        setOverwriteSessionWith
+    }
+
+    const overwriteSessionModalProps = {
+        overwriteSessionWith
     }
 
     return (
         <>
-            {showOverwriteSessionModal ? <OverwriteSessionModal /> :
+            {showOverwriteSessionModal ? <OverwriteSessionModal {...overwriteSessionModalProps}/> :
                 <section className="max-w-md mx-auto">
                     <h1 className="text-4xl font-bold text-center mb-6"> My Workouts </h1>
 

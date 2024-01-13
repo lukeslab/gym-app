@@ -1,8 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function OverwriteSessionModal() {
+function OverwriteSessionModal({overwriteSessionWith}) {
 	const navigate = useNavigate()
+	console.log('in modal, overwriteSessionWith is: ', overwriteSessionWith)
+
+	function overwriteSession() {
+		localStorage.setItem('currentSession', JSON.stringify({ workout: { id: overwriteSessionWith } }))
+		navigate('current_session')
+	}
+
 	return (
 		<div className="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster">
 			<div className="border border-teal-500 shadow-lg modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
@@ -24,7 +31,7 @@ function OverwriteSessionModal() {
 					{/* <!--Footer--> */}
 					<div className="flex justify-end pt-2">
 						<button className="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300" onClick={() => navigate(-1)}>Cancel</button>
-						<button className="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Confirm</button>
+						<button className="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400" onClick={overwriteSession}>Confirm</button>
 					</div>
 				</div>
 			</div>

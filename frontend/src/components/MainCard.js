@@ -2,25 +2,24 @@ import React from "react"
 import { Form, Link, useNavigate } from "react-router-dom"
 
 // This is a menu card, fix it
-export function MainCard({ type, data, options }) {
-    const { currentSession, setShowOverwriteSessionModal } = options
+export function MainCard({ type, data, options}) {
+    const { currentSession, setShowOverwriteSessionModal, setOverwriteSessionWith } = options
     const navigate = useNavigate()
 
     async function startSession(workoutId) {
         // check if session exists
         const currentSession = await localStorage.getItem('currentSession')
 
-        if (typeof currentSession === 'object') {
+        if (currentSession) {
             console.log('text2')
             setShowOverwriteSessionModal(true)
+            setOverwriteSessionWith(workoutId)
         } else {
             // set the currentSession localStorage
             console.log('test')
             await localStorage.setItem('currentSession', JSON.stringify({ workout: { id: workoutId } }))
             navigate('current_session')
         }
-
-        // Handle sessions in mongodb. This should create a new session with te status completed. Then, current session.js should fetch any session in status active.
     }
 
     return (
