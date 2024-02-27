@@ -28,7 +28,7 @@ function SetCard({ type, data, options }) {
                 <SetCardRestDetails data={data} options={cardDetailOptions}/>}
             </div>
 
-            <button disabled={nextIsDisabled} onClick={() => options.changeActiveSetCardIndex()}> Next </button>
+            <button className="w-200" disabled={nextIsDisabled} onClick={() => options.changeActiveSetCardIndex()}> Next </button>
         </section>
     )
 

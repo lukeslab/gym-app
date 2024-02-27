@@ -20,15 +20,13 @@ const getActiveSession = asyncHandler(async (req, res) => {
 
 const saveSession = asyncHandler(async (req, res) => {
     console.log(req.body)
-    const { id, status, workout } = req.body
+    const { workout: {id: workoutId, setCardsData} } = req.body
 
 
-    if (!id || !status || !workout) return res.status(400).json({ message: 'All fields are required' })
-
-    // run a duplicate check
+    if (!workoutId || !setCardsData) return res.status(400).json({ message: 'All fields are required' })
 
     // create session
-    const session = await Session.create({ id, status, workout })
+    const session = await Session.create({ workoutId, setCardsData })
     if (session) return res.status(201).json({ message: "New session created!" })
     else return res.status(400).json({ message: "Invalid session data." })
 

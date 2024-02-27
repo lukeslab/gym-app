@@ -16,7 +16,6 @@ export async function loader(){
 }
 
 export default function CurrentSession() {    
-   
     const [ currentSession, workout ] = useLoaderData();
     const { title, exercises } = workout
     const setCardsData = []
@@ -24,7 +23,7 @@ export default function CurrentSession() {
     if (isANewSession()) initNewSession(exercises)
     else setCardsData.push(...currentSession.workout.setCardsData)
 
-    useEffect( () => {
+    useEffect(() => {
         currentSession.workout.setCardsData = setCardsData
         console.log('hello?')
         localStorage.setItem('currentSession', JSON.stringify(currentSession))
@@ -36,13 +35,12 @@ export default function CurrentSession() {
         currentSession
     }
     return (
-        <section className="app-component current-session container">
+        <section className="flex justify-center m-10">
             {title ? <SetCardList data={data} /> : <NoSessionMessage />}
         </section>
     )
 
-    function isANewSession(){
-        
+    function isANewSession(){    
         return !currentSession.workout?.setCardsData
     }
 

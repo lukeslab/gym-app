@@ -1,15 +1,13 @@
 const mongoose = require('mongoose')
 
 const sessionSchema = new mongoose.Schema({
-    status: {
-        type: String,
+    workoutId: {
+        type: mongoose.Schema.Types.ObjectId,
         require: true
     },
-    workout: {
-        setCardsData: {
-            type: Array,
-            require: true
-        }
+    setCardsData: {
+        type: [],
+        require: true
     }
 })
 

@@ -4,10 +4,20 @@ import { useEffect } from 'react'
 
 function SetCardList({ data }){
     const { setCardsData, currentSession } = data
-    console.log(data)
-    const [ activeSetCardIndex, setActiveSetCardIndex ] = useState(() => findCurrentlyActiveCardIndex())
+    const [ activeSetCardIndex, setActiveSetCardIndex ] = useState(findCurrentlyActiveCardIndex())
     
     let setCardsToDisplay = []
+
+    function findCurrentlyActiveCardIndex(){
+        let index;
+        try {
+            index = currentSession.workout?.setCardsData.findIndex((setCardData) => setCardData?.isComplete === false)
+        } catch (e) {
+            index = 0 
+        }
+
+        return index
+    }
 
     function changeActiveSetCardIndex() {
         const currentSession = JSON.parse(localStorage.getItem('currentSession'))
@@ -41,7 +51,6 @@ function SetCardList({ data }){
 
             async function saveWorkoutSessionToDatabase(){
                 const currentSession = localStorage.getItem('currentSession')
-                currentSession.isCompleted = true;
 
                 const options = {
                     method: "POST",
@@ -59,16 +68,6 @@ function SetCardList({ data }){
 
     return setCardsToDisplay[activeSetCardIndex]
 
-    function findCurrentlyActiveCardIndex(){
-        let index;
-        try {
-            index = currentSession.workout?.setCardsData.findIndex((setCardData) => setCardData?.isComplete === false)
-        } catch (e) {
-            index = 0 
-        }
-
-        return index
-    }
 }
 
 export default SetCardList
