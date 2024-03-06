@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     path: "/",
     element : <Root />,
     loader: rootLoader,
-    errorElement: <section><p>Houston, we have a problem.</p><img src="/img/error.gif"></img></section>,
+    // errorElement: <section><p>Houston, we have a problem.</p><img src="/img/error.gif"></img></section>,
     children: [
       {
         index: true,

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const sessionSchema = new mongoose.Schema({
-    workoutId: {
+    workout: {
         type: mongoose.Schema.Types.ObjectId,
         require: true
     },

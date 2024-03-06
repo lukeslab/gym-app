@@ -4,17 +4,17 @@ import MyStopwatch from "../components/Timer";
 import Nav from "../components/Nav";
 
 export async function loader(){
-    const response = await fetch('/session/current')
-    const data = await response.json();
-    const currentSession = response.ok ? data : null
+    // const response = await fetch('/session/current')
+    // const data = await response.json();
+    // const currentSession = response.ok ? data : null
     
-    setCurrentSession(currentSession)
+    // if (currentSession) setCurrentSession(currentSession)
    
-    return currentSession
+    return null
 }
 
 export default function Root(){
-    const currentSession = useLoaderData()
+    // const currentSession = useLoaderData()
     
     return (
         <>

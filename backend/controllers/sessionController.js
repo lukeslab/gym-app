@@ -7,9 +7,9 @@ const asyncHandler = require('express-async-handler')
 // @access Private
 
 const getActiveSession = asyncHandler(async (req, res) => {
-    const activeSession = await Session.findOne({ status: "active" })
-
-    if (activeSession) return res.status(201).json(activeSession)
+    const activeSession = await Session.findOne({ status: "active" }).exec()
+    console.log(activeSession)
+    if (activeSession) return res.status(204).json(activeSession)
     else return res.status(400).json({ message: "There is no active session." })
 })
 
