@@ -6,7 +6,7 @@ function OverwriteSessionModal({overwriteSessionWith, setShowOverwriteSessionMod
 	console.log('in modal, overwriteSessionWith is: ', overwriteSessionWith)
 
 	function overwriteSession() {
-		localStorage.setItem('currentSession', JSON.stringify({ workout: { id: overwriteSessionWith } }))
+		localStorage.setItem('currentSession', JSON.stringify({ workout: { id: overwriteSessionWith }, status: "started" }))
 		navigate('current_session')
 	}
 

@@ -16,7 +16,7 @@ function SetCard({ type, data, options }) {
     function completeSession(){
         navigate("/")
         // saveSessionHistoryToDatabase()
-        // destoryCurrentSession()
+        localStorage.removeItem('currentSession')
     }
 
     if (type === 'last') {

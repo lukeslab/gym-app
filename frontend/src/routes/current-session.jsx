@@ -9,7 +9,6 @@ export async function loader(){
     const currentSession = await getCurrentSession();
     // Null or { workout: { id }}
 
-    
     if (currentSession) {
         const { workout: { id }} = currentSession
         console.log('fetching workout')
@@ -20,23 +19,23 @@ export async function loader(){
     } else {
         console.log('no workout')
         return [ null, null ];
-
     }
-    
 }
 
 export default function CurrentSession() {    
 
     const [ currentSession, workout ] = useLoaderData();
-    const setCardsData = []
+    const setCardsData = currentSession?.workout.setCardsData || []
 
-    if (currentSession) generateSetCards(workout)
+    // If there is a current session and that session is just started
+    if (currentSession?.status === "started") generateSetCards(workout)
 
     console.log('current session is:', currentSession)
     console.log('setCardsData is', setCardsData)
     
     useEffect( () => {
         if (currentSession) {
+            if (currentSession.status === "started") currentSession.status = "in progress"
             currentSession.workout.setCardsData = setCardsData
             localStorage.setItem('currentSession', JSON.stringify(currentSession))
         }
@@ -75,7 +74,8 @@ export default function CurrentSession() {
                     isComplete: false
                 })
                 else setCardsData.push({
-                    type: "last"
+                    type: "last",
+                    isComplete: false
                 })
             }
         })

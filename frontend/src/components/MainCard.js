@@ -17,7 +17,7 @@ export function MainCard({ type, data, options}) {
         } else {
             // set the currentSession localStorage
             console.log('test')
-            await localStorage.setItem('currentSession', JSON.stringify({ workout: { id: workoutId } }))
+            await localStorage.setItem('currentSession', JSON.stringify({ workout: { id: workoutId }, status: 'started' }))
             navigate('current_session')
         }
     }
