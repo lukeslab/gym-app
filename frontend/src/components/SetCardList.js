@@ -48,6 +48,10 @@ function SetCardList({ data }){
         (async () => {
             if (isTheLastSetCard(activeSetCardIndex)) saveWorkoutSessionToDatabase()
 
+            function isTheLastSetCard(){
+                return activeSetCardIndex === setCardsToDisplay.length -1 ? true : false
+            }
+
             async function saveWorkoutSessionToDatabase(){
                 const currentSession = localStorage.getItem('currentSession')
 
