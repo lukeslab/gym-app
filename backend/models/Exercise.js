@@ -5,16 +5,16 @@ const exerciseSchema = new mongoose.Schema({
         type: String,
         require: true,   
     },
-    sets: {
+    target: {
+        type: Object,
+        require: true
+    },
+    restInterval: {
         type: Number,
         require: true
     },
-    reps: {
-        type: Number,
-        require: true
-    },
-    weight: {
-        type: Number,
+    stats: {
+        type: Object,
         require: true
     }
 })

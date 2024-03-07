@@ -4,9 +4,20 @@ import { useEffect } from 'react'
 
 function SetCardList({ data }){
     const { setCardsData, currentSession } = data
-    const [ activeSetCardIndex, setActiveSetCardIndex ] = useState(() => findCurrentlyActiveCardIndex())
+    const [ activeSetCardIndex, setActiveSetCardIndex ] = useState(findCurrentlyActiveCardIndex())
     
     let setCardsToDisplay = []
+
+    function findCurrentlyActiveCardIndex(){
+        let index;
+        try {
+            index = currentSession.workout?.setCardsData.findIndex((setCardData) => setCardData?.isComplete === false)
+        } catch (e) {
+            index = 0 
+        }
+
+        return index
+    }
 
     function changeActiveSetCardIndex() {
         const currentSession = JSON.parse(localStorage.getItem('currentSession'))
@@ -38,9 +49,7 @@ function SetCardList({ data }){
             if (isTheLastSetCard(activeSetCardIndex)) saveWorkoutSessionToDatabase()
 
             async function saveWorkoutSessionToDatabase(){
-                console.log('saved session to db')
-                const currentSession = JSON.parse(localStorage.getItem('currentSession'))
-                currentSession.isComplete = true;
+                const currentSession = localStorage.getItem('currentSession')
 
                 const options = {
                     method: "POST",
@@ -58,23 +67,6 @@ function SetCardList({ data }){
 
     return setCardsToDisplay[activeSetCardIndex]
 
-    function findCurrentlyActiveCardIndex(){
-        let currentlyActiveCardIndex;
-        try {
-            currentlyActiveCardIndex = currentSession.workout?.setCardsData.findIndex((setCardData) => setCardData?.isComplete === false)
-        } catch (e) {
-            currentlyActiveCardIndex = 0 
-        }
-
-        return currentlyActiveCardIndex
-    }
-
-    function isTheLastSetCard(index){
-        console.log('is the last set card')
-        console.log(index, setCardsToDisplay.length)
-        if (index === setCardsToDisplay.length - 1) return true
-        else return false
-    }
 }
 
 export default SetCardList

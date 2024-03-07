@@ -20,14 +20,17 @@ const getExerciseByExerciseId = asyncHandler( async (req, res) => {
 const getAllExercises = asyncHandler( async (req,res) => {
     let exercises = await Exercise.find({});
 
+    console.log(exercises)
     if(!exercises || !exercises.length) return res.status(400).json({ message: "Exercises not found" })
 
     exercises = exercises.map( exercise => {
+        console.log(exercise)
         return {
             id: exercise._id.toString(),
             title: exercise.title,
-            reps: exercise.reps,
-            sets: exercise.sets
+            target: exercise.target,
+            restInterval: exercise.restInterval,
+            stats: exercise.stats
         }        
     })
 

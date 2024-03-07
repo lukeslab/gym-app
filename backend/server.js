@@ -17,7 +17,8 @@ connectDB()
 
 app.use(logger)
 
-app.use(cors(corsOptions))
+app.use(cors())
+app.options("*", cors())
 
 app.use(express.json());
 app.use(cookieParser());
@@ -27,42 +28,8 @@ app.use(express.static('client/build'))
 app.use('/', require('./routes/root'))
 app.use('/users', require('./routes/users'))
 app.use('/workouts', require('./routes/workouts'))
-// app.get('/api/workouts', (req, res) => {
-//     console.log('hit api workouts');
-//     res.json([
-//         {
-//             title: "Arms & Shoulders Day",
-//             exercises: ["barbell curl", "two-hand tricep pull down", "two-handing bar curl", "hammer curls"]
-//         },
-//         {
-//             title: "Leg Day",
-//             exercises: ["leg press"]
-//         },
-//         {
-//             title: "Chest & back Day",
-//             exercises: ["push-ups", "barbell bench press"]
-//         }
-//     ])
-//   })
 app.use('/exercises', require('./routes/exercises'))
 app.use('/session', require('./routes/session'))
-// app.get('/api/workouts', (req, res) => {
-//     console.log('hit api workouts');
-//     res.json([
-//         {
-//             title: "Arms & Shoulders Day",
-//             exercises: ["barbell curl", "two-hand tricep pull down", "two-handing bar curl", "hammer curls"]
-//         },
-//         {
-//             title: "Leg Day",
-//             exercises: ["leg press"]
-//         },
-//         {
-//             title: "Chest & back Day",
-//             exercises: ["push-ups", "barbell bench press"]
-//         }
-//     ])
-//   })
 
 app.all('*', (req, res) => {
     res.status(404);

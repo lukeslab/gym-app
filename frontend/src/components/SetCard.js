@@ -1,6 +1,6 @@
 import '../styles/SetCard.css'
 import React, { useState, useRef } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import SetCardExerciseDetails from './SetCardExeriseDetails';
 import SetCardRestDetails from './SetCardRestDetails';
 
@@ -8,10 +8,24 @@ function SetCard({ type, data, options }) {
     const { title, target, setNumber } = data;
     const [ nextIsDisabled, setNextIsDisabled ] = useState(true)
     const navigate = useNavigate()
-    
 
     const cardDetailOptions = {
         setNextIsDisabled
+    }
+
+    function completeSession(){
+        navigate("/")
+        // saveSessionHistoryToDatabase()
+        localStorage.removeItem('currentSession')
+    }
+
+    if (type === 'last') {
+        return (
+            <section className={`setCard last`}>
+                <h2>You're done! Congrats!!</h2>
+                <button onClick={completeSession}>Finish</button>
+            </section>
+        )
     }
 
     return (
@@ -29,11 +43,8 @@ function SetCard({ type, data, options }) {
                 {type === "rest" && <SetCardRestDetails data={data} options={cardDetailOptions}/> }
                 {type === "setComplete" && <p>Congrats you did it! ``~~**Confetti``~~~`**</p>}
             </div>
-            
-            {type === "setComplete" ? 
-            <button onClick={() => navigate('/')}> New Session </button> : 
-            <button disabled={nextIsDisabled} onClick={() => options.changeActiveSetCardIndex()}> Next </button>}
 
+            <button className="w-200" disabled={nextIsDisabled} onClick={() => options.changeActiveSetCardIndex()}> Next </button>
         </section>
     )
 

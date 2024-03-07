@@ -1,0 +1,28 @@
+exercise history table with user id's as refrence??
+
+{
+    user: ObjectId(user),
+    exercise: ObjectId(exercise),
+    exercise-set-history: {
+        0: {
+            setNumber: 1,
+            target: {
+                reps: 10,
+                sets: 3,
+                weight: 20
+            },
+            actual: 10,
+            isComplete: true
+        }
+    }
+}
+
+
+Sessions would keep track of sessions to see past ones maybe and also the one that is currently open.
+
+{
+    user: ObjectId(user),
+    workout: ObjectId(workout),
+    status: in progress || complete,
+    setCardsData: []
+}

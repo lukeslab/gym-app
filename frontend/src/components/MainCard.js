@@ -1,42 +1,35 @@
 import React from "react"
-import { Form, Link } from "react-router-dom"
+import { Form, Link, useNavigate } from "react-router-dom"
 
 // This is a menu card, fix it
-export function MainCard({ type, data, options }){
+export function MainCard({ type, data, options}) {
+    const { currentSession, setShowOverwriteSessionModal, setOverwriteSessionWith } = options
+    const navigate = useNavigate()
 
-    async function addExerciseToWorkout(e){
-        console.log('addExerciseToWorkout event: ', e)
-        const exerciseId = e.target.getAttribute('data-id')
-        const response = await fetch(`/exercises/${exerciseId}`)
-        const exercise = await response.json()
-        console.log('Excercise to add: ', exercise)
+    async function startSession(workoutId) {
+        // check if session exists
+        const currentSession = await localStorage.getItem('currentSession')
 
-        options.setExercises([
-            ...options.workout.exercises,
-            exercise
-        ])
+        if (currentSession) {
+            console.log('text2')
+            setShowOverwriteSessionModal(true)
+            setOverwriteSessionWith(workoutId)
+        } else {
+            // set the currentSession localStorage
+            console.log('test')
+            await localStorage.setItem('currentSession', JSON.stringify({ workout: { id: workoutId }, status: 'started' }))
+            navigate('current_session')
+        }
     }
 
     return (
-        <li className={`list-item ${type} ${data.listItem.title}`} key={data.index}>
+        <li className="flex justify-between items-center bg-white p-4 border border-gray-200">
             <span>{data.listItem.title}</span>
             <div>
-                {type === "workout" && 
-                
-                <Form action="." method="post">
-                    <input type="hidden" name="title" defaultValue={encodeURIComponent(data.listItem.title)} />
-                    <input type="hidden" name="id" defaultValue={data.listItem.id} />
-                    <button type="submit"> Start </button>
-                </Form>}
-                
-                <button>
-                    <Link to={`/edit-${type}/${data.listItem.id}`}> Edit </Link>
-                </button>
-                
-                {type === "exercise" &&
-                options?.enableAddButton &&
-
-                <button data-id={data.listItem.id} onClick={addExerciseToWorkout}>Add</button>}
+                {type === 'workout' && <button onClick={() => startSession(data.listItem.id)} className="bg-blue-500 text-white px-4 py-2 mr-2">Start</button>}
+                <Link to={`/edit-${type}/${data.listItem.id}`}>
+                    <button className="bg-green-500 text-white px-4 py-2"> View </button>
+                </Link>
             </div>
         </li>
     )

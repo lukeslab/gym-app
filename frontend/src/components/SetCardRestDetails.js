@@ -16,12 +16,15 @@ function SetCardRestDetails({data, options}){
 
     useEffect( () => {
         const intervalId = setInterval( () => {
-            const stepSize = 10
-            target.current.innerText -= stepSize
-            actual += stepSize
-            updateCurrentSessionSetCardDataActual()
-            
-            if(parseInt(target.current.innerText) <= 0) setNextIsDisabled(false)
+            if (parseInt(target.current.innerText) > 0){
+                const stepSize = 10
+                target.current.innerText -= stepSize
+                actual += stepSize
+                updateCurrentSessionSetCardDataActual()
+            } else {
+                setNextIsDisabled(false)
+                clearInterval(intervalId)
+            }
         }, 1000)
 
         return () => clearInterval(intervalId)

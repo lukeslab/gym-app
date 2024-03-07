@@ -1,19 +1,13 @@
 const mongoose = require('mongoose')
 
 const sessionSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        require: true
-    },
-    status: {
-        type: String,
-        require: true
-    },
     workout: {
-        setCardsData: {
-            type: Array,
-            require: true
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        require: true
+    },
+    setCardsData: {
+        type: [],
+        require: true
     }
 })
 
