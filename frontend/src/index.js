@@ -31,6 +31,7 @@ import CreateWorkout from './routes/create-workout';
 import CreateExercise, {
   action as createExerciseAction
 } from './routes/create-exercise';
+import ReactCharts from './routes/reactCharts'
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
         path: "/exercises/create-exercise",
         element: <CreateExercise />,
         action: createExerciseAction
+      },
+      {
+        path: "/react-charts",
+        element: <ReactCharts />
       }
     ]
   }

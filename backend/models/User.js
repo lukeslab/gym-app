@@ -13,10 +13,21 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Workout"
     }],
-    active: {
-        type: Boolean,
-        default: true,
-    },
+    active: { type: Boolean },
+    exerciseHistory: [{
+        exerciseId: mongoose.Schema.Types.ObjectId,
+        target: {
+            sets: Number,
+            reps: Number,
+            weight: Number,
+        },
+        actual: {
+            sets: Number,
+            reps: Number,
+            weight: Number,
+        },
+        dateCompleted: Date
+    }]
 })
 
 module.exports = mongoose.model('User', userSchema)

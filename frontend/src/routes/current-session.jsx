@@ -60,6 +60,7 @@ export default function CurrentSession() {
             for (let j = 1; j <= exercise.target.sets; j++) {
                 setCardsData.push({
                     type:"exercise",
+                    id: exercise._id,
                     title: exercise.title,
                     setNumber: j,
                     target: exercise.target,

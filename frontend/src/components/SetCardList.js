@@ -19,11 +19,22 @@ function SetCardList({ data }){
         return index
     }
 
-    function changeActiveSetCardIndex() {
-        const currentSession = JSON.parse(localStorage.getItem('currentSession'))
-        currentSession.workout.setCardsData[activeSetCardIndex].isComplete = true
-        localStorage.setItem('currentSession', JSON.stringify(currentSession))
-        if (activeSetCardIndex < setCardsToDisplay.length) setActiveSetCardIndex(activeSetCardIndex+1)
+    function goToNextSetCard() {
+        changeActiveSetCard()
+        // spot reserved for sending db queries for every set card complete
+        // updateUserExerciseHistory()
+
+        // async function updateUserExerciseHistory(){
+        //     console.log('this will update the histroy')
+            
+        // }
+
+        function changeActiveSetCard() {
+            const currentSession = JSON.parse(localStorage.getItem('currentSession'))
+            currentSession.workout.setCardsData[activeSetCardIndex].isComplete = true
+            localStorage.setItem('currentSession', JSON.stringify(currentSession))
+            if (activeSetCardIndex < setCardsToDisplay.length) setActiveSetCardIndex(activeSetCardIndex+1)
+        }
     }
 
     // Iterate through the exercise list
@@ -34,7 +45,7 @@ function SetCardList({ data }){
             activeSetCardIndex
         }
         const options =  {
-            "changeActiveSetCardIndex": changeActiveSetCardIndex
+            "goToNextSetCard": goToNextSetCard
         }
         setCardsToDisplay.push(<SetCard key={`${index}`} type={setCard.type} data={data} options={options}/>)
     })

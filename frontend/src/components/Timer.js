@@ -25,7 +25,7 @@ function MyStopwatch() {
         <div style={{textAlign: 'center', display: display}}>
             <h1>react-timer-hook</h1>
             <p>Stopwatch Demo</p>
-            <div style={{fontSize: '100px'}}>
+            <div style={{fontSize: '70px'}}>
             <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
             </div>
             <p>{isRunning ? 'Running' : 'Not running'}</p>

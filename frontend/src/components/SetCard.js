@@ -1,6 +1,7 @@
 import '../styles/SetCard.css'
 import React, { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
+import { getCurrentUserId } from '../functions';
 import SetCardExerciseDetails from './SetCardExeriseDetails';
 import SetCardRestDetails from './SetCardRestDetails';
 
@@ -15,8 +16,24 @@ function SetCard({ type, data, options }) {
 
     function completeSession(){
         navigate("/")
-        // saveSessionHistoryToDatabase()
-        localStorage.removeItem('currentSession')
+        // saveExerciseHistoryToDatabase()
+        // localStorage.removeItem('currentSession')
+
+        // function saveExerciseHistoryToDatabase(){
+        //     const userId = getCurrentUserId()
+        //     const { workout: { setCardsData } } = JSON.parse(localStorage.getItem('currentSession'))
+
+
+        //     const options = {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(currentSession.workout)
+        //     }
+
+            // fetch(`/user/exercise-history/${userId}`, options)
+        // }
     }
 
     if (type === 'last') {
@@ -44,7 +61,7 @@ function SetCard({ type, data, options }) {
                 {type === "setComplete" && <p>Congrats you did it! ``~~**Confetti``~~~`**</p>}
             </div>
 
-            <button className="w-200" disabled={nextIsDisabled} onClick={() => options.changeActiveSetCardIndex()}> Next </button>
+            <button className="w-200" disabled={nextIsDisabled} onClick={() => options.goToNextSetCard()}> Next </button>
         </section>
     )
 
