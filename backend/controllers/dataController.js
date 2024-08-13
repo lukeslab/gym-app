@@ -1,40 +1,29 @@
 const SetHistory = require('../models/SetHistory')
 const asyncHandler = require('express-async-handler')
 const mongoose = require('mongoose')
+let setHistoriesData = require('../data/setHistory.json')
+
+const getSetHistoryByExerciseId = asyncHandler( async (req, res) => {
+    const { id } = req.params
+    console.log('exerciseId is', id)
+
+    const setHistory = await SetHistory.find({ exerciseId: id })
+
+    console.log('set history is', setHistory)
+
+    if (!setHistory || !setHistory.length) return res.status(400).json({message: "No set history found"})
+
+    return res.json(setHistory)
+})
 
 const createSetHistoryCollection = asyncHandler( async (req, res) => {
-    const sampleData = [
-        { 
-            date: new Date("August 12, 2024 23:11:30"),
-            userId: "63c704a14822fbc0975a9fa7",
-            exerciseId: "6461a995d83cb17dfa407d8c",
-            setNumber: 1,
-            actuals: {
-                reps: 10,
-                weight: 20
-            }
-        },
-        { 
-            date: new Date("August 12, 2024 23:14:43"),
-            userId: "63c704a14822fbc0975a9fa7",
-            exerciseId: "6461a995d83cb17dfa407d8c",
-            setNumber: 2,
-            actuals: {
-                reps: 10,
-                weight: 20
-            }
-        },
-        { 
-            date: new Date("August 12, 2024 23:17:24"),
-            userId: "63c704a14822fbc0975a9fa7",
-            exerciseId: "6461a995d83cb17dfa407d8c",
-            setNumber: 3,
-            actuals: {
-                reps: 7,
-                weight: 20
-            }
+    setHistoriesData = setHistoriesData.map( data => {
+        return {
+            ...data,
+            date: new Date(data.date)
         }
-    ]
+    })
+    console.log(setHistoriesData)
 
     try {
         const collection = await mongoose.connection.db.listCollections({name: "sethistories"}).next()
@@ -43,7 +32,7 @@ const createSetHistoryCollection = asyncHandler( async (req, res) => {
         if (!collection) {
             await SetHistory.createCollection({})
             console.log('created collection')
-            await SetHistory.insertMany(sampleData)
+            await SetHistory.insertMany(setHistoriesData)
             console.log('Inserted documents')
         } else {
             console.log('Collection already exists.')
@@ -52,9 +41,9 @@ const createSetHistoryCollection = asyncHandler( async (req, res) => {
         console.error(error)
     }
 
-
-    // console.log(response)
-
 })
 
-module.exports = { createSetHistoryCollection }
+module.exports = { 
+    createSetHistoryCollection,
+    getSetHistoryByExerciseId
+}

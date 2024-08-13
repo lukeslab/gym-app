@@ -87,7 +87,7 @@ const router = createBrowserRouter([
         element: <ReactCharts />
       },
       {
-        path: "/data",
+        path: "/data/seed",
         element: <CreateSetHistoryCollection />,
         loader: createSetHistoryCollectionLoader
       }

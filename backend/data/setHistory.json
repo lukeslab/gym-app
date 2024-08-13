@@ -1,0 +1,122 @@
+[
+    {
+        "date": "2024-08-10T09:10:00.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461a995d83cb17dfa407d8c",
+        "setNumber": 1,
+        "reps": 10,
+        "weight": 20
+    },
+    {
+        "date": "2024-08-10T09:20:00.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461a995d83cb17dfa407d8c",
+        "setNumber": 2,
+        "reps": 10,
+        "weight": 20
+    },
+    {
+        "date": "2024-08-10T09:30:00.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461a995d83cb17dfa407d8c",
+        "setNumber": 3,
+        "reps": 10,
+        "weight": 20
+    },
+    {
+        "date": "2024-08-12T07:50:00.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461ad59d83cb17dfa407d8d",
+        "setNumber": 1,
+        "reps": 12,
+        "weight": 20
+    },
+    {
+        "date": "2024-08-12T08:00:00.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461ad59d83cb17dfa407d8d",
+        "setNumber": 2,
+        "reps": 12,
+        "weight": 20
+    },
+    {
+        "date": "2024-08-12T08:10:00.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461ad59d83cb17dfa407d8d",
+        "setNumber": 3,
+        "reps": 10,
+        "weight": 20
+    },
+    { 
+        "date": "2024-08-13T03:11:30.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461a995d83cb17dfa407d8c",
+        "setNumber": 1,
+        "reps": 12,
+        "weight": 20
+    },
+    { 
+        "date": "2024-08-13T03:14:43.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461a995d83cb17dfa407d8c",
+        "setNumber": 2,
+        "reps": 12,
+        "weight": 20
+    },
+    { 
+        "date": "2024-08-13T03:17:24.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461a995d83cb17dfa407d8c",
+        "setNumber": 3,
+        "reps": 10,
+        "weight": 20
+    },
+    {
+        "date": "2024-08-13T06:20:00.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "65de5a02fa1b830c247c93c7",
+        "setNumber": 1,
+        "reps": 8,
+        "weight": 23
+    },
+    {
+        "date": "2024-08-13T06:30:00.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "65de5a02fa1b830c247c93c7",
+        "setNumber": 2,
+        "reps": 9,
+        "weight": 26
+    },
+    {
+        "date": "2024-08-13T06:40:00.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "65de5a02fa1b830c247c93c7",
+        "setNumber": 3,
+        "reps": 10,
+        "weight": 28
+    },
+    { 
+        "date": "2024-08-14T10:12:20.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461a995d83cb17dfa407d8c",
+        "setNumber": 1,
+        "reps": 10,
+        "weight": 25
+    },
+    { 
+        "date": "2024-08-14T10:24:32.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461a995d83cb17dfa407d8c",
+        "setNumber": 2,
+        "reps": 10,
+        "weight": 25
+    },
+    { 
+        "date": "2024-08-14T10:28:38.000+00:00",
+        "userId": "63c704a14822fbc0975a9fa7",
+        "exerciseId": "6461a995d83cb17dfa407d8c",
+        "setNumber": 3,
+        "reps": 7,
+        "weight": 25
+    }
+]

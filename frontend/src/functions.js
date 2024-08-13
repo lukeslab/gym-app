@@ -1,3 +1,9 @@
+export function getReadableDate(d){
+    const date = new Date(d)
+    return [pad(date.getDate()), pad(date.getMonth()+1), date.getFullYear()].join('/')
+    function pad(s) {return (s < 10) ? '0' + s : s; }
+}
+
 export function setCurrentSession(session){
     // if(workout.title) {
     //     // this will ignore the initial session entry. If title has a value, then decode.

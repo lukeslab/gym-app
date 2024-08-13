@@ -11,10 +11,8 @@ const setHistorySchema = new mongoose.Schema({
         ref: 'Exercise' 
     },
     setNumber: Number,
-    actuals: {
-        reps: Number,
-        weight: Number
-    }
+    reps: Number,
+    weight: Number
 },
 {
     timeseries: {
