@@ -38,7 +38,9 @@ function ExerciseDeckCard({ exercise, isEditable, selectedExercises, setSelected
                     <span class="text-s">&times;</span>
                 </button>}
             </div>
-            { isFaceUp ? <ExerciseDeckCardFront exercise={exercise} isEditable={isEditable} setIsFaceUp={setIsFaceUp}/> : <ExerciseDeckCardBack exercise={exercise} isEditable={isEditable} setIsFaceUp={setIsFaceUp}/> }
+            { isFaceUp ? 
+                <ExerciseDeckCardFront exercise={exercise} isEditable={isEditable} setIsFaceUp={setIsFaceUp}/> : <ExerciseDeckCardBack exercise={exercise} isEditable={isEditable} setIsFaceUp={setIsFaceUp}/> 
+            }
         </div>
     )
 }

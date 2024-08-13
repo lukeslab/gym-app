@@ -32,6 +32,9 @@ import CreateExercise, {
   action as createExerciseAction
 } from './routes/create-exercise';
 import ReactCharts from './routes/reactCharts'
+import CreateSetHistoryCollection, {
+  loader as createSetHistoryCollectionLoader
+} from './routes/createSetHistoryCollection';
 
 const router = createBrowserRouter([
   {
@@ -82,6 +85,11 @@ const router = createBrowserRouter([
       {
         path: "/react-charts",
         element: <ReactCharts />
+      },
+      {
+        path: "/data",
+        element: <CreateSetHistoryCollection />,
+        loader: createSetHistoryCollectionLoader
       }
     ]
   }

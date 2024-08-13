@@ -1,7 +1,7 @@
 import React from 'react';
-
+import ExerciseCardChart from './ExerciseCardChart';
 function ExerciseDeckCardBack({ exercise, isEditable, setIsFaceUp }) {
-    const { title, stats: { timesPerformed, highestWeight, targetsHit, targetsMissed, successRate } } = exercise
+    const {id, title, stats: { timesPerformed, highestWeight, targetsHit, targetsMissed, successRate } } = exercise
     console.log(exercise.stats)
 
     function toggleCardSide(e) {
@@ -12,7 +12,7 @@ function ExerciseDeckCardBack({ exercise, isEditable, setIsFaceUp }) {
     return (
         <>
             <div className="mb-4 bg-gray-300 h-32 flex items-center justify-center">
-                <span>Graph of targets placeholder</span>
+                <ExerciseCardChart exerciseId={id} />
             </div>
             <div className="flex p-2 justify-around">
                 <div className="mb-4">

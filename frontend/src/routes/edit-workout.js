@@ -59,7 +59,7 @@ export default function EditWorkout() {
     return (
         <div className="max-w-md mx-auto p-4">
             <p className="text-2xl font-bold text-center mb-4">My Workouts</p>
-            <h1 className="text-4xl font-bold text-center mb-6">Arm Day</h1>
+            <h1 className="text-4xl font-bold text-center mb-6">{title}</h1>
             <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">
                     Rest Interval (seconds): 90

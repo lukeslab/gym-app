@@ -30,6 +30,7 @@ app.use('/users', require('./routes/users'))
 app.use('/workouts', require('./routes/workouts'))
 app.use('/exercises', require('./routes/exercises'))
 app.use('/session', require('./routes/session'))
+app.use('/data', require('./routes/data'))
 
 app.all('*', (req, res) => {
     res.status(404);
