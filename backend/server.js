@@ -31,6 +31,7 @@ app.use('/workouts', require('./routes/workouts'))
 app.use('/exercises', require('./routes/exercises'))
 app.use('/session', require('./routes/session'))
 app.use('/data', require('./routes/data'))
+app.use('/setHistory', require('./routes/setHistory'))
 
 app.all('*', (req, res) => {
     res.status(404);

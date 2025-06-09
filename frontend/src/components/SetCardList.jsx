@@ -19,15 +19,35 @@ function SetCardList({ data }){
         return index
     }
 
-    function goToNextSetCard() {
+    function goToNextSetCard(exerciseId) {
         changeActiveSetCard()
-        // spot reserved for sending db queries for every set card complete
-        // updateUserExerciseHistory()
+        
+        if (exerciseId) saveSetHistoryToDatabase()
 
-        // async function updateUserExerciseHistory(){
-        //     console.log('this will update the histroy')
-            
-        // }
+        async function saveSetHistoryToDatabase(){
+            console.log('this will update the histroy')
+            const date = new Date(Date.now())
+            const setHistory = {
+                "date": date.toISOString(),
+                "userId": "63c704a14822fbc0975a9fa7",
+                "exerciseId": exerciseId,
+                "setNumber": 1,
+                "reps": 10,
+                "weight": 20
+            }
+
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify(setHistory)
+            }
+
+            const response = await fetch('/setHistory', options )
+            const json = await response.json()
+            console.log(json)
+        }
 
         function changeActiveSetCard() {
             const currentSession = JSON.parse(localStorage.getItem('currentSession'))

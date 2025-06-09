@@ -17,23 +17,7 @@ function SetCard({ type, data, options }) {
     function completeSession(){
         navigate("/")
         // saveExerciseHistoryToDatabase()
-        // localStorage.removeItem('currentSession')
-
-        // function saveExerciseHistoryToDatabase(){
-        //     const userId = getCurrentUserId()
-        //     const { workout: { setCardsData } } = JSON.parse(localStorage.getItem('currentSession'))
-
-
-        //     const options = {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(currentSession.workout)
-        //     }
-
-            // fetch(`/user/exercise-history/${userId}`, options)
-        // }
+        localStorage.removeItem('currentSession')
     }
 
     if (type === 'last') {
@@ -61,7 +45,7 @@ function SetCard({ type, data, options }) {
                 {type === "setComplete" && <p>Congrats you did it! ``~~**Confetti``~~~`**</p>}
             </div>
 
-            <button className="w-200" disabled={nextIsDisabled} onClick={() => options.goToNextSetCard()}> Next </button>
+            <button className="w-200" disabled={nextIsDisabled} onClick={() => options.goToNextSetCard(data?.id)}> Next </button>
         </section>
     )
 
