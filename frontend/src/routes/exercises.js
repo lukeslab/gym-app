@@ -20,14 +20,14 @@ export default function Exercises() {
     const exerciseCards = exercises.map(exercise => <ExerciseDeckCard exercise={exercise} />)
 
     return (
-        <section className="max-w-md mx-auto">
+        <section className="mx-auto mb-20">
             <h1 className="text-4xl font-bold text-center mb-6"> My Exercises </h1>
             <div className="flex justify-around gap-5 flex-wrap">
                 {exerciseCards}
                 <li className="flex justify-center items-center bg-green-500">
                     <Link className="p-4 w-full flex justify-center align-middle" to={`./create-exercise`}>
                         <span className="text-white text-lg">New exercise</span>
-                        <span className="text-white text-2xl ml-2 relative bottom-1">+</span>
+                        <span className="text-white text-2xl relative bottom-1">+</span>
                     </Link>
                 </li>
             </div>
