@@ -5,7 +5,6 @@ import {
   createBrowserRouter, 
   RouterProvider
 } from 'react-router-dom';
-
 import Root, {
   loader as rootLoader
 } from "./routes/root"
