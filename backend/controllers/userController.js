@@ -28,28 +28,28 @@ const getUserById = asyncHandler(async (req, res) => {
 // // @desc Create all users
 // // @route POST /users
 // // @access Private
-// const createNewUser = asyncHandler(async (req, res) => {
-//     const { username, password } = req.body
+const createNewUser = asyncHandler(async (req, res) => {
+    const { username, password } = req.body
 
-//     if (!username || !password) {
-//         return res.status(400).json({ message: 'All fields are required' })
-//     }
+    if (!username || !password) {
+        return res.status(400).json({ message: 'All fields are required' })
+    }
 
-//     // check for duplicate user
-//     const duplicate = await User.findOne({ username }).lean().exec() //What does lean and exec do?
+    // check for duplicate user
+    const duplicate = await User.findOne({ username }).lean().exec() //What does lean and exec do?
 
-//     if (duplicate) return res.status(409).json({ message: 'Duplicate username' })
+    if (duplicate) return res.status(409).json({ message: 'Duplicate username' })
 
-//     // Hash the password
-//     const hashedPwd = await bcrypt.hash(password, 10)
-//     const userObject = { username, "password": hashedPwd}
+    // Hash the password
+    const hashedPwd = await bcrypt.hash(password, 10)
+    const userObject = { username, "password": hashedPwd}
 
-//     // Create and store new user
-//     const user = await User.create(userObject)
+    // Create and store new user
+    const user = await User.create(userObject)
 
-//     if (user) res.status(201).json({ message: `New user ${username} created!` })
-//     else res.status(400).json({ message: "Invalid user data received" })
-// })
+    if (user) return res.status(201).json({ message: `New user ${username} created!`, id: user._id})
+    else return res.status(400).json({ message: "Invalid user data received" })
+})
 
 // // @desc Update a users
 // // @route PATCH /users
@@ -112,5 +112,6 @@ const updateUserExerciseHistory = asyncHandler(async (req, res) => {
 
 module.exports = {
     getUserById,
+    createNewUser,
     updateUserExerciseHistory
 }

@@ -34,60 +34,68 @@ import ReactCharts from './routes/reactCharts'
 import CreateSetHistoryCollection, {
   loader as createSetHistoryCollectionLoader
 } from './routes/createSetHistoryCollection';
+import Register, {
+  action as registerAction
+} from './routes/register';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element : <Root />,
+    Component: Root,
     loader: rootLoader,
     // errorElement: <section><p>Houston, we have a problem.</p><img src="/img/error.gif"></img></section>,
     children: [
       {
         index: true,
-        element: <Workouts />,
+        Component: Workouts,
         loader: workoutsLoader,
       },
       {
+        path: "/register",
+        Component: Register,
+        action: registerAction
+      },
+      {
         path: "/current_session",
-        element: <CurrentSession />,
+        Component: CurrentSession,
         loader: sessionLoader,
       },
       {
         path: "/overwrite-session",
-        element: <OverwriteAlert />,
+        Component: OverwriteAlert,
         loader: overwriteSessionLoader
       },
       {
         path: "/edit-workout/:id",
-        element: <EditWorkout />,
+        Component: EditWorkout,
         loader: editWorkoutLoader
       },
       {
         path: "/create-workout",
-        element: <CreateWorkout />
+        Component: CreateWorkout
       },
       {
         path: "/exercises",
-        element: <Exercises />,
+        Component: Exercises,
         loader: exerciseLoader,
       },
       {
         path: "/edit-exercise/:id",
-        element: <EditExercise />,
+        Component: EditExercise,
         loader: editExerciseLoader
       },
       {
         path: "/exercises/create-exercise",
-        element: <CreateExercise />,
+        Component: CreateExercise,
         action: createExerciseAction
       },
       {
         path: "/react-charts",
-        element: <ReactCharts />
+        Component: ReactCharts
       },
       {
         path: "/data/seed",
-        element: <CreateSetHistoryCollection />,
+        Component: CreateSetHistoryCollection,
         loader: createSetHistoryCollectionLoader
       }
     ]
