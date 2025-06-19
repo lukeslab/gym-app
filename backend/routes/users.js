@@ -7,9 +7,12 @@ router.route('/')
     .post(userController.createNewUser)
 //     .patch(userController.updateUser)
 //     .delete(userController.deleteUser)
+router.route('/auth')
+    .post(userController.authenticateUser)
 
 router.route('/:id')
     .get(userController.getUserById)
+
 
 router.route('/exercise-history/:id')
     .post(userController.updateUserExerciseHistory)

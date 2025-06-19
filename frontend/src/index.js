@@ -37,6 +37,9 @@ import CreateSetHistoryCollection, {
 import Register, {
   action as registerAction
 } from './routes/register';
+import Login, {
+  action as loginAction
+} from './routes/login';
 
 const router = createBrowserRouter([
   {
@@ -54,6 +57,11 @@ const router = createBrowserRouter([
         path: "/register",
         Component: Register,
         action: registerAction
+      },
+      {
+        path: "/login",
+        Component: Login,
+        action: loginAction
       },
       {
         path: "/current_session",

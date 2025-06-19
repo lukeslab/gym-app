@@ -25,9 +25,9 @@ const getUserById = asyncHandler(async (req, res) => {
 //     res.json(users);
 // })
 
-// // @desc Create all users
-// // @route POST /users
-// // @access Private
+// @desc Create all users
+// @route POST /users
+// @access Private
 const createNewUser = asyncHandler(async (req, res) => {
     const { username, password } = req.body
 
@@ -51,6 +51,37 @@ const createNewUser = asyncHandler(async (req, res) => {
     else return res.status(400).json({ message: "Invalid user data received" })
 })
 
+// @desc Authenticate user
+// @route POST /users/auth
+// @access Private
+const authenticateUser = asyncHandler(async (req, res) => {
+    const authHeader = req.headers['authorization']
+    console.log(authHeader)
+    
+
+    const base64 = authHeader.split(" ")[1]
+    console.log(base64)
+    const credentials = Buffer.from(base64, 'base64').toString('utf8')
+    console.log(credentials)
+    const [username, password] = credentials.split(":")
+    console.log(username, password)
+    if (!username || !password) {
+        return res.status(400).json({ message: 'All fields are required' })
+    }
+    
+    // Find user by username
+    const user = await User.findOne({ username: username })
+    console.log(user)
+    if (!user) return res.status(400).json({ message: "Incorrect username or password." })
+
+    // Compare the passwords
+    const passwordsMatch = await bcrypt.compare(password, user.password)
+    console.log(passwordsMatch)
+    if (passwordsMatch) {
+        return res.status(200).json({ message: 'User authroized.' })
+    } 
+    return res.status(400).json({ message: 'Incorrect username or password.'})
+})
 // // @desc Update a users
 // // @route PATCH /users
 // // @access Private
@@ -113,5 +144,6 @@ const updateUserExerciseHistory = asyncHandler(async (req, res) => {
 module.exports = {
     getUserById,
     createNewUser,
+    authenticateUser,
     updateUserExerciseHistory
 }

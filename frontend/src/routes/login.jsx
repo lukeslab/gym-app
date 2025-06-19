@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Form } from 'react-router-dom';
+import { redirect, Form } from 'react-router-dom';
+import LoginForm from '../components/LoginForm';
 
 
-async function authenticateUser(username, password) {
-    console.log('authenticating user')
+async function authenticateUser({username, password}) {
+  const credentials = btoa(`${username}:${password}`, 'base64')
+  console.log('authenticating user')
     const body = {
         username,
         password
@@ -11,23 +13,30 @@ async function authenticateUser(username, password) {
     const options = {
         method: "POST",
         headers: {
+            "Authorization": `Basic ${credentials}`,
             "Content-Type":"application/json"
         },
         body: JSON.stringify(body)
     }
-    const response = await fetch('/auth/login', options)
+    const response = await fetch('/users/auth', options)
     if (!response.ok) {
         throw new Error('failed to authorize user')
     }
-    const message = await response.json()
     console.log(`authorized user found`)
-    return message;
+    return response.status
 }
 
-async function action ({ request }){
-    const { username, password } = await request.formData();
-    const user = authenticateUser(username, password) 
-    return user
+export async function action ({ request }){
+    const formData = await request.formData()
+    console.log(formData)
+    const credentials = Object.fromEntries(formData)
+    console.log(credentials)
+    const responseStatus = await authenticateUser(credentials) 
+
+    if (responseStatus === 200) {
+      localStorage.setItem('user', 'The Texan')
+      return redirect('/')
+    }
 }
 
 export default function Login() {
@@ -42,26 +51,6 @@ export default function Login() {
   };
 
   return (
-    <Form action='.' method='post'>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <button type="submit">Login</button>
-    </Form>
+    <LoginForm />
   );
 }
