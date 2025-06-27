@@ -1,9 +1,14 @@
 // app/routes/RegisterForm.tsx (or wherever you define your routes)
 import { Form, Link } from "react-router-dom";
 
-export default function LoginForm() {
+export default function LoginForm({setUsername, setPassword}) {
+
+  async function handleSubmit() {
+    
+  }
+  
   return (
-    <div className="p-4 max-w-md mx-auto">
+    <div className="mt-40">
       <h2 className="text-xl font-bold mb-4">Login</h2>
       <Form method="post" action="." className="space-y-4">
         <div>
@@ -43,8 +48,6 @@ export default function LoginForm() {
           Login
         </button>
       </Form>
-      <Link to="/register" className="underline decoration-sky-500 my-50 block"> I do not have an account. </Link>
-      <Link to="*" className="underline decoration-sky-500 my-50"> I forgot my password. </Link>
     </div>
   );
 }

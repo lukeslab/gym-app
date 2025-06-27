@@ -5,6 +5,7 @@ import {
   createBrowserRouter, 
   RouterProvider
 } from 'react-router-dom';
+import AuthProvider from './hooks/AuthProvider';
 import Root, {
   loader as rootLoader
 } from "./routes/root"
@@ -38,21 +39,15 @@ import Register, {
   action as registerAction
 } from './routes/register';
 import Login, {
+  loader as loginLoader,
   action as loginAction
 } from './routes/login';
+import PrivateRoute from './routes/PrivateRoute';
 
 const router = createBrowserRouter([
   {
-    path: "/",
     Component: Root,
-    loader: rootLoader,
-    // errorElement: <section><p>Houston, we have a problem.</p><img src="/img/error.gif"></img></section>,
     children: [
-      {
-        index: true,
-        Component: Workouts,
-        loader: workoutsLoader,
-      },
       {
         path: "/register",
         Component: Register,
@@ -61,50 +56,62 @@ const router = createBrowserRouter([
       {
         path: "/login",
         Component: Login,
+        loader: loginLoader,
         action: loginAction
       },
       {
-        path: "/current_session",
-        Component: CurrentSession,
-        loader: sessionLoader,
-      },
-      {
-        path: "/overwrite-session",
-        Component: OverwriteAlert,
-        loader: overwriteSessionLoader
-      },
-      {
-        path: "/edit-workout/:id",
-        Component: EditWorkout,
-        loader: editWorkoutLoader
-      },
-      {
-        path: "/create-workout",
-        Component: CreateWorkout
-      },
-      {
-        path: "/exercises",
-        Component: Exercises,
-        loader: exerciseLoader,
-      },
-      {
-        path: "/edit-exercise/:id",
-        Component: EditExercise,
-        loader: editExerciseLoader
-      },
-      {
-        path: "/exercises/create-exercise",
-        Component: CreateExercise,
-        action: createExerciseAction
-      },
-      {
-        path: "/react-charts",
-        Component: ReactCharts
-      },
-      {
-        path: "/data/seed",
-        Component: CreateSetHistoryCollection,
-        loader: createSetHistoryCollectionLoader
+        path: "/",
+        Component: PrivateRoute,
+        children: [
+          {
+            index: true,
+            Component: Workouts,
+            loader: workoutsLoader,
+          },
+          {
+            path: "/current_session",
+            Component: CurrentSession,
+            loader: sessionLoader,
+          },
+          {
+            path: "/overwrite-session",
+            Component: OverwriteAlert,
+            loader: overwriteSessionLoader
+          },
+          {
+            path: "/edit-workout/:id",
+            Component: EditWorkout,
+            loader: editWorkoutLoader
+          },
+          {
+            path: "/create-workout",
+            Component: CreateWorkout
+          },
+          {
+            path: "/exercises",
+            Component: Exercises,
+            loader: exerciseLoader,
+          },
+          {
+            path: "/edit-exercise/:id",
+            Component: EditExercise,
+            loader: editExerciseLoader
+          },
+          {
+            path: "/exercises/create-exercise",
+            Component: CreateExercise,
+            action: createExerciseAction
+          },
+          {
+            path: "/react-charts",
+            Component: ReactCharts
+          },
+          {
+            path: "/data/seed",
+            Component: CreateSetHistoryCollection,
+            loader: createSetHistoryCollectionLoader
+          }
+        ]
       }
     ]
   }
@@ -113,6 +120,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider router={router} >
+      
+    </RouterProvider>
   </React.StrictMode>
 );
