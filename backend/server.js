@@ -5,6 +5,7 @@ const app = express();
 const path = require('path');
 const { logger, logEvents } = require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')
+const { authLimiter, apiLimiter } = require('./middleware/rateLimiter')
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
 const corsOptions = require('./config/corsOptions')
@@ -24,8 +25,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended: true}))
 
+// Apply rate limiting
+app.use('/auth', authLimiter)
+app.use('/api', apiLimiter)
+
 app.use(express.static('client/build'))
 app.use('/', require('./routes/root'))
+app.use('/auth', require('./routes/auth'))
 app.use('/users', require('./routes/users'))
 app.use('/workouts', require('./routes/workouts'))
 app.use('/exercises', require('./routes/exercises'))
@@ -45,8 +51,6 @@ app.all('*', (req, res) => {
 
 app.use(errorHandler)
 
-
-
 mongoose.connection.once('open', ()=> {
     console.log('Connected to mongodb')
     app.listen(PORT, () => console.log(`Listening on ${PORT}`));
@@ -56,12 +60,3 @@ mongoose.connection.on('error', err => {
     console.log(err)
     logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log')
 })
-
-
-
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, '/client/build/index.html'));
-//   console.log('proxy at index')
-// });
-
-
